@@ -15,6 +15,14 @@ let
     curr_x = canv.width / 8;
     curr_y = canv.height / 8;
 
+    graphs = [
+        [1, 2, 1], [1, 3, 1], [1, 4, 1], [6, 10, 1], [2, 16, 1]
+    ]
+
+    coords = {
+        // [-1]: [1231,12312]
+    }
+
 for (let index = 0; index < n; index++) {
     ctx.fillStyle = arc_color;
     if (index % 5 === 0 && index !== 0) {
@@ -23,6 +31,7 @@ for (let index = 0; index < n; index++) {
     }
     ctx.beginPath();
     ctx.arc(curr_x, curr_y, radius, angle_start, angle_end);
+    coords[index] = [curr_x, curr_y];
     ctx.fill();
     ctx.beginPath();
     ctx.fillStyle = text_color;
@@ -30,6 +39,16 @@ for (let index = 0; index < n; index++) {
     ctx.fill();
     curr_x += add_x;
 };
+console.log(graphs);
+
+for (const element of graphs) {
+    console.log(element);
+    if (element[2]) {
+        ctx.beginPath();
+        canvas_arrow(ctx, coords[element[0]][0], coords[element[0]][1], coords[element[1]][0], coords[element[1]][1]);
+        ctx.stroke();
+    }
+}
 
 /*
 ctx.fillStyle = 'magenta';
@@ -39,6 +58,7 @@ ctx.fill();
 ctx.beginPath();
 canvas_arrow(ctx, canv.width / 8 + 20, canv.height / 8, canv.width / 8 + 80,canv.height / 8)
 ctx.stroke();
+*/
 function canvas_arrow(context, fromx, fromy, tox, toy) {
     var headlen = 10; // length of head in pixels
     var dx = tox - fromx;
@@ -46,9 +66,8 @@ function canvas_arrow(context, fromx, fromy, tox, toy) {
     var angle = Math.atan2(dy, dx);
     context.moveTo(fromx, fromy);
     context.lineTo(tox, toy);
-    // context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
-    // context.moveTo(tox, toy);
-    // context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+    context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+    context.moveTo(tox, toy);
+    context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
   }
-*/
 
