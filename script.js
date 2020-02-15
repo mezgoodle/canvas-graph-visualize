@@ -49,9 +49,17 @@ for (const element of graphs) {
         ctx.stroke();
     }
 }
+// New Curve and arrow
 ctx.moveTo(192, 59.75);
-ctx.quadraticCurveTo((792 + 192) / 2, (59.75 + 159.75) / 2 - 100, 792, 59.75);
+ctx.quadraticCurveTo((642 + 192) / 2, (59.75 + 391) / 2 - 100, 642, 391);
 ctx.stroke();
+ctx.fillStyle = 'black';
+ctx.beginPath();
+ctx.moveTo(642, 391+15);
+ctx.lineTo(642-15,391);
+ctx.lineTo(642+15,391);
+ctx.fill();
+
 /*
 ctx.fillStyle = 'magenta';
 ctx.arc(canv.width / 8 , canv.height / 8, 20, 0, Math.PI * 2);
