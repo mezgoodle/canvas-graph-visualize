@@ -49,7 +49,9 @@ for (const element of graphs) {
         ctx.stroke();
     }
 }
-
+ctx.moveTo(192, 59.75);
+ctx.quadraticCurveTo((792 + 192) / 2, (59.75 + 159.75) / 2 - 100, 792, 59.75);
+ctx.stroke();
 /*
 ctx.fillStyle = 'magenta';
 ctx.arc(canv.width / 8 , canv.height / 8, 20, 0, Math.PI * 2);
