@@ -4,9 +4,12 @@ let
     n = 26;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
+    ctx.lineWidth = 3;
     arc_color = 'yellow';
     text_color = 'red';
     arrow_color = 'black';
+    curve_ordered_color = '#660000'; // ordered
+    curve_unordered_color = 'green'; // unordered
     add_x = 150;
     add_y = 100;
     angle_start = 0;
@@ -35,11 +38,11 @@ for (let index = 0; index < n; index++) {
     }
     ctx.beginPath();
     ctx.arc(curr_x, curr_y, radius, angle_start, angle_end);
-    coords[index] = [curr_x, curr_y];
+    coords[index] = [curr_x + radius, curr_y];
     ctx.fill();
     ctx.beginPath();
     ctx.fillStyle = text_color;
-    ctx.fillText(index, curr_x, curr_y);
+    ctx.fillText(index, curr_x, curr_y + 15);
     ctx.fill();
     curr_x += add_x;
 };
@@ -50,10 +53,12 @@ for (const element of graphs) {
         // ctx.beginPath();
         // canvas_arrow(ctx, coords[element[0]][0], coords[element[0]][1], coords[element[1]][0], coords[element[1]][1]);
         // ctx.stroke();
+        ctx.strokeStyle = curve_ordered_color;
         ctx.beginPath();
         ctx.moveTo(coords[element[0]][0], coords[element[0]][1]);
         ctx.quadraticCurveTo((coords[element[0]][0] + coords[element[1]][0]) / 2, (coords[element[0]][1] + coords[element[1]][1]) / 2 - 100, coords[element[1]][0], coords[element[1]][1]);
         ctx.stroke();
+
         ctx.beginPath();
         const dx = coords[element[1]][0] - coords[element[0]][0], dy = coords[element[1]][1] - coords[element[0]][1];
         const angle = Math.atan2(dy, dx);
@@ -63,6 +68,7 @@ for (const element of graphs) {
         ctx.lineTo(coords[element[1]][0] - headlen * Math.cos(angle + Math.PI / 6), coords[element[1]][1] - headlen * Math.sin(angle + Math.PI / 6));
         ctx.stroke();
     } else {
+        ctx.strokeStyle = curve_unordered_color;
         ctx.beginPath();
         ctx.moveTo(coords[element[0]][0], coords[element[0]][1]);
         ctx.quadraticCurveTo((coords[element[0]][0] + coords[element[1]][0]) / 2, (coords[element[0]][1] + coords[element[1]][1]) / 2 - 100, coords[element[1]][0], coords[element[1]][1]);
