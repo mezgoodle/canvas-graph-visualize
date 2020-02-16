@@ -50,9 +50,6 @@ console.log(graphs);
 
 for (const element of graphs) {
     if (element[2]) {
-        // ctx.beginPath();
-        // canvas_arrow(ctx, coords[element[0]][0], coords[element[0]][1], coords[element[1]][0], coords[element[1]][1]);
-        // ctx.stroke();
         ctx.strokeStyle = curve_ordered_color;
         ctx.beginPath();
         ctx.moveTo(coords[element[0]][0], coords[element[0]][1]);
@@ -75,16 +72,3 @@ for (const element of graphs) {
         ctx.stroke();
     }
 }
-
-function canvas_arrow(context, fromx, fromy, tox, toy) {
-    var headlen = 10; // length of head in pixels
-    var dx = tox - fromx;
-    var dy = toy - fromy;
-    var angle = Math.atan2(dy, dx);
-    context.moveTo(fromx, fromy);
-    context.lineTo(tox, toy);
-    context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
-    context.moveTo(tox, toy);
-    context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
-  }
-
