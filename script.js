@@ -8,32 +8,42 @@ const
     arc_color = 'yellow',
     text_color = 'red',
     arrow_color = 'black',
-    add_x = 150,
-    space = 200,
-    add_y = 250,
+    length_x = 1400,
+    length_y = 600,
+    f_x = 50,
+    f_y = 50,
     angle_start = 0,
     angle_end = Math.PI * 2,
     radius = 30,
-    add1_x = radius,
+    add_in_row = 100,
     ctx.font = "20px Georgia",
-    curr_x = canv.width / 8,
-    curr_y = canv.height / 8,
     headlen = 20,
+    corners = [
+        [f_x, f_y],
+        [f_x+length_x, f_y],
+        [f_x+length_x, f_y+length_y],
+        [f_x, f_y+length_y],
+    ]
     colors = ['#ff0000', '#ff8000', '#00ff00', '#00ff80', '#00bfff', '#0000ff', '#8000ff', '#ff00ff', '#ff0040', '000000'],
 
     graphs = [
         [1, 7],
-        [3, 10],
-        [1, 6],
-        [2, 6],
         [2, 11],
-        [4, 6],
-        [1, 11],
-        [2, 1],
+        [1, 6],
+        [1, 2],
+        [1, 3],
+        [1, 4],
     ],
 
     coords = {
         // 1: [1231,12312]
+    },
+
+    circles_in_row = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
     },
 
     used_coord = {
@@ -45,32 +55,52 @@ function randomColor(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 };
 
-// Set points
-function setPoints(n, x, y, space) {
-    let
-        first_row = Math.ceil(n / 2),
-        length = space * (first_row - 1)
-        // alert(length);
-        new_space = length / (n - first_row - 1)
-        here_x = x,
-        here_y = y,
-        here_space = space;
-        // alert(new_space);
-        // alert(length == (new_space * (n - first_row - 1) + (n - first_row) * radius));
-        // alert(space > new_space);
-    for (let i = 0; i < n; i++) {     
-        // console.log(here_space);
-        
-        if (i === first_row) {
-            here_x = x;
-            here_y += add_y;
-            here_space = new_space;
-        }
-        coords[i] = [here_x, here_y];
-        used_coord[i] = 0;
-        here_x += here_space;
-    }
+// Calculating rows
+function calcRows(n) {
+    let i = 0;
+    while (n !== 0) {
+        i++;
+        circles_in_row[i]++;
+        n--;
+        if (i === 4) {
+            i = 0;  
+        };
+    };
+}
 
+// Drawning corners
+function setCorners(x, y, add_x, add_y) {
+    coords[0] = [x, y];
+    coords[1] = [x + add_x, y];
+    coords[2] = [x + add_x, y + add_y];
+    coords[3] = [x, y + add_y];
+    for (let i = 0; i < 4; i++)
+        used_coord[i] = 0;
+}
+
+// Set points
+function setPoints(n) {
+    calcRows(n-4);
+    setCorners(f_x, f_y, length_x, length_y);
+        // coords[i] = [];
+        // used_coord[i] = 0;
+        // here_x += here_space;
+    let left_n = n-4, i = 1;
+    while (left_n > 0) {
+        coords[n-left_n] = [f_x + add_in_row * i, f_y];
+        used_coord[n-left_n] = 0;
+        left_n--;
+        coords[n-left_n] = [f_x + length_x, f_y + add_in_row * i];
+        used_coord[n-left_n] = 0;
+        left_n--;
+        coords[n-left_n] = [f_x + length_x - add_in_row * i, f_y + length_y];
+        used_coord[n-left_n] = 0;
+        left_n--;
+        coords[n-left_n] = [f_x, f_y + add_in_row * i];
+        used_coord[n-left_n] = 0;
+        left_n--;
+        i++;
+    };
 };
 
 // Draw nodes
@@ -117,7 +147,6 @@ function drawEdge(from_x, from_y, to_x, to_y, coords, from_n, to_n) {
             while (temp !== 0) {
                 to_y = from_y - d_y;
                 d_y += 4.5;
-                // used_coord[to_n]--;
                 temp--;
             }
 
@@ -136,7 +165,6 @@ function drawEdge(from_x, from_y, to_x, to_y, coords, from_n, to_n) {
         while (temp !== 0) {
             from_y = from_y - d_y;
             d_y += 4.5;
-            // used_coord[from_n]--;
             temp--;
         }
 
@@ -154,7 +182,6 @@ function drawEdge(from_x, from_y, to_x, to_y, coords, from_n, to_n) {
             while (temp !== 0) {
                 to_y = from_y - d_y;
                 d_y += 4.5;
-                // used_coord[to_n]--;
                 temp--;
             }
 
@@ -171,19 +198,16 @@ function drawEdge(from_x, from_y, to_x, to_y, coords, from_n, to_n) {
 };
 
 // Main part
-setPoints(n, curr_x, curr_y, space);
-// console.log(coords);
-// drawCircles(n, coords);
-coords[n] = calcCenter(coords[0][0], coords[0][1], coords[n-1][0], coords[n-1][1]);
-// console.log(coords);
+setPoints(n);
+drawCircles(n, coords);
+coords[n] = calcCenter(coords[0][0], coords[0][1], coords[2][0], coords[2][1]);
 // ctx.beginPath();
 // ctx.arc(coords[n][0], coords[n][1], radius, angle_start, angle_end);
 // ctx.fill();
 for (const el of graphs) {
     drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], coords, el[0]-1, el[1]-1); 
 };
-drawCircles(n, coords);
-// drawEdge(coords[0][0], coords[0][1], coords[n][0], coords[n][1]);
+// drawCircles(n, coords);
 
 
 
