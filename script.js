@@ -1,7 +1,7 @@
 const
     canv = document.getElementById('canvas'),
     ctx  = canv.getContext('2d'),
-    n = 11;
+    n = 15;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
     ctx.lineWidth = 1.5;
@@ -46,6 +46,13 @@ const
         4: 0,
     },
 
+    indexes_in_row = [
+        [],
+        [],
+        [],
+        [],
+    ],
+
     used_coord = {
         // [i], 0
     };
@@ -76,15 +83,66 @@ function setCorners(x, y, add_x, add_y) {
     coords[3] = [x, y + add_y];
     for (let i = 0; i < 4; i++)
         used_coord[i] = 0;
-}
+};
+
+// Normalize coords in row
+function normalizeCoords(f_row, s_row, t_row, fo_row) {
+    let space = length_x / (f_row+1);
+    for (let index = 1; index <= f_row; index++) {
+        coords[indexes_in_row[0][index-1]][0] = f_x + space * index;
+    };
+    space = length_y / (s_row+1);
+    for (let index = 1; index <= s_row; index++) {
+        coords[indexes_in_row[1][index-1]][1] = f_y + space * index;
+    };
+    space = length_x / (t_row+1);
+    for (let index = 1; index <= t_row; index++) {
+        coords[indexes_in_row[2][index-1]][0] = f_x + space * index;
+    };
+    space = length_y / (fo_row+1);
+    for (let index = 1; index <= fo_row; index++) {
+        coords[indexes_in_row[3][index-1]][1] = f_y + space * index;
+    };
+};
+
+// Set index
+function setIndex(i, j) {
+    let tmp = [...indexes_in_row[j]];
+    tmp.push(i);
+    indexes_in_row[j] = tmp;
+};
+
+// Normalize circles in rows
+function normalize(n) {
+    let 
+        first_row = second_row = third_row = fourth_row = 0;
+
+    for (let i = 4; i < n; i++) {
+        if ((f_x < coords[i][0] < (f_x + length_x)) && (coords[i][1] === f_y)) {
+            first_row++;
+            setIndex(i, 0);
+        };
+        if ((coords[i][0] === (f_x + length_x)) && (f_y < coords[i][1] < (f_y + length_y))) {
+            second_row++;
+            setIndex(i, 1);
+        };
+        if ((f_x < coords[i][0] < (f_x + length_x)) && (coords[i][1] === (f_y + length_y))) {
+            third_row++;
+            setIndex(i, 2);
+        };
+        if ((coords[i][0] === f_x) && (f_y < coords[i][1] < (f_y + length_y))) {
+            fourth_row++;
+            setIndex(i, 3);
+        };
+    };
+    console.log(first_row, second_row, third_row, fourth_row);
+    normalizeCoords(first_row, second_row, third_row, fourth_row);
+};
 
 // Set points
 function setPoints(n) {
     calcRows(n-4);
     setCorners(f_x, f_y, length_x, length_y);
-        // coords[i] = [];
-        // used_coord[i] = 0;
-        // here_x += here_space;
     let left_n = n-4, i = 1;
     while (left_n > 0) {
         coords[n-left_n] = [f_x + add_in_row * i, f_y];
@@ -101,6 +159,8 @@ function setPoints(n) {
         left_n--;
         i++;
     };
+
+    normalize(n);
 };
 
 // Draw nodes
