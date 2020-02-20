@@ -1,7 +1,7 @@
 const
     canv = document.getElementById('canvas'),
     ctx  = canv.getContext('2d'),
-    n = 15;
+    n = 11;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
     ctx.lineWidth = 1.5;
@@ -33,6 +33,8 @@ const
         [1, 2],
         [1, 3],
         [1, 4],
+        [1, 1],
+        [11, 11],
     ],
 
     coords = {
@@ -190,70 +192,89 @@ function drawEdge(from_x, from_y, to_x, to_y, coords, from_n, to_n) {
         center_x = coords[n][0],
         center_y = coords[n][1];
 
-    ctx.strokeStyle = randomColor(colors);
     ctx.beginPath();
-    if (used_coord[from_n] === 0) {
-        if (used_coord[to_n] === 0) {
-            ctx.moveTo(from_x, from_y);
-            used_coord[from_n]++;
-            used_coord[to_n]++;
+    if (from_n === to_n) {
+        ctx.strokeStyle = arrow_color;
+        if (from_x === center_x) {
+            ctx.moveTo(from_x, from_y+radius);
+            ctx.lineTo(from_x-radius, from_y+radius+radius/2);
+            ctx.lineTo(from_x+radius, from_y+radius+radius/2);
+            ctx.lineTo(from_x, from_y+radius);
             console.log(from_n+1, to_n+1);
-            console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-            ctx.lineTo(center_x, center_y);
-            ctx.lineTo(to_x, to_y);    
+            console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);    
         } else {
-            let d_y = 4;
-            let temp = used_coord[to_n];
-            while (temp !== 0) {
-                to_y = from_y - d_y;
-                d_y += 4.5;
-                temp--;
-            }
-
-            ctx.moveTo(from_x, from_y);
-            used_coord[from_n]++;
-            used_coord[to_n]++;
+            ctx.moveTo(from_x, from_y-radius);
+            ctx.lineTo(from_x+radius, from_y-radius-radius/2);
+            ctx.lineTo(from_x-radius, from_y-radius-radius/2);
+            ctx.lineTo(from_x, from_y-radius);
             console.log(from_n+1, to_n+1);
             console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-            ctx.lineTo(center_x, center_y);
-            ctx.lineTo(to_x, to_y);    
-
         }
     } else {
-        let d_y = 4;
-        let temp = used_coord[from_n];
-        while (temp !== 0) {
-            from_y = from_y - d_y;
-            d_y += 4.5;
-            temp--;
-        }
+        ctx.strokeStyle = randomColor(colors);
+        if (used_coord[from_n] === 0) {
+            if (used_coord[to_n] === 0) {
+                ctx.moveTo(from_x, from_y);
+                used_coord[from_n]++;
+                used_coord[to_n]++;
+                console.log(from_n+1, to_n+1);
+                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
+                ctx.lineTo(center_x, center_y);
+                ctx.lineTo(to_x, to_y);    
+            } else {
+                let d_y = 4;
+                let temp = used_coord[to_n];
+                while (temp !== 0) {
+                    to_y = from_y - d_y;
+                    d_y += 4.5;
+                    temp--;
+                }
 
-        if (used_coord[to_n] == 0) {
-            ctx.moveTo(from_x, from_y);
-            used_coord[from_n]++;
-            used_coord[to_n]++;
-            console.log(from_n+1, to_n+1);
-            console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-            ctx.lineTo(center_x, center_y);
-            ctx.lineTo(to_x, to_y);    
+                ctx.moveTo(from_x, from_y);
+                used_coord[from_n]++;
+                used_coord[to_n]++;
+                console.log(from_n+1, to_n+1);
+                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
+                ctx.lineTo(center_x, center_y);
+                ctx.lineTo(to_x, to_y);    
+
+            }
         } else {
             let d_y = 4;
-            let temp = used_coord[to_n];
+            let temp = used_coord[from_n];
             while (temp !== 0) {
-                to_y = from_y - d_y;
+                from_y = from_y - d_y;
                 d_y += 4.5;
                 temp--;
             }
 
-            ctx.moveTo(from_x, from_y);
-            used_coord[from_n]++;
-            used_coord[to_n]++;
-            console.log(from_n+1, to_n+1);
-            console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-            ctx.lineTo(center_x, center_y);
-            ctx.lineTo(to_x, to_y);    
-        }
-    };
+            if (used_coord[to_n] == 0) {
+                ctx.moveTo(from_x, from_y);
+                used_coord[from_n]++;
+                used_coord[to_n]++;
+                console.log(from_n+1, to_n+1);
+                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
+                ctx.lineTo(center_x, center_y);
+                ctx.lineTo(to_x, to_y);    
+            } else {
+                let d_y = 4;
+                let temp = used_coord[to_n];
+                while (temp !== 0) {
+                    to_y = from_y - d_y;
+                    d_y += 4.5;
+                    temp--;
+                }
+
+                ctx.moveTo(from_x, from_y);
+                used_coord[from_n]++;
+                used_coord[to_n]++;
+                console.log(from_n+1, to_n+1);
+                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
+                ctx.lineTo(center_x, center_y);
+                ctx.lineTo(to_x, to_y);    
+            }
+        };
+    }
     ctx.stroke();
 };
 
