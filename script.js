@@ -1,7 +1,7 @@
 const
     canv = document.getElementById('canvas'),
     ctx  = canv.getContext('2d'),
-    n = 11;
+    n = 14;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
     ctx.lineWidth = 1.5;
@@ -29,11 +29,21 @@ const
     graphs = [
         [1, 7],
         [2, 11],
-        [1, 6],
-        [1, 2],
+        [13, 13],
         [1, 3],
+        [3, 3],
         [1, 4],
+        [1, 10],
+        [8, 2],
         [1, 1],
+        [4, 9],
+        [10, 9],
+        [13, 10],
+        [12, 8],
+        [7, 9],
+        [7, 13],
+        [12, 12],
+        [9, 9],
         [11, 11],
     ],
 
@@ -56,7 +66,11 @@ const
     ],
 
     used_coord = {
-        // [i], 0
+        // [i]: 0
+    },
+
+    spaceInCircle = {
+        // [i]: 0
     };
 
 // Random color
@@ -107,6 +121,15 @@ function normalizeCoords(f_row, s_row, t_row, fo_row) {
     };
 };
 
+function calcUsedCoords(arr) {
+  arr.forEach(el => {
+      if (el[0] != el[1]) {
+        used_coord[el[0]-1]++;
+        used_coord[el[1]-1]++;  
+      };
+  });  
+};
+
 // Set index
 function setIndex(i, j) {
     let tmp = [...indexes_in_row[j]];
@@ -137,7 +160,6 @@ function normalize(n) {
             setIndex(i, 3);
         };
     };
-    console.log(first_row, second_row, third_row, fourth_row);
     normalizeCoords(first_row, second_row, third_row, fourth_row);
 };
 
@@ -186,132 +208,101 @@ function calcCenter(x1, y1, x2, y2) {
     return [x, y];
 };
 
+function calcArrowPosition(x_r, y_r, x1, y1, x2, y2) {
+    
+}
+
+function calcCircleInSpace(i) {
+    if ((radius * 2 / (used_coord[i] - 1)) < 0) {
+        return undefined;
+    } else if ((radius * 2 / (used_coord[i] - 1)) === Infinity) {
+        return 0;
+    } else return (radius * 2 / (used_coord[i] - 1));
+};
+
+
+function drawNoose(from_x, from_y, from_n) {
+    ctx.beginPath();
+    ctx.strokeStyle = arrow_color;
+
+    if (from_x === f_x) {
+        ctx.moveTo(from_x-radius, from_y);
+        ctx.lineTo(from_x-radius-10, from_y-radius);
+        ctx.lineTo(from_x-radius-10, from_y+radius);
+        ctx.lineTo(from_x-radius, from_y);    
+    } else if (from_y === f_y) {
+        ctx.moveTo(from_x, from_y-radius);
+        ctx.lineTo(from_x+radius, from_y-radius-10);
+        ctx.lineTo(from_x+-radius, from_y-radius-10);
+        ctx.lineTo(from_x, from_y-radius);
+    } else if (from_x === f_x+length_x) {
+        ctx.moveTo(from_x+radius, from_y);
+        ctx.lineTo(from_x+radius+10, from_y-radius);
+        ctx.lineTo(from_x+radius+10, from_y+radius);
+        ctx.lineTo(from_x+radius, from_y);
+    } else if (from_y === f_y+length_y) {
+        ctx.moveTo(from_x, from_y+radius);
+        ctx.lineTo(from_x-radius, from_y+radius+10);
+        ctx.lineTo(from_x+radius, from_y+radius+10);
+        ctx.lineTo(from_x, from_y+radius);
+    }
+    console.log(from_n+1, from_n+1);
+    console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);    
+    ctx.stroke();
+};
+
+function calc(n) {
+    if (used_coord[n] === 0) {
+        return -radius;
+    } else {
+        let y = -radius + spaceInCircle[n] * (used_coord[n] - 1)
+        used_coord[n]--;
+        return y;
+    };
+};
+
 // Draw edges
-function drawEdge(from_x, from_y, to_x, to_y, coords, from_n, to_n) {
+function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
     const
         center_x = coords[n][0],
         center_y = coords[n][1];
 
-    ctx.beginPath();
-    if (from_n === to_n) {
-        ctx.strokeStyle = arrow_color;
-        if (from_x === center_x) {
-            ctx.moveTo(from_x, from_y+radius);
-            ctx.lineTo(from_x-radius, from_y+radius+radius/2);
-            ctx.lineTo(from_x+radius, from_y+radius+radius/2);
-            ctx.lineTo(from_x, from_y+radius);
-            console.log(from_n+1, to_n+1);
-            console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);    
-        } else {
-            ctx.moveTo(from_x, from_y-radius);
-            ctx.lineTo(from_x+radius, from_y-radius-radius/2);
-            ctx.lineTo(from_x-radius, from_y-radius-radius/2);
-            ctx.lineTo(from_x, from_y-radius);
-            console.log(from_n+1, to_n+1);
-            console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-        }
+    if (f_x !== center_x && t_x !== center_x) {
+        f_y += calc(f_n);
+        t_y += calc(t_n);
     } else {
-        ctx.strokeStyle = randomColor(colors);
-        if (used_coord[from_n] === 0) {
-            if (used_coord[to_n] === 0) {
-                ctx.moveTo(from_x, from_y);
-                used_coord[from_n]++;
-                used_coord[to_n]++;
-                console.log(from_n+1, to_n+1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-                ctx.lineTo(center_x, center_y);
-                ctx.lineTo(to_x, to_y);    
-            } else {
-                let d_y = 4;
-                let temp = used_coord[to_n];
-                while (temp !== 0) {
-                    to_y = from_y - d_y;
-                    d_y += 4.5;
-                    temp--;
-                }
-
-                ctx.moveTo(from_x, from_y);
-                used_coord[from_n]++;
-                used_coord[to_n]++;
-                console.log(from_n+1, to_n+1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-                ctx.lineTo(center_x, center_y);
-                ctx.lineTo(to_x, to_y);    
-
-            }
-        } else {
-            let d_y = 4;
-            let temp = used_coord[from_n];
-            while (temp !== 0) {
-                from_y = from_y - d_y;
-                d_y += 4.5;
-                temp--;
-            }
-
-            if (used_coord[to_n] == 0) {
-                ctx.moveTo(from_x, from_y);
-                used_coord[from_n]++;
-                used_coord[to_n]++;
-                console.log(from_n+1, to_n+1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-                ctx.lineTo(center_x, center_y);
-                ctx.lineTo(to_x, to_y);    
-            } else {
-                let d_y = 4;
-                let temp = used_coord[to_n];
-                while (temp !== 0) {
-                    to_y = from_y - d_y;
-                    d_y += 4.5;
-                    temp--;
-                }
-
-                ctx.moveTo(from_x, from_y);
-                used_coord[from_n]++;
-                used_coord[to_n]++;
-                console.log(from_n+1, to_n+1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-                ctx.lineTo(center_x, center_y);
-                ctx.lineTo(to_x, to_y);    
-            }
-        };
+        f_x += calc(f_n),
+        t_x += calc(t_n);
     }
+    ctx.beginPath();
+    ctx.strokeStyle = randomColor(colors);  
+    ctx.moveTo(f_x, f_y);
+    ctx.lineTo(center_x, center_y);
+    ctx.lineTo(t_x, t_y);
+    console.log(f_n+1, t_n+1);
+    console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
+
+
     ctx.stroke();
 };
 
 // Main part
 setPoints(n);
-drawCircles(n, coords);
-coords[n] = calcCenter(coords[0][0], coords[0][1], coords[2][0], coords[2][1]);
-// ctx.beginPath();
-// ctx.arc(coords[n][0], coords[n][1], radius, angle_start, angle_end);
-// ctx.fill();
-for (const el of graphs) {
-    drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], coords, el[0]-1, el[1]-1); 
+calcUsedCoords(graphs);
+for (let i = 0; i < n; i++) {
+    spaceInCircle[i] = calcCircleInSpace(i);
 };
 // drawCircles(n, coords);
-
-
-
-
-// Drawning circles
-// for (let index = 0; index < n; index++) {
-//     ctx.fillStyle = arc_color;
-//     if (index == 2) {
-//         // add1_x += 70;
-//         curr_x = canv.width / 8;// + add1_x;
-//         curr_y += add_y;
-//     }
-//     ctx.beginPath();
-//     ctx.arc(curr_x, curr_y, radius, angle_start, angle_end);
-//     coords[index] = [curr_x + radius, curr_y];
-//     ctx.fill();
-//     ctx.beginPath();
-//     ctx.fillStyle = text_color;
-//     ctx.fillText(index, curr_x, curr_y + 15);
-//     ctx.fill();
-//     curr_x += add_x;
-// };
-// console.log(graphs);
+coords[n] = calcCenter(coords[0][0], coords[0][1], coords[2][0], coords[2][1]);
+ctx.beginPath();
+ctx.arc(coords[n][0], coords[n][1], radius, angle_start, angle_end);
+ctx.fill();
+for (const el of graphs) {
+    if (el[0] === el[1]) {
+        drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
+    } else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
+};
+drawCircles(n, coords);
 
 // Drawning arrows
 // for (const element of graphs) {
