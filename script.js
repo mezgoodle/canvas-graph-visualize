@@ -232,7 +232,7 @@ function drawNoose(from_x, from_y, from_n) {
         ctx.lineTo(from_x-radius, from_y);
         ctx.stroke();
         if (oriented) {
-            drawArrow(from_x-radius, from_y);
+            drawArrow(from_x-radius, from_y, from_x-radius-10, from_y+radius, 5);
         };
     } else if (from_y === f_y) {
         ctx.moveTo(from_x, from_y-radius);
@@ -241,7 +241,7 @@ function drawNoose(from_x, from_y, from_n) {
         ctx.lineTo(from_x, from_y-radius);
         ctx.stroke();
         if (oriented) {
-            drawArrow(from_x, from_y-radius);
+            drawArrow(from_x, from_y-radius, from_x+-radius, from_y-radius-10, 5);
         };
     } else if (from_x === f_x+length_x) {
         ctx.moveTo(from_x+radius, from_y);
@@ -250,7 +250,7 @@ function drawNoose(from_x, from_y, from_n) {
         ctx.lineTo(from_x+radius, from_y);
         ctx.stroke();
         if (oriented) {
-            drawArrow(from_x+radius, from_y);
+            drawArrow(from_x+radius, from_y, from_x+radius+10, from_y+radius, 5);
         };
     } else if (from_y === f_y+length_y) {
         ctx.moveTo(from_x, from_y+radius);
@@ -259,28 +259,35 @@ function drawNoose(from_x, from_y, from_n) {
         ctx.lineTo(from_x, from_y+radius);
         ctx.stroke();
         if (oriented) {
-            drawArrow(from_x, from_y+radius);
+            drawArrow(from_x, from_y+radius, from_x+radius, from_y+radius+10, 5);
         };
     }
     console.log(from_n+1, from_n+1);
     console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);    
 };
 
-function drawArrow(from_x, from_y) {
+function drawArrow(to_x, to_y, from_x, from_y, radius=10) {
+    const x_center = to_x;
+    const y_center = to_y;
+    let angle, x, y;
     ctx.beginPath();
-    ctx.moveTo(from_x, from_y);
-    ctx.lineTo(from_x-10, from_y+10);
-    ctx.lineTo(from_x+10, from_y+10);
-    ctx.lineTo(from_x, from_y);
+    angle = Math.atan2(to_y - from_y, to_x - from_x);
+    x = radius * Math.cos(angle) + x_center;
+    y = radius * Math.sin(angle) + y_center;
+  
+    ctx.moveTo(x, y);
+    angle += (1.0 / 3.0) * (2 * Math.PI);
+    x = radius * Math.cos(angle) + x_center;
+    y = radius * Math.sin(angle) + y_center;
+    ctx.lineTo(x, y);
+  
+    angle += (1.0 / 3.0) * (2 * Math.PI);
+    x = radius * Math.cos(angle) + x_center;
+    y = radius * Math.sin(angle) + y_center;
+    ctx.lineTo(x, y);
+    ctx.closePath();
     ctx.fill();
-};
-
-function calcCoordForArrow(old_x, old_y, center_x, center_y) {
-  const
-    alpha = Math.atan(Math.abs(center_y - old_y) / Math.abs(center_x - old_x))
-    x = old_x * Math.cos(alpha) - old_y * Math.sin(alpha),
-    y = old_x * Math.sin(alpha) + old_y * Math.cos(alpha);
-  return [x, y];
+    ctx.stroke();
 };
 
 function calc(n) {
@@ -316,7 +323,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
     console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
     ctx.stroke();
     if (oriented) {
-        drawArrow(t_x, t_y);
+        drawArrow(t_x, t_y, center_x, center_y);
     };
 };
 
@@ -337,29 +344,3 @@ for (const el of graphs) {
     } else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
 };
 // drawCircles(n, coords);
-
-// Drawning arrows
-// for (const element of graphs) {
-//     if (element[2]) {
-//         ctx.strokeStyle = curve_ordered_color;
-//         ctx.beginPath();
-//         ctx.moveTo(coords[element[0]][0], coords[element[0]][1]);
-//         ctx.quadraticCurveTo((coords[element[0]][0] + coords[element[1]][0]) / 2 + 100, (coords[element[0]][1] + coords[element[1]][1]) / 2 - 100, coords[element[1]][0], coords[element[1]][1]);
-//         ctx.stroke();
-
-//         ctx.beginPath();
-//         const dx = coords[element[1]][0] - coords[element[0]][0], dy = coords[element[1]][1] - coords[element[0]][1];
-//         const angle = Math.atan2(dy, dx);
-//         ctx.lineTo(coords[element[1]][0], coords[element[1]][1]);
-//         ctx.lineTo(coords[element[1]][0] - headlen * Math.cos(angle - Math.PI / 6), coords[element[1]][1] - headlen * Math.sin(angle - Math.PI / 6));
-//         ctx.moveTo(coords[element[1]][0], coords[element[1]][1]);
-//         ctx.lineTo(coords[element[1]][0] - headlen * Math.cos(angle + Math.PI / 6), coords[element[1]][1] - headlen * Math.sin(angle + Math.PI / 6));
-//         ctx.stroke();
-//     } else {
-//         ctx.strokeStyle = curve_unordered_color;
-//         ctx.beginPath();
-//         ctx.moveTo(coords[element[0]][0], coords[element[0]][1]);
-//         ctx.quadraticCurveTo((coords[element[0]][0] + coords[element[1]][0]) / 2, (coords[element[0]][1] + coords[element[1]][1]) / 2 - 100, coords[element[1]][0], coords[element[1]][1]);
-//         ctx.stroke();
-//     }
-// }
