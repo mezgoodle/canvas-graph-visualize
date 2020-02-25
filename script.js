@@ -4,7 +4,7 @@ const
     n = 14;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = 0.8;
     arc_color = 'yellow',
     text_color = 'red',
     arrow_color = 'black',
@@ -17,7 +17,7 @@ const
     radius = 30,
     add_in_row = 100,
     ctx.font = "20px Georgia",
-    headlen = 20,
+    oriented = true, //false
     corners = [
         [f_x, f_y],
         [f_x+length_x, f_y],
@@ -229,26 +229,58 @@ function drawNoose(from_x, from_y, from_n) {
         ctx.moveTo(from_x-radius, from_y);
         ctx.lineTo(from_x-radius-10, from_y-radius);
         ctx.lineTo(from_x-radius-10, from_y+radius);
-        ctx.lineTo(from_x-radius, from_y);    
+        ctx.lineTo(from_x-radius, from_y);
+        ctx.stroke();
+        if (oriented) {
+            drawArrow(from_x-radius, from_y);
+        };
     } else if (from_y === f_y) {
         ctx.moveTo(from_x, from_y-radius);
         ctx.lineTo(from_x+radius, from_y-radius-10);
         ctx.lineTo(from_x+-radius, from_y-radius-10);
         ctx.lineTo(from_x, from_y-radius);
+        ctx.stroke();
+        if (oriented) {
+            drawArrow(from_x, from_y-radius);
+        };
     } else if (from_x === f_x+length_x) {
         ctx.moveTo(from_x+radius, from_y);
         ctx.lineTo(from_x+radius+10, from_y-radius);
         ctx.lineTo(from_x+radius+10, from_y+radius);
         ctx.lineTo(from_x+radius, from_y);
+        ctx.stroke();
+        if (oriented) {
+            drawArrow(from_x+radius, from_y);
+        };
     } else if (from_y === f_y+length_y) {
         ctx.moveTo(from_x, from_y+radius);
         ctx.lineTo(from_x-radius, from_y+radius+10);
         ctx.lineTo(from_x+radius, from_y+radius+10);
         ctx.lineTo(from_x, from_y+radius);
+        ctx.stroke();
+        if (oriented) {
+            drawArrow(from_x, from_y+radius);
+        };
     }
     console.log(from_n+1, from_n+1);
     console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);    
-    ctx.stroke();
+};
+
+function drawArrow(from_x, from_y) {
+    ctx.beginPath();
+    ctx.moveTo(from_x, from_y);
+    ctx.lineTo(from_x-10, from_y+10);
+    ctx.lineTo(from_x+10, from_y+10);
+    ctx.lineTo(from_x, from_y);
+    ctx.fill();
+};
+
+function calcCoordForArrow(old_x, old_y, center_x, center_y) {
+  const
+    alpha = Math.atan(Math.abs(center_y - old_y) / Math.abs(center_x - old_x))
+    x = old_x * Math.cos(alpha) - old_y * Math.sin(alpha),
+    y = old_x * Math.sin(alpha) + old_y * Math.cos(alpha);
+  return [x, y];
 };
 
 function calc(n) {
@@ -279,11 +311,13 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
     ctx.moveTo(f_x, f_y);
     ctx.lineTo(center_x, center_y);
     ctx.lineTo(t_x, t_y);
+
     console.log(f_n+1, t_n+1);
     console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-
-
     ctx.stroke();
+    if (oriented) {
+        drawArrow(t_x, t_y);
+    };
 };
 
 // Main part
@@ -292,17 +326,17 @@ calcUsedCoords(graphs);
 for (let i = 0; i < n; i++) {
     spaceInCircle[i] = calcCircleInSpace(i);
 };
-// drawCircles(n, coords);
+drawCircles(n, coords);
 coords[n] = calcCenter(coords[0][0], coords[0][1], coords[2][0], coords[2][1]);
-ctx.beginPath();
-ctx.arc(coords[n][0], coords[n][1], radius, angle_start, angle_end);
-ctx.fill();
+// ctx.beginPath();
+// ctx.arc(coords[n][0], coords[n][1], radius, angle_start, angle_end);
+// ctx.fill();
 for (const el of graphs) {
     if (el[0] === el[1]) {
         drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
     } else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
 };
-drawCircles(n, coords);
+// drawCircles(n, coords);
 
 // Drawning arrows
 // for (const element of graphs) {
