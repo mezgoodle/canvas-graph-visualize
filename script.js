@@ -231,36 +231,24 @@ function drawNoose(from_x, from_y, from_n) {
         ctx.lineTo(from_x-radius-10, from_y+radius);
         ctx.lineTo(from_x-radius, from_y);
         ctx.stroke();
-        if (oriented) {
-            drawArrow(from_x-radius, from_y, from_x-radius-10, from_y+radius, 5);
-        };
     } else if (from_y === f_y) {
         ctx.moveTo(from_x, from_y-radius);
         ctx.lineTo(from_x+radius, from_y-radius-10);
         ctx.lineTo(from_x+-radius, from_y-radius-10);
         ctx.lineTo(from_x, from_y-radius);
         ctx.stroke();
-        if (oriented) {
-            drawArrow(from_x, from_y-radius, from_x+-radius, from_y-radius-10, 5);
-        };
     } else if (from_x === f_x+length_x) {
         ctx.moveTo(from_x+radius, from_y);
         ctx.lineTo(from_x+radius+10, from_y-radius);
         ctx.lineTo(from_x+radius+10, from_y+radius);
         ctx.lineTo(from_x+radius, from_y);
         ctx.stroke();
-        if (oriented) {
-            drawArrow(from_x+radius, from_y, from_x+radius+10, from_y+radius, 5);
-        };
     } else if (from_y === f_y+length_y) {
         ctx.moveTo(from_x, from_y+radius);
         ctx.lineTo(from_x-radius, from_y+radius+10);
         ctx.lineTo(from_x+radius, from_y+radius+10);
         ctx.lineTo(from_x, from_y+radius);
         ctx.stroke();
-        if (oriented) {
-            drawArrow(from_x, from_y+radius, from_x+radius, from_y+radius+10, 5);
-        };
     }
     console.log(from_n+1, from_n+1);
     console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);    
