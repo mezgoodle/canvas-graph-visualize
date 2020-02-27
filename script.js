@@ -1,7 +1,7 @@
 const
     canv = document.getElementById('canvas'),
     ctx  = canv.getContext('2d'),
-    n = 16;
+    n = 11;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
     ctx.lineWidth = 0.8;
@@ -26,28 +26,36 @@ const
     ]
     colors = ['#ff0000', '#ff8000', '#00ff00', '#00ff80', '#00bfff', '#0000ff', '#8000ff', '#ff00ff', '#ff0040', '000000'],
 
-    graphs = [
-        [1, 7],
-        [2, 11],
-        [13, 13],
-        [1, 3],
-        [3, 3],
-        [1, 4],
-        [1, 10],
-        [8, 2],
-        [1, 1],
-        [4, 9],
-        [10, 9],
-        [13, 10],
-        [12, 8],
-        [7, 9],
-        [7, 13],
-        [12, 12],
-        [9, 9],
-        [11, 11],
-        [15,11],
-        [3, 11],
+    graphs = [],
+
+
+    array_from_cs_non_oriented = [
+        [1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0],
+        [1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1],
+        [0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1],
+        [1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0],
+        [1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0],
+        [1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0],
+        [1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1],
+        [0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0],
+        [1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
+        [0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1],
+        [0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0],	
     ],
+
+    array_from_cs_oriented = [
+        [1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1],
+        [1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0],
+        [1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0],
+        [1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0],
+        [1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0],
+        [0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0],
+        [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1],
+        [0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1],
+        [0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+    ]
 
     coords = {
         // 1: [1231,12312]
@@ -369,13 +377,38 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
     };
 };
 
+function setMatrix(array) {
+    if (oriented) {
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < array.length; j++) {
+                if (array[i][j] === 1) {
+                    graphs.push([j+1, i+1]);
+                };
+            }
+        }
+    } else {
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < array.length; j++) {
+                if (j < i) {
+                    continue;
+                } else
+                    if (array[i][j] === 1) {
+                        graphs.push([i+1, j+1]);
+                    };
+            }
+        }
+    }
+};
+
 // Main part
 setPoints(n);
+if (oriented) {
+    setMatrix(array_from_cs_oriented);  
+} else setMatrix(array_from_cs_non_oriented);
 calcUsedCoords(graphs);
 for (let i = 0; i < n; i++) {
     spaceInCircle[i] = calcCircleInSpace(i);
 };
-// drawCircles(n, coords);
 coords[n] = calcCenter(coords[0][0], coords[0][1], coords[2][0], coords[2][1]);
 // ctx.beginPath();
 // ctx.arc(coords[n][0], coords[n][1], radius, angle_start, angle_end);
