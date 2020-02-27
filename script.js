@@ -1,7 +1,7 @@
 const
     canv = document.getElementById('canvas'),
     ctx  = canv.getContext('2d'),
-    n = 14;
+    n = 16;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
     ctx.lineWidth = 0.8;
@@ -45,6 +45,8 @@ const
         [12, 12],
         [9, 9],
         [11, 11],
+        [15,11],
+        [3, 11],
     ],
 
     coords = {
@@ -254,7 +256,40 @@ function drawNoose(from_x, from_y, from_n) {
     console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);    
 };
 
+function findCircleLineIntersections(r, h, k, m, n) {
+    // circle: (x - h)^2 + (y - k)^2 = r^2
+    // line: y = m * x + n
+    // r: circle radius
+    // h: x value of circle centre
+    // k: y value of circle centre
+    // m: slope
+    // n: y-intercept
+
+    // get a, b, c values
+    var a = 1 + m*m;
+    var b = -h * 2 + (m * (n - k)) * 2;
+    var c = h*h + (n - k)*(n - k) - r*r;
+
+    // get discriminant
+    var d = b*b - 4 * a * c;
+    if (d >= 0) {
+        // insert into quadratic formula
+        var intersections = [
+            (-b + Math.sqrt(b*b - 4 * a * c)) / (2 * a),
+            (-b - Math.sqrt(b*b - 4 * a * c)) / (2 * a)
+        ];
+        if (d == 0) {
+            // only 1 intersection
+            return [intersections[0]];
+        }
+        return intersections;
+    }
+    // no intersection
+    return [];
+};
+
 function drawArrow(to_x, to_y, from_x, from_y, radius=10) {
+    ctx.fillStyle = 'red';
     const x_center = to_x;
     const y_center = to_y;
     let angle, x, y;
@@ -262,7 +297,6 @@ function drawArrow(to_x, to_y, from_x, from_y, radius=10) {
     angle = Math.atan2(to_y - from_y, to_x - from_x);
     x = radius * Math.cos(angle) + x_center;
     y = radius * Math.sin(angle) + y_center;
-  
     ctx.moveTo(x, y);
     angle += (1.0 / 3.0) * (2 * Math.PI);
     x = radius * Math.cos(angle) + x_center;
@@ -292,7 +326,9 @@ function calc(n) {
 function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
     const
         center_x = coords[n][0],
-        center_y = coords[n][1];
+        center_y = coords[n][1],
+        circle_x = t_x,
+        circle_y = t_y;
 
     if (f_x !== center_x && t_x !== center_x) {
         f_y += calc(f_n);
@@ -311,7 +347,25 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
     console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
     ctx.stroke();
     if (oriented) {
-        drawArrow(t_x, t_y, center_x, center_y);
+        let
+            k = (t_y - center_y) / (t_x - center_x),
+            b = -center_x * k + center_y,
+            x_ar = findCircleLineIntersections(radius, circle_x, circle_y, k, b),
+            x,
+            y;
+        if (x_ar.length === 0) {
+            x = center_x;
+            if (circle_y > center_y) {
+                y = circle_y - radius - 10;       
+            } else y = circle_y + radius + 10;
+        } else {
+            // x = x_ar[1];
+            if (Math.abs(x_ar[0] - center_x) < Math.abs(x_ar[1] - center_x)) {
+                x = x_ar[0];
+            } else x = x_ar[1];
+            y = k * (x - center_x) + center_y;
+        }
+        drawArrow(x, y, center_x, center_y);
     };
 };
 
@@ -321,7 +375,7 @@ calcUsedCoords(graphs);
 for (let i = 0; i < n; i++) {
     spaceInCircle[i] = calcCircleInSpace(i);
 };
-drawCircles(n, coords);
+// drawCircles(n, coords);
 coords[n] = calcCenter(coords[0][0], coords[0][1], coords[2][0], coords[2][1]);
 // ctx.beginPath();
 // ctx.arc(coords[n][0], coords[n][1], radius, angle_start, angle_end);
@@ -331,4 +385,4 @@ for (const el of graphs) {
         drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
     } else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
 };
-// drawCircles(n, coords);
+drawCircles(n, coords);
