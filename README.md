@@ -15,3 +15,4 @@ There are main files, that used in every lab
 ## Labs list
 * [First lab](https://github.com/mezgoodle/canvas-graph-visualize/tree/master/Lab_rob_1)
 * [Second lab](https://github.com/mezgoodle/canvas-graph-visualize/tree/master/Lab_rob_2)
+* [Third lab](https://github.com/mezgoodle/canvas-graph-visualize/tree/master/Lab_rob_3)
