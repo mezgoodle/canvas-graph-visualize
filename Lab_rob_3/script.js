@@ -400,17 +400,26 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 function matrixPower(array) {
 	let result_array = [];
 	const mult_array = math.multiply(array, array);
+	const cube_array = math.multiply(array, array, array);
 	for(let i = 0; i < mult_array.length; i++)
 		for(let j = 0; j < mult_array.length; j++)
-			if(mult_array[i][j] !== 0) {
-				let tmp = mult_array[i][j];
+			if(mult_array[i][j] !== 0)
 				for(let k = 0; k < mult_array.length; k++)
 					if(array[i][k] !== 0)
 						if(array[k][j] !== 0) 
 							result_array.push([i+1,k+1,j+1]);
-			}
+						
 	console.log(result_array);
-    return mult_array;
+	result_array = [];
+    for(let i = 0; i < cube_array.length; i++)
+		for(let j = 0; j < cube_array.length; j++)
+			if(cube_array[i][j] !== 0)
+				for(let k = 0; k < cube_array.length; k++)
+					for(let m = 0; m < cube_array.length; m++)
+						if(array[k][m] !== 0)
+							if(array[m][j] !== 0) 
+								result_array.push([i+1,k+1,m+1,j+1]);
+	console.log(result_array);
  }
 
 // Main part
@@ -420,4 +429,4 @@ for (const el of graphs)
         drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
     else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
 drawCircles(n, coords);
-alert(matrixPower(array));
+matrixPower(array)
