@@ -415,10 +415,11 @@ function matrixPower(array) {
 		for(let j = 0; j < cube_array.length; j++)
 			if(cube_array[i][j] !== 0)
 				for(let k = 0; k < cube_array.length; k++)
-					for(let m = 0; m < cube_array.length; m++)
-						if(array[k][m] !== 0)
-							if(array[m][j] !== 0) 
-								result_array.push([i+1,k+1,m+1,j+1]);
+					if(array[i][k] !== 0)
+						for(let m = 0; m < cube_array.length; m++)
+							if(array[k][m] !== 0)
+								if(array[m][j] !== 0) 
+									result_array.push([i+1,k+1,m+1,j+1]);
 	console.log(result_array);
  }
 
