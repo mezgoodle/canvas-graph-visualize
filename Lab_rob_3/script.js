@@ -17,15 +17,23 @@ const
     ctx.font = "20px Georgia",
     oriented = true, //false
     colors = ['black', 'grey', 'brown', 'red', 'coral', 'chocolate', 'goldenrod', 'olive', 'yellow', 'lawngreen', 'darkgreen', 'teal', 'dodgerblue', 'navy', 'indigo', 'purple', 'crimson'],
+	
+	array = [
+		[0, 1, 1, 0],
+		[0, 0, 0, 1],
+		[0, 1, 0, 1],
+		[1, 1, 1, 0],
+	],
 
     graphs = [
-        [1, 2],
-        [1, 4],
-        [2, 5],
-        [3, 1],
-        [4, 3],
-        [4, 5],
-        [5, 2],
+		[1, 2],
+        [1, 3],
+        [2, 4],
+		[3, 2],
+		[3, 4],
+		[4, 3],
+		[4, 1],
+		[4, 2],
     ],
 
     coords = {
@@ -389,17 +397,21 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 };
 
 // Make power matrix
-// function matrixPower(array) {
-//     let n=11;
-// 	let res=new Array(n);
-// 	for (var i=0; i<n; i++) {
-// 	    res[i]=new Array(m);}
-//     for (let i = 0; i < array.length; i++) {
-//         for (let j = 0; j < array.length; j++) {
-            
-//         }
-//     }
-// }
+function matrixPower(array) {
+	let result_array = [];
+	const mult_array = math.multiply(array, array);
+	for(let i = 0; i < mult_array.length; i++)
+		for(let j = 0; j < mult_array.length; j++)
+			if(mult_array[i][j] !== 0) {
+				let tmp = mult_array[i][j];
+				for(let k = 0; k < mult_array.length; k++)
+					if(array[i][k] !== 0)
+						if(array[k][j] !== 0) 
+							result_array.push([i+1,k+1,j+1]);
+			}
+	console.log(result_array);
+    return mult_array;
+ }
 
 // Main part
 setPoints(n);
@@ -408,3 +420,4 @@ for (const el of graphs)
         drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
     else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
 drawCircles(n, coords);
+alert(matrixPower(array));
