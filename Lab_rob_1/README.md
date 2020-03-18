@@ -1,3 +1,3 @@
-# Result
+# Total
 
-You can see result HTML-page [here](https://mezgoodle.github.io/canvas-graph-visualize/Lab_rob_1/).
+You can see final HTML-page [here](https://mezgoodle.github.io/canvas-graph-visualize/Lab_rob_1/).
