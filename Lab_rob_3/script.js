@@ -433,6 +433,16 @@ function matrixPower(array) {
 	let result_array = [];
 	const mult_array = math.multiply(array, array);
 	const cube_array = math.multiply(array, array, array);
+	let tmp = 0;
+	for(let i = 0; i < mult_array.length; i++)
+		for(let j = 0; j < mult_array.length; j++)
+			tmp += mult_array[i][j];
+	console.log(tmp);
+	let tmp = 0;
+	for(let i = 0; i < cube_array.length; i++)
+		for(let j = 0; j < cube_array.length; j++)
+			tmp += cube_array[i][j];
+	console.log(tmp);
 	for(let i = 0; i < mult_array.length; i++)
 		for(let j = 0; j < mult_array.length; j++)
 			if(mult_array[i][j] !== 0)
