@@ -437,12 +437,12 @@ function matrixPower(array) {
 	for(let i = 0; i < mult_array.length; i++)
 		for(let j = 0; j < mult_array.length; j++)
 			tmp += mult_array[i][j];
-	console.log(tmp);
-	let tmp = 0;
+	alert(tmp);
+	tmp = 0;
 	for(let i = 0; i < cube_array.length; i++)
 		for(let j = 0; j < cube_array.length; j++)
 			tmp += cube_array[i][j];
-	console.log(tmp);
+	alert(tmp);
 	for(let i = 0; i < mult_array.length; i++)
 		for(let j = 0; j < mult_array.length; j++)
 			if(mult_array[i][j] !== 0)
