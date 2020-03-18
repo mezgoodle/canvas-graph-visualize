@@ -19,18 +19,16 @@ const
     colors = ['black', 'grey', 'brown', 'red', 'coral', 'chocolate', 'goldenrod', 'olive', 'yellow', 'lawngreen', 'darkgreen', 'teal', 'dodgerblue', 'navy', 'indigo', 'purple', 'crimson'],
 	
 	array = [
-		[0, 1, 1],
-		[1, 0, 1],
+		[0, 0, 1],
 		[1, 1, 0],
+		[1, 0, 0],
 	],
 
     graphs = [
-		[1, 2],
 		[1, 3],
 		[2, 1],
-		[2, 3],
+		[2, 2],
 		[3, 1],
-		[3, 2],
     ],
 
     coords = {
