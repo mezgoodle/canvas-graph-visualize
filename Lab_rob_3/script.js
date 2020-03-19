@@ -491,11 +491,22 @@ function ReachabilityMatrix(array) {
 	console.log(result);
 }
 
+// Transponate matrix
+function TransMatrix(A)
+{
+    let m = A.length, n = A[0].length, AT = [];
+    for (let i = 0; i < n; i++)
+     { AT[ i ] = [];
+       for (let j = 0; j < m; j++) AT[ i ][j] = A[j][ i ];
+     }
+    console.log(AT);
+}
 
  // Alert all results
  function showResult(array) {
 	searchWays(array);
 	ReachabilityMatrix(array);
+	TransMatrix(array);
  }
  
 
