@@ -428,8 +428,8 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
     }
 };
 
-// Make power matrix
-function matrixPower(array) {
+// Search ways with length 2 and 3
+function searchWays(array) {
 	let result_array = [];
 	const mult_array = math.multiply(array, array);
 	const cube_array = math.multiply(array, array, array);
@@ -437,12 +437,12 @@ function matrixPower(array) {
 	for(let i = 0; i < mult_array.length; i++)
 		for(let j = 0; j < mult_array.length; j++)
 			tmp += mult_array[i][j];
-	alert(tmp);
+	//alert(tmp);
 	tmp = 0;
 	for(let i = 0; i < cube_array.length; i++)
 		for(let j = 0; j < cube_array.length; j++)
 			tmp += cube_array[i][j];
-	alert(tmp);
+	//alert(tmp);
 	for(let i = 0; i < mult_array.length; i++)
 		for(let j = 0; j < mult_array.length; j++)
 			if(mult_array[i][j] !== 0)
@@ -465,6 +465,40 @@ function matrixPower(array) {
 	console.log(result_array);
  }
 
+// Reachability matrix
+function ReachabilityMatrix(array) {
+	// Creation unit matrix
+	let unitMatrix = new Array(11);
+	for(let i = 0; i < unitMatrix.length; i++)
+		unitMatrix[i] = new Array(11);
+	for(let i = 0; i < array.length; i++)
+		for(let j = 0; j < array.length; j++)
+			if(i === j) unitMatrix[i][j] = 1;
+			else unitMatrix[i][j] = 0;
+			
+	// Creation reachability matrix
+	let result = math.add(unitMatrix, array);
+	let tmp = array;
+	for(let i = 0; i < array.length - 2; i++){
+		tmp = math.multiply(tmp, array);
+		result = math.add(result, tmp);
+	};
+	
+	// Boolean transformation
+	for(let i = 0; i < result.length; i++)
+		for(let j = 0; j < result.length; j++)
+			if(result[i][j] !== 0) result[i][j] = 1;
+	console.log(result);
+}
+
+
+ // Alert all results
+ function showResult(array) {
+	searchWays(array);
+	ReachabilityMatrix(array);
+ }
+ 
+
 // Main part
 setPoints(n);
 for (const el of graphs)
@@ -472,4 +506,4 @@ for (const el of graphs)
         drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
     else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
 drawCircles(n, coords);
-matrixPower(array)
+showResult(array)
