@@ -429,20 +429,10 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 };
 
 // Search ways with length 2 and 3
-function searchWays(array) {
+function SearchWays(array) {
 	let result_array = [];
 	const mult_array = math.multiply(array, array);
 	const cube_array = math.multiply(array, array, array);
-	let tmp = 0;
-	for(let i = 0; i < mult_array.length; i++)
-		for(let j = 0; j < mult_array.length; j++)
-			tmp += mult_array[i][j];
-	//alert(tmp);
-	tmp = 0;
-	for(let i = 0; i < cube_array.length; i++)
-		for(let j = 0; j < cube_array.length; j++)
-			tmp += cube_array[i][j];
-	//alert(tmp);
 	for(let i = 0; i < mult_array.length; i++)
 		for(let j = 0; j < mult_array.length; j++)
 			if(mult_array[i][j] !== 0)
@@ -463,7 +453,7 @@ function searchWays(array) {
 								if(array[m][j] !== 0) 
 									result_array.push([i+1,k+1,m+1,j+1]);
 	console.log(result_array);
- }
+ };
 
 // Reachability matrix
 function ReachabilityMatrix(array) {
@@ -489,25 +479,38 @@ function ReachabilityMatrix(array) {
 		for(let j = 0; j < result.length; j++)
 			if(result[i][j] !== 0) result[i][j] = 1;
 	console.log(result);
+};
+
+// A matrix of strong connectivity
+function StrongConnectivity(array) {
+	const matrix = math.multiply(array, TransMatrix(array));
+	console.log(matrix);
 }
 
+// Components of strong connectivity
+function StrongComponents(array) {
+	const matrix = ReachabilityMatrix(array);
+	matrix = math.multiply(matrix, matrix);
+};
+
 // Transponate matrix
-function TransMatrix(A)
-{
+function TransMatrix(A) {
     let m = A.length, n = A[0].length, AT = [];
     for (let i = 0; i < n; i++)
      { AT[ i ] = [];
        for (let j = 0; j < m; j++) AT[ i ][j] = A[j][ i ];
      }
-    console.log(AT);
-}
+    return AT;
+};
 
  // Alert all results
  function showResult(array) {
-	searchWays(array);
-	ReachabilityMatrix(array);
-	TransMatrix(array);
- }
+	SearchWays(array);
+	console.log(ReachabilityMatrix(array));
+	console.log(TransMatrix(array));
+	console.log(StrongConnectivity(array));
+	console.log(StrongComponents(array));
+ };
  
 
 // Main part
