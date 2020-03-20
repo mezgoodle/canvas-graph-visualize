@@ -434,10 +434,13 @@ function ReachabilityMatrix(array) {
 
 // A matrix of strong connectivity
 function StrongConnectivity(array) {
-	const matrix = MultiplyMatrix(ReachabilityMatrix(array), TransMatrix(ReachabilityMatrix(array)));
+	let matrix = ReachabilityMatrix(array);
+	for(let i = 0; i < matrix.length; i++)
+		for(let j = 0; j < matrix.length; j++)
+				matrix[i][j] = ReachabilityMatrix(array)[i][j] * TransMatrix(ReachabilityMatrix(array))[i][j];
 	console.log("Connectivity matrix");
-	return matrix;
-}
+	console.log(matrix);
+};
 
 // Components of strong connectivity
 function StrongComponents(array) {
