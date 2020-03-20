@@ -440,7 +440,7 @@ function SearchWays(array) {
 					if(array[i][k] !== 0)
 						if(array[k][j] !== 0) 
 							result_array.push([i+1,k+1,j+1]);
-						
+	console.log("Ways length 2");
 	console.log(result_array);
 	result_array = [];
     for(let i = 0; i < cube_array.length; i++)
@@ -452,6 +452,7 @@ function SearchWays(array) {
 							if(array[k][m] !== 0)
 								if(array[m][j] !== 0) 
 									result_array.push([i+1,k+1,m+1,j+1]);
+	console.log("Ways length 3");
 	console.log(result_array);
  };
 
@@ -478,18 +479,19 @@ function ReachabilityMatrix(array) {
 	for(let i = 0; i < result.length; i++)
 		for(let j = 0; j < result.length; j++)
 			if(result[i][j] !== 0) result[i][j] = 1;
-	console.log(result);
+	return result;
 };
 
 // A matrix of strong connectivity
 function StrongConnectivity(array) {
 	const matrix = MultiplyMatrix(array, TransMatrix(array));
-	console.log(matrix);
+	console.log("Connectivity matrix");
+	return matrix;
 }
 
 // Components of strong connectivity
 function StrongComponents(array) {
-	const matrix = ReachabilityMatrix(array);
+	let matrix = ReachabilityMatrix(array);
 	matrix = MultiplyMatrix(matrix, matrix);
 };
 
@@ -542,8 +544,8 @@ function MatrixPow(n,A)
  // Alert all results
  function showResult(array) {
 	SearchWays(array);
+	console.log("Reachability matrix");
 	console.log(ReachabilityMatrix(array));
-	console.log(TransMatrix(array));
 	console.log(StrongConnectivity(array));
 	console.log(StrongComponents(array));
  };
