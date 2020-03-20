@@ -506,8 +506,7 @@ function TransMatrix(A) {
 };
 
 // Summary two matrixs
-function SumMatrix(A,B)
-{   
+function SumMatrix(A,B) {   
     let m = A.length, n = A[0].length, C = [];
     for (let i = 0; i < m; i++)
      { C[ i ] = [];
@@ -517,8 +516,7 @@ function SumMatrix(A,B)
 }
 
 // Multiply Matrix
-function MultiplyMatrix(A,B)
-{
+function MultiplyMatrix(A,B) {
     let rowsA = A.length, colsA = A[0].length,
         rowsB = B.length, colsB = B[0].length,
         C = [];
@@ -535,8 +533,7 @@ function MultiplyMatrix(A,B)
 }
 
 // Power Matrix
-function MatrixPow(n,A)
-{ 
+function MatrixPow(n,A) { 
     if (n == 1) return A;     // function MultiplyMatrix is above
     else return MultiplyMatrix( A, MatrixPow(n-1,A) );
 }
@@ -557,7 +554,6 @@ function calcDegree() {
         arr[i] = [0, 0];
     if (oriented) {
         for (const graph of graphs) {
-            console.log(arr);
             arr[graph[0]-1][0]++;
             arr[graph[1]-1][1]++;
         };
@@ -581,74 +577,11 @@ function calcDegree() {
     }
 };
 
-// If graph is regular
-function ifRegular() {
-    let tmp = {};
-    for (let i = 1; i <= n; i++)
-        tmp[i] = 0;
-    if (oriented) {
-        graphs.forEach(edge => {
-            tmp[edge[0]]++;
-            tmp[edge[1]]--;
-        });
-        for (let i = 2; i <= n; i++)
-            if (tmp[i] != tmp[i-1])
-                return 'If regular - False\n\r';
-        return `If regular - Yes. Degree is ${tmp[1]}\n\r`;   
-    } else {
-        graphs.forEach(edge => {
-           tmp[edge[0]]++;
-           tmp[edge[0]]++; 
-        });
-        for (let i = 2; i <= n; i++)
-            if (tmp[i] != tmp[i-1])
-                return 'If regular - False\n\r';
-        return `If regular - Yes. Degree is ${tmp[1]}\n\r`;
-    }
-};
-
-// Check if node is hanging
-function hangingNode() {
-    let tmp = {};
-    for (let i = 1; i <= n; i++)
-        tmp[i] = 0;
-    graphs.forEach(edge => {
-        if (edge[0] == edge[1])
-            tmp[edge[0]]++;    
-        else {
-            tmp[edge[0]]++;
-            tmp[edge[1]]++;
-        }
-    });
-    let arr = [];
-    for (const key in tmp)
-        if (tmp[key] == 1)
-            arr.push(key);
-    return `Hanging nodes: ${arr}\n\r`;
-};
-
-// Check if node is isolated
-function isolatedNode() {
-    let tmp = {};
-    for (let i = 1; i <= n; i++)
-        tmp[i] = 0;
-    graphs.forEach(edge => {
-        tmp[edge[0]]++;
-        tmp[edge[1]]++;
-    });
-    let arr = [];
-    for (const key in tmp)
-        if (tmp[key] == 0)
-            arr.push(key);
-    return `Isolated nodes: ${arr}\n\r`;
-};
 
 // All alert for the second lab 
 function doAlert() {
-    let str = calcDegree();
-    str += ifRegular();
-    str += hangingNode();
-    str += isolatedNode();
+    let str = "Degress:\n\r" + calcDegree();
+	str += "All other results look in the console(F12)";
     swal(str);
     // alert(str);
 };
