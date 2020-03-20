@@ -431,8 +431,8 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 // Search ways with length 2 and 3
 function SearchWays(array) {
 	let result_array = [];
-	const mult_array = math.multiply(array, array);
-	const cube_array = math.multiply(array, array, array);
+	const mult_array = MultiplyMatrix(array, array);
+	const cube_array = MultiplyMatrix(mult_array, array);
 	for(let i = 0; i < mult_array.length; i++)
 		for(let j = 0; j < mult_array.length; j++)
 			if(mult_array[i][j] !== 0)
@@ -467,11 +467,11 @@ function ReachabilityMatrix(array) {
 			else unitMatrix[i][j] = 0;
 			
 	// Creation reachability matrix
-	let result = math.add(unitMatrix, array);
+	let result = SumMatrix(unitMatrix, array);
 	let tmp = array;
 	for(let i = 0; i < array.length - 2; i++){
-		tmp = math.multiply(tmp, array);
-		result = math.add(result, tmp);
+		tmp = MultiplyMatrix(tmp, array);
+		result = SumMatrix(result, tmp);
 	};
 	
 	// Boolean transformation
@@ -483,14 +483,14 @@ function ReachabilityMatrix(array) {
 
 // A matrix of strong connectivity
 function StrongConnectivity(array) {
-	const matrix = math.multiply(array, TransMatrix(array));
+	const matrix = MultiplyMatrix(array, TransMatrix(array));
 	console.log(matrix);
 }
 
 // Components of strong connectivity
 function StrongComponents(array) {
 	const matrix = ReachabilityMatrix(array);
-	matrix = math.multiply(matrix, matrix);
+	matrix = MultiplyMatrix(matrix, matrix);
 };
 
 // Transponate matrix
