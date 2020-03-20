@@ -550,6 +550,109 @@ function MatrixPow(n,A)
 	console.log(StrongComponents(array));
  };
  
+//Calсulating degrees
+function calcDegree() {
+    let arr = Array(11), arr1 = Array(11).fill(0);
+    for (let i = 0; i < arr.length; i++)
+        arr[i] = [0, 0];
+    if (oriented) {
+        for (const graph of graphs) {
+            console.log(arr);
+            arr[graph[0]-1][0]++;
+            arr[graph[1]-1][1]++;
+        };
+        let str = '';
+        for (let i = 0; i < n; i++)
+            str += `${i+1}:  +${arr[i][0]}, -${arr[i][1]}\n\r`;
+        return str;
+    }
+    else {
+        for (const graph of graphs)
+            if (graph[0] == graph[1])
+                arr1[graph[0]-1]++;     
+            else {
+                arr1[graph[0]-1]++;
+                arr1[graph[1]-1]++; 
+            }
+        let str = '';
+        for (let i = 0; i < n; i++)
+            str += `${i+1}: ${arr1[i]}\n\r`;
+        return str;
+    }
+};
+
+// If graph is regular
+function ifRegular() {
+    let tmp = {};
+    for (let i = 1; i <= n; i++)
+        tmp[i] = 0;
+    if (oriented) {
+        graphs.forEach(edge => {
+            tmp[edge[0]]++;
+            tmp[edge[1]]--;
+        });
+        for (let i = 2; i <= n; i++)
+            if (tmp[i] != tmp[i-1])
+                return 'If regular - False\n\r';
+        return `If regular - Yes. Degree is ${tmp[1]}\n\r`;   
+    } else {
+        graphs.forEach(edge => {
+           tmp[edge[0]]++;
+           tmp[edge[0]]++; 
+        });
+        for (let i = 2; i <= n; i++)
+            if (tmp[i] != tmp[i-1])
+                return 'If regular - False\n\r';
+        return `If regular - Yes. Degree is ${tmp[1]}\n\r`;
+    }
+};
+
+// Check if node is hanging
+function hangingNode() {
+    let tmp = {};
+    for (let i = 1; i <= n; i++)
+        tmp[i] = 0;
+    graphs.forEach(edge => {
+        if (edge[0] == edge[1])
+            tmp[edge[0]]++;    
+        else {
+            tmp[edge[0]]++;
+            tmp[edge[1]]++;
+        }
+    });
+    let arr = [];
+    for (const key in tmp)
+        if (tmp[key] == 1)
+            arr.push(key);
+    return `Hanging nodes: ${arr}\n\r`;
+};
+
+// Check if node is isolated
+function isolatedNode() {
+    let tmp = {};
+    for (let i = 1; i <= n; i++)
+        tmp[i] = 0;
+    graphs.forEach(edge => {
+        tmp[edge[0]]++;
+        tmp[edge[1]]++;
+    });
+    let arr = [];
+    for (const key in tmp)
+        if (tmp[key] == 0)
+            arr.push(key);
+    return `Isolated nodes: ${arr}\n\r`;
+};
+
+// All alert for the second lab 
+function doAlert() {
+    let str = calcDegree();
+    str += ifRegular();
+    str += hangingNode();
+    str += isolatedNode();
+    swal(str);
+    // alert(str);
+};
+ 
 
 // Main part
 setPoints(n);
@@ -558,4 +661,5 @@ for (const el of graphs)
         drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
     else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
 drawCircles(n, coords);
-showResult(array)
+doAlert();
+showResult(array);
