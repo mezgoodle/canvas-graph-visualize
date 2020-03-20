@@ -19,53 +19,21 @@ const
     colors = ['black', 'grey', 'brown', 'red', 'coral', 'chocolate', 'goldenrod', 'olive', 'yellow', 'lawngreen', 'darkgreen', 'teal', 'dodgerblue', 'navy', 'indigo', 'purple', 'crimson'],
 	
 	array = [
-[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, ],
-[0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, ],
-[1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, ],
-[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, ],
-[0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, ],
-[0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, ],
-[0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, ],
-[1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, ],
-[1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, ],
-[0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, ],
-[0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, ],
+[0, 1, 0, 1, 0],
+[0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0],
+[0, 0, 1, 0, 1],
+[0, 1, 0, 0, 0],
 	],
 
     graphs = [
-[1,3],
-[1,11],
-[2,8],
-[2,9],
-[3,1],
-[3,4],
-[3,9],
-[3,11],
-[4,9],
-[4,10],
-[5,5],
-[5,6],
-[5,11],
-[6,4],
-[6,7],
-[7,2],
-[7,3],
-[7,4],
-[7,5],
-[7,6],
-[8,1],
-[8,5],
-[9,1],
-[9,3],
-[9,11],
-[10,2],
-[10,3],
-[10,9],
-[10,10],
-[11,3],
-[11,4],
-[11,8],
-[11,10],
+[1, 2],
+[1, 4],
+[2, 5],
+[3, 1],
+[4, 3],
+[4, 5],
+[5, 2],
     ],
 
     coords = {
@@ -525,8 +493,8 @@ function MatrixPow(n,A) {
 	SearchWays(array);
 	console.log("Reachability matrix");
 	console.log(ReachabilityMatrix(array));
-	console.log(StrongConnectivity(array));
 	console.log(StrongComponents(array));
+	console.log(StrongConnectivity(array));
  };
  
 //Calсulating degrees
