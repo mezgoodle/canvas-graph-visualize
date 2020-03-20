@@ -439,13 +439,20 @@ function StrongConnectivity(array) {
 		for(let j = 0; j < matrix.length; j++)
 				matrix[i][j] = ReachabilityMatrix(array)[i][j] * TransMatrix(ReachabilityMatrix(array))[i][j];
 	console.log("Connectivity matrix");
-	console.log(matrix);
+	return matrix;
 };
 
 // Components of strong connectivity
 function StrongComponents(array) {
-	let matrix = ReachabilityMatrix(array);
-	matrix = MultiplyMatrix(matrix, matrix);
+	let result = {};
+	const matrix = (StrongConnectivity(array));
+	for(let i = 0; i < matrix.length; i++)
+		if(result[matrix[i][i]] !== undefined) {
+			let tmp = ...result[matrix[i][i]];
+			tmp.push(i);
+			result[matrix[i][i]] = [tmp];
+		}
+		else result[matrix[i][i]] = [i];
 };
 
 // Transponate matrix
