@@ -1,7 +1,7 @@
 const
     canv = document.getElementById('canvas'),
     ctx  = canv.getContext('2d'),
-    n = 11;
+    n = 5;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
     ctx.lineWidth = 1,
@@ -409,9 +409,9 @@ function SearchWays(array) {
 // Reachability matrix
 function ReachabilityMatrix(array) {
 	// Creation unit matrix
-	let unitMatrix = new Array(11);
+	let unitMatrix = new Array(n);
 	for(let i = 0; i < unitMatrix.length; i++)
-		unitMatrix[i] = new Array(11);
+		unitMatrix[i] = new Array(n);
 	for(let i = 0; i < array.length; i++)
 		for(let j = 0; j < array.length; j++)
 			if(i === j) unitMatrix[i][j] = 1;
@@ -434,7 +434,7 @@ function ReachabilityMatrix(array) {
 
 // A matrix of strong connectivity
 function StrongConnectivity(array) {
-	const matrix = MultiplyMatrix(array, TransMatrix(array));
+	const matrix = MultiplyMatrix(ReachabilityMatrix(array), TransMatrix(ReachabilityMatrix(array)));
 	console.log("Connectivity matrix");
 	return matrix;
 }
