@@ -1,7 +1,7 @@
 const
     canv = document.getElementById('canvas'),
     ctx  = canv.getContext('2d'),
-    n = 11;
+    n = 5;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
     ctx.lineWidth = 1,
