@@ -450,8 +450,13 @@ function StrongComponents(array) {
 			result[matrix[i][i]].push(i+1);
 		}
 	else result[matrix[i][i]] = [i+1];
-	console.log("Strong components");
-	return result;
+    console.log("Strong components");
+    let calc = 0;
+    for (const el in result)
+        if (result.hasOwnProperty(el))
+            calc++;
+    
+	return [result, calc];
 };
 
 // Transponate matrix
@@ -502,7 +507,8 @@ function MatrixPow(n,A) {
 	SearchWays(array);
 	console.log("Reachability matrix");
 	console.log(ReachabilityMatrix(array));
-	console.log(StrongComponents(array));
+    console.log(StrongComponents(array)[0]);
+    console.log(StrongComponents(array)[1]);
 	console.log("Connectivity matrix");
 	console.log(StrongConnectivity(array));
  };
