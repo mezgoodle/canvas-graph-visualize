@@ -1,6 +1,8 @@
 # Graphs
 My labs for discrete structures in KPI
 
+![Jekyll site CI](https://github.com/mezgoodle/canvas-graph-visualize/workflows/Jekyll%20site%20CI/badge.svg)
+
 ## Installation
 You can just [download](https://github.com/mezgoodle/canvas-graph-visualize/archive/master.zip) this code like zip archive, then unzip and use.
 
