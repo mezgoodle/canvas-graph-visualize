@@ -1,4 +1,5 @@
 const
+    btn = document.getElementById("btn"),
     canv = document.getElementById('canvas'),
     ctx  = canv.getContext('2d'),
     n = 5;
@@ -57,6 +58,8 @@ const
     used_coord = {
         // [i]: 0
     };
+
+btn.addEventListener("click", CG);
 
 // Calculating rows
 function calcRows(n) {
@@ -561,3 +564,14 @@ for (const el of graphs)
 drawCircles(n, coords);
 doAlert();
 showResult(array);
+
+function CG() {
+    
+    ctx.clearRect(0,0, canv.width, canv.height);
+    // setPoints(n);
+    // for (const el of graphs)
+    //     if (el[0] === el[1])
+    //         drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
+    //     else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
+    // drawCircles(n, coords);
+}
