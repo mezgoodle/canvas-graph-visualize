@@ -550,7 +550,7 @@ function calcDegree() {
 // All alert for the second lab 
 function doAlert() {
     let str = "Degress:\n\r" + calcDegree();
-	str += "All other results look in the console(F12)";
+    str += "All other results look in the console(F12)\n\r" + "Also you can press button under the graph to see condensation graph";
     swal(str);
 };
  
