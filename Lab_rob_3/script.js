@@ -20,21 +20,22 @@ const
     colors = ['black', 'grey', 'brown', 'red', 'coral', 'chocolate', 'goldenrod', 'olive', 'yellow', 'lawngreen', 'darkgreen', 'teal', 'dodgerblue', 'navy', 'indigo', 'purple', 'crimson'],
 	
 	array = [
-[0, 1, 0, 1, 0],
-[0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0],
-[0, 0, 1, 0, 1],
-[0, 1, 0, 0, 0],
+        [0,1,0,1,0],
+        [0,0,0,0,1],
+        [1,0,0,0,0],
+        [1,0,1,0,1],
+        [0,1,0,0,0],
 	],
 
     graphs = [
-        [1, 2],
-        [1, 4],
-        [2, 5],
-        [3, 1],
-        [4, 3],
-        [4, 5],
-        [5, 2],
+   [1,2],
+   [1,4],
+   [2,5],
+   [3,1],
+   [4,1],
+   [4,3],
+   [4,5],
+   [5,2],
     ],
 
     coords = {
@@ -62,13 +63,50 @@ const
 btn.addEventListener("click", CG);
 
 function CG() {
+    const array = [
+[0,1,0,1,0],
+[0,0,0,0,1],
+[1,0,0,0,0],
+[1,0,1,0,1],
+[0,1,0,0,0],
+            ];
     ctx.clearRect(0,0, canv.width, canv.height);
     const n = StrongComponents(array)[1];
-    setPoints(n);
+    const elements = StrongComponents(array)[0];
+    let elements1 = [];
+    let elements2 = {};
     let graph = [];
+    let i = 1;
+    for (const key in elements) {
+        if (elements.hasOwnProperty(key)) {
+            elements1[i] = elements[key];
+            i++;
+        }
+    }
+    for (let i = 1; i < elements1.length; i++) {
+        for (let k = 0; k < elements1[i].length; k++) {
+            elements2[elements1[i][k]] = i;
+        }
+    }
+    i = 0;
+    for (const key in elements2) {
+        if (elements2.hasOwnProperty(key)) {
+            for (const key1 in elements2) {
+                if (elements2[key] !== elements2[key1]) {
+                    if (array[key-1][key1-1] == 1) {
+                        graph[i] = [elements2[key1], elements2[key]];
+                        i++;
+                    }
+                }
+            }
+        }
+    }
+    setPoints(n);
     for (const el of graph)
-        if (el[0] === el[1])
-            drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
+        if (el[0] === el[1]){
+            console.log(el)
+            console.log(coords);
+            drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);}
         else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
     drawCircles(n, coords);
 }
