@@ -28,13 +28,8 @@ const
 	],
 
     graphs = [
-[1, 2],
-[1, 4],
-[2, 5],
-[3, 1],
-[4, 3],
-[4, 5],
-[5, 2],
+        [1, 1],
+        [1, 2],
     ],
 
     coords = {
@@ -61,19 +56,28 @@ const
 
 btn.addEventListener("click", CG);
 
+function CG() {
+    ctx.clearRect(0,0, canv.width, canv.height);
+    const n = StrongComponents(array)[1];
+    setPoints(n);
+    for (const el of graphs)
+        if (el[0] === el[1])
+            drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
+        else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
+    drawCircles(n, coords);
+}
+
 // Calculating rows
 function calcRows(n) {
     let i = 0;
-    if (n > 0 ) {
-        while (n !== 0) {
-            i++;
-            circles_in_row[i]++;
-            n--;
-            if (i === 4) {
-                i = 0;  
-            };
+    while (n !== 0) {
+        i++;
+        circles_in_row[i]++;
+        n--;
+        if (i === 4) {
+            i = 0;  
         };
-    }
+    };
 }
 
 // Drawning corners
@@ -140,25 +144,27 @@ function normalize(n) {
 
 // Set points
 function setPoints(n) {
-    calcRows(n-4);
     setCorners(f_x, f_y, length_x, length_y);
-    let left_n = n-4, i = 1;
-    while (left_n > 0) {
-        coords[n-left_n] = [f_x + add_in_row * i, f_y];
-        used_coord[n-left_n] = 0;
-        left_n--;
-        coords[n-left_n] = [f_x + length_x, f_y + add_in_row * i];
-        used_coord[n-left_n] = 0;
-        left_n--;
-        coords[n-left_n] = [f_x + length_x - add_in_row * i, f_y + length_y];
-        used_coord[n-left_n] = 0;
-        left_n--;
-        coords[n-left_n] = [f_x, f_y + add_in_row * i];
-        used_coord[n-left_n] = 0;
-        left_n--;
-        i++;
-    };
-    normalize(n);
+    if (n > 4) {
+        calcRows(n-4);   
+        let left_n = n-4, i = 1;
+        while (left_n > 0) {
+            coords[n-left_n] = [f_x + add_in_row * i, f_y];
+            used_coord[n-left_n] = 0;
+            left_n--;
+            coords[n-left_n] = [f_x + length_x, f_y + add_in_row * i];
+            used_coord[n-left_n] = 0;
+            left_n--;
+            coords[n-left_n] = [f_x + length_x - add_in_row * i, f_y + length_y];
+            used_coord[n-left_n] = 0;
+            left_n--;
+            coords[n-left_n] = [f_x, f_y + add_in_row * i];
+            used_coord[n-left_n] = 0;
+            left_n--;
+            i++;
+        };
+        normalize(n);
+    }
 };
 
 // Draw nodes
@@ -565,32 +571,3 @@ for (const el of graphs)
 drawCircles(n, coords);
 doAlert();
 showResult(array);
-
-function CG() {
-    ctx.clearRect(0,0, canv.width, canv.height);
-    const n = StrongComponents(array)[1],
-    coords = {},
-
-    circles_in_row = {
-        1: 0,
-        2: 0,
-        3: 0,
-        4: 0,
-    },
-
-    indexes_in_row = [
-        [],
-        [],
-        [],
-        [],
-    ],
-
-    used_coord = {};
-    alert(n);
-    setPoints(n);
-    for (const el of graphs)
-        if (el[0] === el[1])
-            drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
-        else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
-    // drawCircles(n, coords);
-}
