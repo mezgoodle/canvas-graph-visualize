@@ -28,8 +28,13 @@ const
 	],
 
     graphs = [
-        [1, 1],
         [1, 2],
+        [1, 4],
+        [2, 5],
+        [3, 1],
+        [4, 3],
+        [4, 5],
+        [5, 2],
     ],
 
     coords = {
@@ -60,7 +65,8 @@ function CG() {
     ctx.clearRect(0,0, canv.width, canv.height);
     const n = StrongComponents(array)[1];
     setPoints(n);
-    for (const el of graphs)
+    let graph = [];
+    for (const el of graph)
         if (el[0] === el[1])
             drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
         else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
