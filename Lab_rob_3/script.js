@@ -64,14 +64,16 @@ btn.addEventListener("click", CG);
 // Calculating rows
 function calcRows(n) {
     let i = 0;
-    while (n !== 0) {
-        i++;
-        circles_in_row[i]++;
-        n--;
-        if (i === 4) {
-            i = 0;  
+    if (n > 0 ) {
+        while (n !== 0) {
+            i++;
+            circles_in_row[i]++;
+            n--;
+            if (i === 4) {
+                i = 0;  
+            };
         };
-    };
+    }
 }
 
 // Drawning corners
@@ -511,7 +513,6 @@ function MatrixPow(n,A) {
 	console.log("Reachability matrix");
 	console.log(ReachabilityMatrix(array));
     console.log(StrongComponents(array)[0]);
-    console.log(StrongComponents(array)[1]);
 	console.log("Connectivity matrix");
 	console.log(StrongConnectivity(array));
  };
@@ -566,12 +567,30 @@ doAlert();
 showResult(array);
 
 function CG() {
-    
     ctx.clearRect(0,0, canv.width, canv.height);
-    // setPoints(n);
-    // for (const el of graphs)
-    //     if (el[0] === el[1])
-    //         drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
-    //     else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
+    const n = StrongComponents(array)[1],
+    coords = {},
+
+    circles_in_row = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+    },
+
+    indexes_in_row = [
+        [],
+        [],
+        [],
+        [],
+    ],
+
+    used_coord = {};
+    alert(n);
+    setPoints(n);
+    for (const el of graphs)
+        if (el[0] === el[1])
+            drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
+        else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
     // drawCircles(n, coords);
 }
