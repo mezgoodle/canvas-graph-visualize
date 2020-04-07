@@ -20,22 +20,20 @@ const
     colors = ['black', 'grey', 'brown', 'red', 'coral', 'chocolate', 'goldenrod', 'olive', 'yellow', 'lawngreen', 'darkgreen', 'teal', 'dodgerblue', 'navy', 'indigo', 'purple', 'crimson'],
 	
 	array = [
-        [0,1,0,1,0],
-        [0,0,0,0,1],
-        [1,0,0,0,0],
-        [1,0,1,0,1],
+        [1,1,0,0,0],
         [0,1,0,0,0],
+        [0,0,1,0,0],
+        [0,0,0,1,0],
+        [0,0,0,0,1],
 	],
 
     graphs = [
+   [1,1],
    [1,2],
-   [1,4],
-   [2,5],
-   [3,1],
-   [4,1],
-   [4,3],
-   [4,5],
-   [5,2],
+   [2,2],
+   [3,3],
+   [4,4],
+   [5,5],
     ],
 
     coords = {
@@ -64,11 +62,11 @@ btn.addEventListener("click", CG);
 
 function CG() {
     const array = [
-[0,1,0,1,0],
-[0,0,0,0,1],
-[1,0,0,0,0],
-[1,0,1,0,1],
-[0,1,0,0,0],
+        [1,0,0,0,0],
+        [0,1,0,0,0],
+        [0,0,1,0,0],
+        [0,0,0,1,0],
+        [0,0,0,0,1],
             ];
     ctx.clearRect(0,0, canv.width, canv.height);
     const n = StrongComponents(array)[1];
