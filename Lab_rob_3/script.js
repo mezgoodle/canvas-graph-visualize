@@ -103,14 +103,15 @@ function CG() {
         [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, ],
         [1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, ],
             ];
+    // Clear page for the new graph
     ctx.clearRect(0,0, canv.width, canv.height);
     const n = StrongComponents(array)[1];
     const elements = StrongComponents(array)[0];
-    let elements1 = [];
     let adjacencyMatrix = new Array(n);
     for (let i = 0; i < adjacencyMatrix.length; i++) {
         adjacencyMatrix[i] = new Array(2);
     }
+    let elements1 = [];
     let elements2 = {};
     let graph = [];
     let i = 1;
@@ -131,7 +132,6 @@ function CG() {
                         graph[i] = [elements2[key], elements2[key1]];
                         i++;
                     }
-    setPoints(n);
     for (let i = 0; i < graph.length; i++)
         adjacencyMatrix[graph[i][0]-1][graph[i][1]-1] = 1;
     for (let i = 0; i < adjacencyMatrix.length; i++)
@@ -140,6 +140,8 @@ function CG() {
                 adjacencyMatrix[i][j] = 0;
     console.log("Adjacency matrix");
     console.log(adjacencyMatrix);
+    // Main part
+    setPoints(n);
     for (const el of graph)
         if (el[0] === el[1])
             drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
@@ -644,7 +646,6 @@ function doAlert() {
     str += "All other results look in the console(F12)\n\r" + "Also you can press button under the graph to see condensation graph";
     swal(str);
 };
- 
 
 // Main part
 setPoints(n);
