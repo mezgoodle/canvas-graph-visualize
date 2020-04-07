@@ -43,8 +43,12 @@ namespace matrix
             double[,] matrix_oriented = new double[100, 100];
 
             for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                    matrix_oriented[i,j] = Math.Floor((Convert.ToDouble(rand.Next(200))/100) * (1.0 - n3 * 0.005 - n4 * 0.005 - 0.27));
+                for (int j = 0; j < n; j++) {
+                    if (i == j)
+                    {
+                        matrix_oriented[i,j] = 0;
+                    } else matrix_oriented[i,j] = Math.Floor((Convert.ToDouble(rand.Next(200))/100) * (1.0 - n3 * 0.005 - n4 * 0.005 - 0.27));
+                }
 
             WriteArray("Oriented", matrix_oriented);
             WriteGraph("Oriented", matrix_oriented);
