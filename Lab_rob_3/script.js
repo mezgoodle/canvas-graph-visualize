@@ -2,7 +2,7 @@ const
     btn = document.getElementById("btn"),
     canv = document.getElementById('canvas'),
     ctx  = canv.getContext('2d'),
-    n = 5;
+    n = 11;
     canv.width = self.innerWidth,
     canv.height = self.innerHeight;
     ctx.lineWidth = 1,
