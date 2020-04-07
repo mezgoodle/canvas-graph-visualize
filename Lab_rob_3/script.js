@@ -480,7 +480,9 @@ function SearchWays(array) {
 				for(let k = 0; k < mult_array.length; k++)
 					if(array[i][k] !== 0)
 						if(array[k][j] !== 0) 
-							result_array.push([i+1,k+1,j+1]);
+                            result_array.push([i+1,k+1,j+1]);
+    console.log("Ways length 2 matrix");
+    console.log(mult_array);
 	console.log("Ways length 2");
 	console.log(result_array);
 	result_array = [];
@@ -492,7 +494,9 @@ function SearchWays(array) {
 						for(let m = 0; m < cube_array.length; m++)
 							if(array[k][m] !== 0)
 								if(array[m][j] !== 0) 
-									result_array.push([i+1,k+1,m+1,j+1]);
+                                    result_array.push([i+1,k+1,m+1,j+1]);
+    console.log("Ways length 3 matrix");
+	console.log(cube_array);
 	console.log("Ways length 3");
 	console.log(result_array);
  };
