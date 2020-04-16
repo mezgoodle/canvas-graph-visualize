@@ -437,7 +437,8 @@ function DFS(array, n) {
                 break;
             }
         if (point) break;
-    }
+    };
+    console.log(point);
     // DFS itself
     while (!(visitedPeaks.includes(point)) || (stack.length !== null)) {
         if (!(visitedPeaks.includes(point))) {
