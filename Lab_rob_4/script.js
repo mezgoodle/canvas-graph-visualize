@@ -1,10 +1,10 @@
 const
     canv = document.getElementById('canvas'),
-    ctx  = canv.getContext('2d'),
+    ctx = canv.getContext('2d'),
     n = 11;
-    canv.width = self.innerWidth,
+canv.width = self.innerWidth,
     canv.height = self.innerHeight;
-    ctx.lineWidth = 1,
+ctx.lineWidth = 1,
     arrow_color = 'black',
     length_x = 1300,
     length_y = 500,
@@ -19,39 +19,49 @@ const
     colors = ['black', 'grey', 'brown', 'red', 'coral', 'chocolate', 'goldenrod', 'olive', 'yellow', 'lawngreen', 'darkgreen', 'teal', 'dodgerblue', 'navy', 'indigo', 'purple', 'crimson'],
 
     graphs = [
-        [1,3],
-        [1,11],
-        [2,8],
-        [2,9],
-        [3,1],
-        [3,4],
-        [3,9],
-        [3,11],
-        [4,9],
-        [4,10],
-        [5,5],
-        [5,6],
-        [5,11],
-        [6,4],
-        [6,7],
-        [7,2],
-        [7,3],
-        [7,4],
-        [7,5],
-        [7,6],
-        [8,1],
-        [8,5],
-        [9,1],
-        [9,3],  
-        [9,11],
-        [10,2],
-        [10,3],
-        [10,9],
-        [10,10],
-        [11,3],
-        [11,4],
-        [11,8],
-        [11,10],
+        [1, 3],
+        [1, 11],
+        [2, 8],
+        [2, 9],
+        [3, 1],
+        [3, 4],
+        [3, 7],
+        [3, 9],
+        [3, 11],
+        [4, 4],
+        [4, 9],
+        [4, 10],
+        [5, 5],
+        [5, 6],
+        [5, 8],
+        [5, 11],
+        [6, 4],
+        [6, 7],
+        [7, 2],
+        [7, 3],
+        [7, 4],
+        [7, 5],
+        [7, 6],
+        [7, 9],
+        [8, 1],
+        [8, 2],
+        [8, 5],
+        [8, 6],
+        [8, 7],
+        [9, 1],
+        [9, 3],
+        [9, 5],
+        [9, 11],
+        [10, 2],
+        [10, 3],
+        [10, 9],
+        [10, 10],
+        [11, 1],
+        [11, 2],
+        [11, 3],
+        [11, 4],
+        [11, 8],
+        [11, 10],
     ],
 
     coords = {
@@ -84,7 +94,7 @@ function calcRows(n) {
         circles_in_row[i]++;
         n--;
         if (i === 4) {
-            i = 0;  
+            i = 0;
         };
     };
 }
@@ -101,21 +111,21 @@ function setCorners(x, y, add_x, add_y) {
 
 // Normalize coords in row
 function normalizeCoords(f_row, s_row, t_row, fo_row) {
-    let space = length_x / (f_row+1);
+    let space = length_x / (f_row + 1);
     for (let index = 1; index <= f_row; index++) {
-        coords[indexes_in_row[0][index-1]][0] = f_x + space * index;
+        coords[indexes_in_row[0][index - 1]][0] = f_x + space * index;
     };
-    space = length_y / (s_row+1);
+    space = length_y / (s_row + 1);
     for (let index = 1; index <= s_row; index++) {
-        coords[indexes_in_row[1][index-1]][1] = f_y + space * index;
+        coords[indexes_in_row[1][index - 1]][1] = f_y + space * index;
     };
-    space = length_x / (t_row+1);
+    space = length_x / (t_row + 1);
     for (let index = 1; index <= t_row; index++) {
-        coords[indexes_in_row[2][index-1]][0] = f_x + space * index;
+        coords[indexes_in_row[2][index - 1]][0] = f_x + space * index;
     };
-    space = length_y / (fo_row+1);
+    space = length_y / (fo_row + 1);
     for (let index = 1; index <= fo_row; index++) {
-        coords[indexes_in_row[3][index-1]][1] = f_y + space * index;
+        coords[indexes_in_row[3][index - 1]][1] = f_y + space * index;
     };
 };
 
@@ -128,7 +138,7 @@ function setIndex(i, j) {
 
 // Normalize circles in rows
 function normalize(n) {
-    let 
+    let
         first_row = second_row = third_row = fourth_row = 0;
     for (let i = 4; i < n; i++) {
         if ((f_x < coords[i][0] < (f_x + length_x)) && (coords[i][1] === f_y)) {
@@ -153,21 +163,22 @@ function normalize(n) {
 
 // Set points
 function setPoints(n) {
-    calcRows(n-4);
+    calcRows(n - 4);
     setCorners(f_x, f_y, length_x, length_y);
-    let left_n = n-4, i = 1;
+    let left_n = n - 4,
+        i = 1;
     while (left_n > 0) {
-        coords[n-left_n] = [f_x + add_in_row * i, f_y];
-        used_coord[n-left_n] = 0;
+        coords[n - left_n] = [f_x + add_in_row * i, f_y];
+        used_coord[n - left_n] = 0;
         left_n--;
-        coords[n-left_n] = [f_x + length_x, f_y + add_in_row * i];
-        used_coord[n-left_n] = 0;
+        coords[n - left_n] = [f_x + length_x, f_y + add_in_row * i];
+        used_coord[n - left_n] = 0;
         left_n--;
-        coords[n-left_n] = [f_x + length_x - add_in_row * i, f_y + length_y];
-        used_coord[n-left_n] = 0;
+        coords[n - left_n] = [f_x + length_x - add_in_row * i, f_y + length_y];
+        used_coord[n - left_n] = 0;
         left_n--;
-        coords[n-left_n] = [f_x, f_y + add_in_row * i];
-        used_coord[n-left_n] = 0;
+        coords[n - left_n] = [f_x, f_y + add_in_row * i];
+        used_coord[n - left_n] = 0;
         left_n--;
         i++;
     };
@@ -183,8 +194,8 @@ function drawCircles(n, coords) {
         ctx.fill();
         // Fill text
         ctx.fillStyle = 'white';
-        ctx.fillText(i+1, coords[i][0], coords[i][1]);
-    }    
+        ctx.fillText(i + 1, coords[i][0], coords[i][1]);
+    }
 };
 
 // Draw single edge
@@ -193,32 +204,32 @@ function drawNoose(from_x, from_y, from_n) {
     ctx.strokeStyle = arrow_color;
 
     if (from_x === f_x) {
-        ctx.moveTo(from_x-radius, from_y);
-        ctx.lineTo(from_x-radius-10, from_y-radius);
-        ctx.lineTo(from_x-radius-10, from_y+radius);
-        ctx.lineTo(from_x-radius, from_y);
+        ctx.moveTo(from_x - radius, from_y);
+        ctx.lineTo(from_x - radius - 10, from_y - radius);
+        ctx.lineTo(from_x - radius - 10, from_y + radius);
+        ctx.lineTo(from_x - radius, from_y);
         ctx.stroke();
     } else if (from_y === f_y) {
-        ctx.moveTo(from_x, from_y-radius);
-        ctx.lineTo(from_x+radius, from_y-radius-10);
-        ctx.lineTo(from_x+-radius, from_y-radius-10);
-        ctx.lineTo(from_x, from_y-radius);
+        ctx.moveTo(from_x, from_y - radius);
+        ctx.lineTo(from_x + radius, from_y - radius - 10);
+        ctx.lineTo(from_x + -radius, from_y - radius - 10);
+        ctx.lineTo(from_x, from_y - radius);
         ctx.stroke();
-    } else if (from_x === f_x+length_x) {
-        ctx.moveTo(from_x+radius, from_y);
-        ctx.lineTo(from_x+radius+10, from_y-radius);
-        ctx.lineTo(from_x+radius+10, from_y+radius);
-        ctx.lineTo(from_x+radius, from_y);
+    } else if (from_x === f_x + length_x) {
+        ctx.moveTo(from_x + radius, from_y);
+        ctx.lineTo(from_x + radius + 10, from_y - radius);
+        ctx.lineTo(from_x + radius + 10, from_y + radius);
+        ctx.lineTo(from_x + radius, from_y);
         ctx.stroke();
-    } else if (from_y === f_y+length_y) {
-        ctx.moveTo(from_x, from_y+radius);
-        ctx.lineTo(from_x-radius, from_y+radius+10);
-        ctx.lineTo(from_x+radius, from_y+radius+10);
-        ctx.lineTo(from_x, from_y+radius);
+    } else if (from_y === f_y + length_y) {
+        ctx.moveTo(from_x, from_y + radius);
+        ctx.lineTo(from_x - radius, from_y + radius + 10);
+        ctx.lineTo(from_x + radius, from_y + radius + 10);
+        ctx.lineTo(from_x, from_y + radius);
         ctx.stroke();
     }
-    console.log(from_n+1, from_n+1);
-    console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);    
+    console.log(from_n + 1, from_n + 1);
+    console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
 };
 
 // Find intersection of edge and node
@@ -232,20 +243,20 @@ function findCircleLineIntersections(r, h, k, m, n) {
     // n: y-intercept
 
     // get a, b, c values
-    let a = 1 + m*m;
+    let a = 1 + m * m;
     let b = -h * 2 + (m * (n - k)) * 2;
-    let c = h*h + (n - k)*(n - k) - r*r;
+    let c = h * h + (n - k) * (n - k) - r * r;
 
     // get discriminant
-    let d = b*b - 4 * a * c;
+    let d = b * b - 4 * a * c;
     if (d >= 0) {
         // insert into quadratic formula
         let intersections = [
-            (-b + Math.sqrt(b*b - 4 * a * c)) / (2 * a),
-            (-b - Math.sqrt(b*b - 4 * a * c)) / (2 * a)
+            (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a),
+            (-b - Math.sqrt(b * b - 4 * a * c)) / (2 * a)
         ];
         if (d == 0)
-            // only 1 intersection
+        // only 1 intersection
             return [intersections[0]];
         return intersections;
     }
@@ -254,7 +265,7 @@ function findCircleLineIntersections(r, h, k, m, n) {
 };
 
 // Draw edge
-function drawArrow(to_x, to_y, from_x, from_y, radius=10) {
+function drawArrow(to_x, to_y, from_x, from_y, radius = 10) {
     ctx.fillStyle = 'red';
     const x_center = to_x;
     const y_center = to_y;
@@ -291,20 +302,20 @@ function returnXY(center_x, center_y, t_x, t_y, circle_x, circle_y) {
     if (x_ar.length === 0) {
         x = center_x;
         if (circle_y > center_y)
-            y = circle_y - radius - 10;       
+            y = circle_y - radius - 10;
         else y = circle_y + radius + 10;
     } else
-        if (Math.abs(x_ar[0] - center_x) < Math.abs(x_ar[1] - center_x))
-            x = x_ar[0];
-        else x = x_ar[1];
-        y = k * (x - center_x) + center_y;
+    if (Math.abs(x_ar[0] - center_x) < Math.abs(x_ar[1] - center_x))
+        x = x_ar[0];
+    else x = x_ar[1];
+    y = k * (x - center_x) + center_y;
     return [x, y];
 };
 
 // Check if nodes have another node between
-function checking(coords, f_x, f_y, t_x, t_y) {    
+function checking(coords, f_x, f_y, t_x, t_y) {
     for (let i = 0; i < n; i++)
-        if ((coords[i][0] != f_x && coords[i][1] == f_y && coords[i][0] != t_x && coords[i][1] == t_y) || (coords[i][0] == f_x && coords[i][1] != f_y  && coords[i][0] == t_x && coords[i][1] != t_y))
+        if ((coords[i][0] != f_x && coords[i][1] == f_y && coords[i][0] != t_x && coords[i][1] == t_y) || (coords[i][0] == f_x && coords[i][1] != f_y && coords[i][0] == t_x && coords[i][1] != t_y))
             return true;
     return false;
 };
@@ -316,7 +327,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
         circle_y = t_y;
 
     ctx.beginPath();
-    ctx.strokeStyle = colors[f_n];  
+    ctx.strokeStyle = colors[f_n];
     ctx.moveTo(f_x, f_y);
     if (checking(coords, f_x, f_y, t_x, t_y)) {
         if (f_x == t_x) {
@@ -325,7 +336,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n+1, t_n+1);
+                console.log(f_n + 1, t_n + 1);
                 console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
@@ -335,7 +346,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n+1, t_n+1);
+                console.log(f_n + 1, t_n + 1);
                 console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
@@ -347,7 +358,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n+1, t_n+1);
+                console.log(f_n + 1, t_n + 1);
                 console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
@@ -358,7 +369,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n+1, t_n+1);
+                console.log(f_n + 1, t_n + 1);
                 console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
@@ -372,43 +383,43 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n+1, t_n+1);
+                console.log(f_n + 1, t_n + 1);
                 console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
             } else {
-            ctx.lineTo((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
-            x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
-            y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];    
-            ctx.lineTo(x, y);
-            console.log(f_n+1, t_n+1);
-            console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-            ctx.stroke();
-            if (oriented)
-                drawArrow(x, y, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
+                ctx.lineTo((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
+                x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
+                y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
+                ctx.lineTo(x, y);
+                console.log(f_n + 1, t_n + 1);
+                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
+                ctx.stroke();
+                if (oriented)
+                    drawArrow(x, y, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
             }
         } else {
             if (f_y - radius < (f_y + t_y) / 2 - radius * 2 < f_y + radius) {
                 ctx.lineTo((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
                 x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
-                y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];    
+                y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n+1, t_n+1);
+                console.log(f_n + 1, t_n + 1);
                 console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
             } else {
-            ctx.lineTo((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
-            x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
-            y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
-            ctx.lineTo(x, y);
-            console.log(f_n+1, t_n+1);
-            console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
-            ctx.stroke();
-            if (oriented)
-                drawArrow(x, y, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
+                ctx.lineTo((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
+                x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
+                y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
+                ctx.lineTo(x, y);
+                console.log(f_n + 1, t_n + 1);
+                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
+                ctx.stroke();
+                if (oriented)
+                    drawArrow(x, y, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
             }
         }
     }
@@ -418,6 +429,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 setPoints(n);
 for (const el of graphs)
     if (el[0] === el[1])
-        drawNoose(coords[el[0]-1][0], coords[el[0]-1][1], el[0]-1);
-    else drawEdge(coords[el[0]-1][0], coords[el[0]-1][1], coords[el[1]-1][0], coords[el[1]-1][1], el[0]-1, el[1]-1, coords); 
+        drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
+    else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
 drawCircles(n, coords);
