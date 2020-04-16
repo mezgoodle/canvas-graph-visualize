@@ -453,6 +453,7 @@ function DFS(array, n) {
             crawlTree.push(point);
         }
     };
+    console.log(crawlTree);
 };
 
 // Main part
