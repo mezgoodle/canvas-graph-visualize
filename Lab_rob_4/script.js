@@ -219,16 +219,29 @@ function sleep(ms) {
 
 // Draw nodes
 async function drawCircles2(n, coords, matchMatrix) {
+    let last_x = 0,
+        last_y = 0,
+        last_n = 0;
     for (let i = 0; i < n; i++) {
-        ctx.fillStyle = colors[1];
         ctx.beginPath();
         for (let j = 0; j < matchMatrix.length; j++)
             if (matchMatrix[j][i] == 1) {
+                ctx.fillStyle = colors[j];
                 ctx.arc(coords[j][0], coords[j][1], radius, angle_start, angle_end);
                 ctx.fill();
                 // Fill text
                 ctx.fillStyle = 'white';
                 ctx.fillText(j + 1, coords[j][0], coords[j][1]);
+                if (last_x && last_y) {
+                    drawEdge(last_x, last_y, coords[j][0], coords[j][1], last_n, j, coords);
+                    last_x = coords[j][0];
+                    last_y = coords[j][1];
+                    last_n = j;
+                } else {
+                    last_x = coords[j][0];
+                    last_y = coords[j][1];
+                    last_n = j;
+                }
             }
         await sleep(1000);
     }
