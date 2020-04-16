@@ -467,7 +467,7 @@ function DFS(array, n) {
     console.log(visitedPeaks);
     console.log("Crawl tree");
     console.log(crawlTree);
-    return (visitedPeaks);
+    return visitedPeaks;
 };
 
 // Recieved numerations
@@ -481,6 +481,19 @@ function numerations(visitedPeaks, n) {
         num_array[visitedPeaks[i]][1] = i + 1;
     console.log("Numeration matrix");
     console.log(num_array);
+    return num_array;
+};
+
+// The matching matrix
+function matchMatrix(numMatrix, n) {
+    let matchMatrix = new Array(n);
+    for (let i = 0; i < matchMatrix.length; i++) {
+        matchMatrix[i] = new Array(n).fill(0);
+    }
+    for (let i = 0; i < numMatrix.length; i++)
+        matchMatrix[numMatrix[i][0] - 1][numMatrix[i][1] - 1] = 1;
+    console.log("Matching matrix");
+    console.log(matchMatrix);
 };
 
 // All alert for the fourth lab 
@@ -498,6 +511,7 @@ for (const el of graphs)
 drawCircles(n, coords);
 setTimeout(() => {
     const visitedPeaks = DFS(array, n);
-    numerations(visitedPeaks, n);
+    const num_array = numerations(visitedPeaks, n);
+    matchMatrix(num_array, n);
     // doAlert(crawlTree);
 }, 1000);
