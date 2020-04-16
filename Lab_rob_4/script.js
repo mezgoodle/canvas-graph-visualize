@@ -223,12 +223,13 @@ async function drawCircles2(n, coords, matchMatrix) {
         ctx.fillStyle = colors[1];
         ctx.beginPath();
         for (let j = 0; j < matchMatrix.length; j++)
-            if (matchMatrix[j][i] == 1)
+            if (matchMatrix[j][i] == 1) {
                 ctx.arc(coords[j][0], coords[j][1], radius, angle_start, angle_end);
-        ctx.fill();
-        // Fill text
-        ctx.fillStyle = 'white';
-        ctx.fillText(j + 1, coords[j][0], coords[j][1]);
+                ctx.fill();
+                // Fill text
+                ctx.fillStyle = 'white';
+                ctx.fillText(j + 1, coords[j][0], coords[j][1]);
+            }
         await sleep(1000);
     }
 };
@@ -543,4 +544,4 @@ setTimeout(() => {
     //         drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
     //     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
     // doAlert(crawlTree);
-}, 1000);
+}, 5000);
