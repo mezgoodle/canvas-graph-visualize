@@ -218,11 +218,13 @@ function sleep(ms) {
 };
 
 // Draw nodes
-async function drawCircles2(n, coords) {
+async function drawCircles2(n, coords, matchMatrix) {
     for (let i = 0; i < n; i++) {
         ctx.fillStyle = colors[1];
         ctx.beginPath();
-        ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
+        for (let j = 0; j < matchMatrix.length; j++)
+            if (matchMatrix[j][i] == 1)
+                ctx.arc(coords[j][0], coords[j][1], radius, angle_start, angle_end);
         ctx.fill();
         // Fill text
         ctx.fillStyle = 'white';
@@ -513,6 +515,7 @@ function matchMatrix(numMatrix, n) {
         matchMatrix[numMatrix[i][0] - 1][numMatrix[i][1] - 1] = 1;
     console.log("Matching matrix");
     console.log(matchMatrix);
+    return matchMatrix;
 };
 
 // All alert for the fourth lab 
@@ -533,11 +536,11 @@ setTimeout(() => {
     ctx.clearRect(0, 0, canv.width, canv.height);
     const visitedPeaks = DFS(array, n);
     const num_array = numerations(visitedPeaks, n);
-    matchMatrix(num_array, n);
-    drawCircles2(n, coords);
-    for (const el of graphs)
-        if (el[0] === el[1])
-            drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
-        else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
-        // doAlert(crawlTree);
+    const match_matrix = matchMatrix(num_array, n);
+    drawCircles2(n, coords, match_matrix);
+    // for (const el of graphs)
+    //     if (el[0] === el[1])
+    //         drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
+    //     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
+    // doAlert(crawlTree);
 }, 1000);
