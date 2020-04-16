@@ -212,6 +212,25 @@ function drawCircles(n, coords) {
     }
 };
 
+// Sleep events
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+// Draw nodes
+async function drawCircles2(n, coords) {
+    for (let i = 0; i < n; i++) {
+        ctx.fillStyle = colors[1];
+        ctx.beginPath();
+        ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
+        ctx.fill();
+        // Fill text
+        ctx.fillStyle = 'white';
+        ctx.fillText(i + 1, coords[i][0], coords[i][1]);
+        await sleep(1000);
+    }
+};
+
 // Draw single edge
 function drawNoose(from_x, from_y, from_n) {
     ctx.beginPath();
@@ -510,8 +529,15 @@ for (const el of graphs)
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
 drawCircles(n, coords);
 setTimeout(() => {
+    // Clear page for the new graph
+    ctx.clearRect(0, 0, canv.width, canv.height);
     const visitedPeaks = DFS(array, n);
     const num_array = numerations(visitedPeaks, n);
     matchMatrix(num_array, n);
-    // doAlert(crawlTree);
+    drawCircles2(n, coords);
+    for (const el of graphs)
+        if (el[0] === el[1])
+            drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
+        else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
+        // doAlert(crawlTree);
 }, 1000);
