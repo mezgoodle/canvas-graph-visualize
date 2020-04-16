@@ -221,7 +221,11 @@ function sleep(ms) {
 async function drawCircles2(n, coords, matchMatrix) {
     let last_x = 0,
         last_y = 0,
-        last_n = 0;
+        last_n = 0,
+        adjacencyMatrix = new Array(n);
+    for (let i = 0; i < adjacencyMatrix.length; i++) {
+        adjacencyMatrix[i] = new Array(n).fill(0);
+    }
     for (let i = 0; i < n; i++) {
         ctx.beginPath();
         for (let j = 0; j < matchMatrix.length; j++)
@@ -233,6 +237,7 @@ async function drawCircles2(n, coords, matchMatrix) {
                 ctx.fillStyle = 'white';
                 ctx.fillText(j + 1, coords[j][0], coords[j][1]);
                 if (last_x && last_y) {
+                    adjacencyMatrix[last_n][j] = 1;
                     drawEdge(last_x, last_y, coords[j][0], coords[j][1], last_n, j, coords);
                     last_x = coords[j][0];
                     last_y = coords[j][1];
@@ -245,6 +250,8 @@ async function drawCircles2(n, coords, matchMatrix) {
             }
         await sleep(1000);
     }
+    console.log("Adjacency matrix");
+    console.log(adjacencyMatrix);
 };
 
 // Draw single edge
