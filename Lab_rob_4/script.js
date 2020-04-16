@@ -421,6 +421,10 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
     }
 };
 
+function DFS(array) {
+    console.log(array);
+}
+
 // Main part
 setPoints(n);
 for (const el of graphs)
@@ -429,5 +433,5 @@ for (const el of graphs)
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
 drawCircles(n, coords);
 setTimeout(() => {
-    alert("Test");
+    DFS(array);
 }, 5000);
