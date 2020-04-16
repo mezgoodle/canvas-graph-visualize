@@ -424,14 +424,19 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 function DFS(array, n) {
     // Stack for algorithm
     let stack = [];
+    // Сrawl tree
+    let crawlTree = [];
+    // Start point
+    let start = 0;
     for (let i = 0; i < n; i++) {
-        stack.push(i);
-        console.log(stack)
-    };
-    for (let i = 0; i < n; i++) {
-        stack.pop();
-        console.log(stack);
-    };
+        for (let j = 0; j < n; j++)
+            if (array[i][j] === 1) {
+                start = i + 1;
+                break;
+            }
+        if (start) break;
+    }
+    console.log(start);
 }
 
 // Main part
