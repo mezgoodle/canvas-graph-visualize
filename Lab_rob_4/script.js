@@ -424,11 +424,11 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 function DFS(array, n) {
     // Stack for algorithm
     let stack = [];
-    for (let i = 0; i < n; index++) {
+    for (let i = 0; i < n; i++) {
         stack.push(i);
         console.log(stack)
     };
-    for (let i = 0; i < n; index++) {
+    for (let i = 0; i < n; i++) {
         stack.pop();
         console.log(stack);
     };
