@@ -422,6 +422,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 };
 
 function DFS(array, n) {
+    console.log(array);
     // Stack for algorithm
     let stack = [];
     // Сrawl tree
