@@ -422,7 +422,9 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 };
 
 function DFS(array, n) {
-    // Stack for algorithm
+    // Flag
+    let flag = false
+        // Stack for algorithm
     let stack = [];
     // Сrawl tree
     let crawlTree = [];
@@ -433,30 +435,34 @@ function DFS(array, n) {
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++)
             if (array[i][j] === 1) {
-                point = i + 1;
+                point = i;
+                flag = true;
                 break;
             }
-        if (point) break;
+        if (flag) break;
     };
-    // console.log(point); DEBUG
+    stack.push(point);
+    crawlTree.push(point);
+    visitedPeaks.push(point);
     // DFS itself
     while (visitedPeaks.length < n) {
-        if (!(visitedPeaks.includes(point))) {
-            visitedPeaks.push(point);
-            stack.push(point);
-            crawlTree.push(point)
-        } else {
-            stack.pop();
-            point = stack[stack.length - 1];
+        flag = true;
+        for (let i = 0; i < n; i++)
+            if ((array[point][i] == 1) && (!visitedPeaks.includes(i))) {
+                console.log(i);
+                point = i;
+                stack.push(point);
+                crawlTree.push(point);
+                visitedPeaks.push(point);
+                flag = false;
+                break;
+            }
+        if (flag) {
+            point = stack.pop();
             crawlTree.push(point);
         }
-        for (let i = 0; i < n; i++) {
-            console.log(point);
-            if ((array[point - 1][i] === 1) && (!visitedPeaks.includes(i)))
-                point = i + 1;
-        }
     };
-    console.log(crawlTree);
+    console.log(visitedPeaks, crawlTree);
 };
 
 // Main part
