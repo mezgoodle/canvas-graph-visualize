@@ -445,9 +445,11 @@ function DFS(array, n) {
             visitedPeaks.push(point);
             stack.push(point);
             crawlTree.push(point)
-            for (let i = 0; i < n; i++)
+            for (let i = 0; i < n; i++) {
+                console.log(point);
                 if (array[point - 1][i] === 1)
                     point = i + 1;
+            }
         } else {
             point = stack[stack.length - 1];
             stack.pop();
