@@ -449,7 +449,7 @@ function DFS(array, n) {
         flag = true;
         for (let i = 0; i < n; i++)
             if ((array[point][i] == 1) && (!visitedPeaks.includes(i))) {
-                console.log(i);
+                console.log(i + 1); // Debug
                 point = i;
                 stack.push(point);
                 crawlTree.push(point);
@@ -462,7 +462,11 @@ function DFS(array, n) {
             crawlTree.push(point);
         }
     };
-    console.log(visitedPeaks, crawlTree);
+    // Debug
+    console.log("Visited peaks");
+    console.log(visitedPeaks);
+    console.log("Crawl tree");
+    console.log(crawlTree);
 };
 
 // Main part
