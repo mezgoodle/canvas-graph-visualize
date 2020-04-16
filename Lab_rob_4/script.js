@@ -452,7 +452,7 @@ function DFS(array, n) {
         }
         for (let i = 0; i < n; i++) {
             console.log(point);
-            if (array[point - 1][i] === 1)
+            if ((array[point - 1][i] === 1) && (!visitedPeaks.includes(i)))
                 point = i + 1;
         }
     };
@@ -468,4 +468,4 @@ for (const el of graphs)
 drawCircles(n, coords);
 setTimeout(() => {
     DFS(array, n);
-}, 5000);
+}, 1000);
