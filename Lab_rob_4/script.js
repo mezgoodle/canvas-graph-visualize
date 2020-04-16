@@ -434,6 +434,7 @@ function DFS(array, n) {
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++)
             if (array[i][j] === 1) {
+                console.log(i, j);
                 point = i;
                 break;
             }
