@@ -228,7 +228,7 @@ async function drawCircles2(n, coords, matchMatrix) {
         ctx.fill();
         // Fill text
         ctx.fillStyle = 'white';
-        ctx.fillText(i + 1, coords[i][0], coords[i][1]);
+        ctx.fillText(j + 1, coords[j][0], coords[j][1]);
         await sleep(1000);
     }
 };
