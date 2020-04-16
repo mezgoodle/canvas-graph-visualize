@@ -427,17 +427,33 @@ function DFS(array, n) {
     // Сrawl tree
     let crawlTree = [];
     // Start point
-    let start = 0;
+    let point = 0;
+    // Visited peaks
+    let visitedPeaks = [];
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++)
             if (array[i][j] === 1) {
-                start = i + 1;
+                point = i + 1;
                 break;
             }
-        if (start) break;
+        if (point) break;
     }
-    console.log(start);
-}
+    // DFS itself
+    while (!(visitedPeaks.includes(point)) || (stack.length !== null)) {
+        if (!(visitedPeaks.includes(point))) {
+            visitedPeaks.push(point);
+            stack.push(point);
+            crawlTree.push(point)
+            for (let i = 0; i < n; i++)
+                if (array[point][i] === 1)
+                    point = i;
+        } else {
+            point = stack[stack.length - 1];
+            stack.pop();
+            crawlTree.push(point);
+        }
+    };
+};
 
 // Main part
 setPoints(n);
