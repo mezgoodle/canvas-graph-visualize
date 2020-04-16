@@ -541,7 +541,7 @@ function matchMatrix(numMatrix, n) {
 };
 
 // All alert for the fourth lab 
-function doAlert(element) {
+function doAlert() {
     let str = "After ten seconds you will see Depth-first search graph\n\r Also all results are in console - F12";
     swal(str);
 };
