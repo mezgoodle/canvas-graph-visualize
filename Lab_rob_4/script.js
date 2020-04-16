@@ -467,13 +467,26 @@ function DFS(array, n) {
     console.log(visitedPeaks);
     console.log("Crawl tree");
     console.log(crawlTree);
-    return (crawlTree);
+    return (visitedPeaks);
+};
+
+// Recieved numerations
+function numerations(visitedPeaks, n) {
+    let num_array = new Array(n);
+    for (let i = 0; i < num_array.length; i++) {
+        num_array[i] = new Array(2);
+        num_array[i][0] = i + 1;
+    };
+    for (let i = 0; i < num_array.length; i++)
+        num_array[visitedPeaks[i]][1] = i + 1;
+    console.log("Numeration matrix");
+    console.log(num_array);
 };
 
 // All alert for the fourth lab 
 function doAlert(element) {
     let str = element;
-    swal(str);
+    alert(str);
 };
 
 // Main part
@@ -484,6 +497,7 @@ for (const el of graphs)
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
 drawCircles(n, coords);
 setTimeout(() => {
-    const crawlTree = DFS(array, n);
-    doAlert(crawlTree);
+    const visitedPeaks = DFS(array, n);
+    numerations(visitedPeaks, n);
+    // doAlert(crawlTree);
 }, 1000);
