@@ -440,20 +440,20 @@ function DFS(array, n) {
     };
     // console.log(point); DEBUG
     // DFS itself
-    while (!(visitedPeaks.includes(point)) || (stack.length !== null)) {
+    while (visitedPeaks.length < n) {
         if (!(visitedPeaks.includes(point))) {
             visitedPeaks.push(point);
             stack.push(point);
             crawlTree.push(point)
-            for (let i = 0; i < n; i++) {
-                console.log(point);
-                if (array[point - 1][i] === 1)
-                    point = i + 1;
-            }
         } else {
-            point = stack[stack.length - 1];
             stack.pop();
+            point = stack[stack.length - 1];
             crawlTree.push(point);
+        }
+        for (let i = 0; i < n; i++) {
+            console.log(point);
+            if (array[point - 1][i] === 1)
+                point = i + 1;
         }
     };
     console.log(crawlTree);
