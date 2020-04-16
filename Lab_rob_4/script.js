@@ -217,7 +217,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-// Draw nodes
+// Draw circles of DFS graph
 async function drawCircles2(n, coords, matchMatrix) {
     let last_x = 0,
         last_y = 0,
@@ -463,10 +463,11 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
     }
 };
 
+// Depth-firts-search algorithm
 function DFS(array, n) {
     // Flag
-    let flag = false
-        // Stack for algorithm
+    let flag = false;
+    // Stack for algorithm
     let stack = [];
     // Сrawl tree
     let crawlTree = [];
@@ -541,8 +542,8 @@ function matchMatrix(numMatrix, n) {
 
 // All alert for the fourth lab 
 function doAlert(element) {
-    let str = element;
-    alert(str);
+    let str = "After ten seconds you will see Depth-first search graph\n\r Also all results are in console - F12";
+    swal(str);
 };
 
 // Main part
@@ -552,6 +553,8 @@ for (const el of graphs)
         drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
 drawCircles(n, coords);
+// Fourt lab
+doAlert();
 setTimeout(() => {
     // Clear page for the new graph
     ctx.clearRect(0, 0, canv.width, canv.height);
@@ -559,9 +562,4 @@ setTimeout(() => {
     const num_array = numerations(visitedPeaks, n);
     const match_matrix = matchMatrix(num_array, n);
     drawCircles2(n, coords, match_matrix);
-    // for (const el of graphs)
-    //     if (el[0] === el[1])
-    //         drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
-    //     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
-    // doAlert(crawlTree);
-}, 5000);
+}, 10000);
