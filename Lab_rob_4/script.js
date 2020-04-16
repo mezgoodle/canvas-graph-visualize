@@ -422,7 +422,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 };
 
 function DFS(array, n) {
-    console.log(array);
     // Stack for algorithm
     let stack = [];
     // Сrawl tree
@@ -435,7 +434,7 @@ function DFS(array, n) {
         for (let j = 0; j < n; j++)
             if (array[i][j] === 1) {
                 console.log(i, j);
-                point = i;
+                point = i + 1;
                 break;
             }
         if (point) break;
@@ -446,14 +445,14 @@ function DFS(array, n) {
         if (!(visitedPeaks.includes(point))) {
             visitedPeaks.push(point);
             stack.push(point);
-            crawlTree.push(point + 1)
+            crawlTree.push(point)
             for (let i = 0; i < n; i++)
-                if (array[point][i] === 1)
+                if (array[point - 1][i] === 1)
                     point = i;
         } else {
             point = stack[stack.length - 1];
             stack.pop();
-            crawlTree.push(point + 1);
+            crawlTree.push(point);
         }
     };
     console.log(crawlTree);
