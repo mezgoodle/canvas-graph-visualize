@@ -218,7 +218,7 @@ function sleep(ms) {
 };
 
 // Draw circles of DFS graph
-async function drawCircles2(n, coords, matchMatrix) {
+async function drawCircles2(n, coords, matchMatrix, crawlTree) {
     let last_x = 0,
         last_y = 0,
         last_n = 0,
@@ -238,7 +238,7 @@ async function drawCircles2(n, coords, matchMatrix) {
                 ctx.fillText(i + 1, coords[j][0], coords[j][1]);
                 if (last_x && last_y) {
                     adjacencyMatrix[last_n][j] = 1;
-                    drawEdge(last_x, last_y, coords[j][0], coords[j][1], last_n, j, coords, true);
+                    drawEdge(last_x, last_y, coords[j][0], coords[j][1], last_n, j, coords, true, crawlTree, i);
                     last_x = coords[j][0];
                     last_y = coords[j][1];
                     last_n = j;
@@ -375,14 +375,11 @@ function checking(coords, f_x, f_y, t_x, t_y) {
 };
 
 // Draw edges
-function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
+function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false, crawlTree = [], i = 0) {
     const
         circle_x = t_x,
         circle_y = t_y;
     let str = "";
-    if (flag) {
-        str = "HI";
-    }
     ctx.fillStyle = "red";
     ctx.beginPath();
     ctx.strokeStyle = colors[f_n];
@@ -391,6 +388,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
         if (f_x == t_x) {
             if (f_n < t_n) {
                 ctx.lineTo(f_x + radius * 2, (f_y + t_y) / 2);
+                if (flag) str = toString(crawlTree.indexOf(i));
                 ctx.fillText(str, f_x + radius * 2, (f_y + t_y) / 2);
                 x = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
@@ -400,6 +398,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
                     drawArrow(x, y, f_x + radius * 2, (f_y + t_y) / 2);
             } else {
                 ctx.lineTo(f_x - radius * 2, (f_y + t_y) / 2);
+                if (flag) str = toString(crawlTree.indexOf(i));
                 ctx.fillText(str, f_x - radius * 2, (f_y + t_y) / 2);
                 x = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
@@ -411,6 +410,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
         } else if (f_y == t_y) {
             if (f_n < t_n) {
                 ctx.lineTo((f_x + t_x) / 2, f_y + radius * 2);
+                if (flag) str = toString(crawlTree.indexOf(i));
                 ctx.fillText(str, (f_x + t_x) / 2, f_y + radius * 2);
                 x = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -421,6 +421,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
 
             } else {
                 ctx.lineTo((f_x + t_x) / 2, f_y - radius * 2);
+                if (flag) str = toString(crawlTree.indexOf(i));
                 ctx.fillText(str, (f_x + t_x) / 2, f_y - radius * 2);
                 x = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -434,6 +435,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
         if (f_n < t_n) {
             if (f_y - radius < (f_y + t_y) / 2 + radius * 2 < f_y + radius) {
                 ctx.lineTo((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
+                if (flag) str = toString(crawlTree.indexOf(i));
                 ctx.fillText(str, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
                 x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -443,6 +445,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
                     drawArrow(x, y, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
             } else {
                 ctx.lineTo((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
+                if (flag) str = toString(crawlTree.indexOf(i));
                 ctx.fillText(str, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
                 x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -454,6 +457,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
         } else {
             if (f_y - radius < (f_y + t_y) / 2 - radius * 2 < f_y + radius) {
                 ctx.lineTo((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
+                if (flag) str = toString(crawlTree.indexOf(i));
                 ctx.fillText(str, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
                 x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -463,6 +467,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
                     drawArrow(x, y, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
             } else {
                 ctx.lineTo((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
+                if (flag) str = toString(crawlTree.indexOf(i));
                 ctx.fillText(str, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
                 x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -522,7 +527,7 @@ function DFS(array, n) {
     console.log(visitedPeaks);
     console.log("Crawl tree");
     console.log(crawlTree);
-    return visitedPeaks;
+    return [crawlTree, visitedPeaks];
 };
 
 // Recieved numerations
@@ -570,8 +575,9 @@ doAlert();
 setTimeout(() => {
     // Clear page for the new graph
     ctx.clearRect(0, 0, canv.width, canv.height);
-    const visitedPeaks = DFS(array, n);
+    const crawlTree = DFS(array, n)[0];
+    const visitedPeaks = DFS(array, n)[1];
     const num_array = numerations(visitedPeaks, n);
     const match_matrix = matchMatrix(num_array, n);
-    drawCircles2(n, coords, match_matrix);
+    drawCircles2(n, coords, match_matrix, crawlTree);
 }, 10000);
