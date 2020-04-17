@@ -235,7 +235,7 @@ async function drawCircles2(n, coords, matchMatrix) {
                 ctx.fill();
                 // Fill text
                 ctx.fillStyle = 'white';
-                ctx.fillText(j + 1, coords[j][0], coords[j][1]);
+                ctx.fillText(i + 1, coords[j][0], coords[j][1]);
                 if (last_x && last_y) {
                     adjacencyMatrix[last_n][j] = 1;
                     drawEdge(last_x, last_y, coords[j][0], coords[j][1], last_n, j, coords);
