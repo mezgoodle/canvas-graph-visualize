@@ -579,4 +579,4 @@ setTimeout(() => {
     const num_array = numerations(visitedPeaks, n);
     const match_matrix = matchMatrix(num_array, n);
     drawCircles2(n, coords, match_matrix, crawlTree);
-}, 1000);
+}, 10000);
