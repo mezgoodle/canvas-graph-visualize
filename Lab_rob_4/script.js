@@ -238,7 +238,7 @@ async function drawCircles2(n, coords, matchMatrix, crawlTree) {
                 ctx.fillText(i + 1, coords[j][0], coords[j][1]);
                 if (last_x && last_y) {
                     adjacencyMatrix[last_n][j] = 1;
-                    drawEdge(last_x, last_y, coords[j][0], coords[j][1], last_n, j, coords, true, crawlTree, i);
+                    drawEdge(last_x, last_y, coords[j][0], coords[j][1], last_n, j, coords, true, crawlTree, last_n + 1);
                     last_x = coords[j][0];
                     last_y = coords[j][1];
                     last_n = j;
@@ -388,7 +388,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false, crawlTree 
         if (f_x == t_x) {
             if (f_n < t_n) {
                 ctx.lineTo(f_x + radius * 2, (f_y + t_y) / 2);
-                if (flag) str = toString(crawlTree.indexOf(i));
+                if (flag) str = crawlTree.indexOf(i - 1) + 1;
                 ctx.fillText(str, f_x + radius * 2, (f_y + t_y) / 2);
                 x = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
@@ -398,7 +398,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false, crawlTree 
                     drawArrow(x, y, f_x + radius * 2, (f_y + t_y) / 2);
             } else {
                 ctx.lineTo(f_x - radius * 2, (f_y + t_y) / 2);
-                if (flag) str = toString(crawlTree.indexOf(i));
+                if (flag) str = crawlTree.indexOf(i - 1) + 1;
                 ctx.fillText(str, f_x - radius * 2, (f_y + t_y) / 2);
                 x = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
@@ -410,7 +410,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false, crawlTree 
         } else if (f_y == t_y) {
             if (f_n < t_n) {
                 ctx.lineTo((f_x + t_x) / 2, f_y + radius * 2);
-                if (flag) str = toString(crawlTree.indexOf(i));
+                if (flag) str = crawlTree.indexOf(i - 1) + 1;
                 ctx.fillText(str, (f_x + t_x) / 2, f_y + radius * 2);
                 x = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -421,7 +421,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false, crawlTree 
 
             } else {
                 ctx.lineTo((f_x + t_x) / 2, f_y - radius * 2);
-                if (flag) str = toString(crawlTree.indexOf(i));
+                if (flag) str = crawlTree.indexOf(i - 1) + 1;
                 ctx.fillText(str, (f_x + t_x) / 2, f_y - radius * 2);
                 x = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -435,7 +435,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false, crawlTree 
         if (f_n < t_n) {
             if (f_y - radius < (f_y + t_y) / 2 + radius * 2 < f_y + radius) {
                 ctx.lineTo((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
-                if (flag) str = toString(crawlTree.indexOf(i));
+                if (flag) str = crawlTree.indexOf(i - 1) + 1;
                 ctx.fillText(str, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
                 x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -445,7 +445,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false, crawlTree 
                     drawArrow(x, y, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
             } else {
                 ctx.lineTo((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
-                if (flag) str = toString(crawlTree.indexOf(i));
+                if (flag) str = crawlTree.indexOf(i) + 1;
                 ctx.fillText(str, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
                 x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -457,7 +457,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false, crawlTree 
         } else {
             if (f_y - radius < (f_y + t_y) / 2 - radius * 2 < f_y + radius) {
                 ctx.lineTo((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
-                if (flag) str = toString(crawlTree.indexOf(i));
+                if (flag) str = crawlTree.indexOf(i - 1) + 1;
                 ctx.fillText(str, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
                 x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
@@ -467,7 +467,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false, crawlTree 
                     drawArrow(x, y, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
             } else {
                 ctx.lineTo((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
-                if (flag) str = toString(crawlTree.indexOf(i));
+                if (flag) str = crawlTree.indexOf(i - 1) + 1;
                 ctx.fillText(str, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
                 x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
