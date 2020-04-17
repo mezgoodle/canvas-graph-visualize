@@ -522,11 +522,6 @@ function DFS(array, n) {
             crawlTree.push(point);
         }
     };
-    // Debug
-    console.log("Visited peaks");
-    console.log(visitedPeaks);
-    console.log("Crawl tree");
-    console.log(crawlTree);
     return [crawlTree, visitedPeaks];
 };
 
@@ -577,6 +572,10 @@ setTimeout(() => {
     ctx.clearRect(0, 0, canv.width, canv.height);
     const crawlTree = DFS(array, n)[0];
     const visitedPeaks = DFS(array, n)[1];
+    console.log("Visited peaks");
+    console.log(visitedPeaks);
+    console.log("Crawl tree");
+    console.log(crawlTree);
     const num_array = numerations(visitedPeaks, n);
     const match_matrix = matchMatrix(num_array, n);
     drawCircles2(n, coords, match_matrix, crawlTree);
