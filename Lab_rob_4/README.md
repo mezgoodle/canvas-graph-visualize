@@ -2,7 +2,7 @@
 
 Lines:
 
-- Lines: [220](https://github.com/mezgoodle/canvas-graph-visualize/blob/master/Lab_rob_4/script.js#L220)-[255](https://github.com/mezgoodle/canvas-graph-visualize/blob/master/Lab_rob_4/script.js#L255)
+- Lines: [215](https://github.com/mezgoodle/canvas-graph-visualize/blob/master/Lab_rob_4/script.js#L215)-[255](https://github.com/mezgoodle/canvas-graph-visualize/blob/master/Lab_rob_4/script.js#L255)
 - Lines: [483](https://github.com/mezgoodle/canvas-graph-visualize/blob/master/Lab_rob_4/script.js#L483)-[559](https://github.com/mezgoodle/canvas-graph-visualize/blob/master/Lab_rob_4/script.js#L559)
 - Lines: [568](https://github.com/mezgoodle/canvas-graph-visualize/blob/master/Lab_rob_4/script.js#L568)-[582](https://github.com/mezgoodle/canvas-graph-visualize/blob/master/Lab_rob_4/script.js#L582)
 
