@@ -38,22 +38,15 @@ namespace matrix
             }
             Random rand = new Random(9312);
             int n = 11, n3 = 1, n4 = 2;
-            double[,] matrix_oriented = new double[100, 100];
             double[,] matrix_non_oriented = new double[100, 100];
-
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                    matrix_oriented[i,j] = Math.Floor((Convert.ToDouble(rand.Next(200))/100) * (1.0 - n3 * 0.02 - n4 * 0.005 - 0.25));
 
             for (int i = 0; i < n; i++)
                     for (int j = 0; j <= i; j++) 
                     {
-                        matrix_non_oriented[i,j] = Math.Floor((Convert.ToDouble(rand.Next(200))/100) * (1.0 - n3 * 0.02 - n4 * 0.005 - 0.25));
+                        matrix_non_oriented[i,j] = Math.Floor((Convert.ToDouble(rand.Next(200))/100) * (1.0 - n3 * 0.01 - n4 * 0.005 - 0.05));
                         matrix_non_oriented[j, i] = matrix_non_oriented[i, j];
                     }
 
-            WriteArray("Oriented", matrix_oriented);
-            WriteGraph("Oriented", matrix_oriented);
             WriteArray("Non-Oriented", matrix_non_oriented);
             WriteGraph("Non-Oriented", matrix_non_oriented);
         }
