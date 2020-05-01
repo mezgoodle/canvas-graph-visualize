@@ -39,7 +39,11 @@ namespace matrix
             Random rand = new Random(9312);
             int n = 11, n3 = 1, n4 = 2;
             double[,] matrix_non_oriented = new double[100, 100];
+            double[,] w = new double[100, 100];
+            double[,] wt = new double[100, 100];
+            double[,] b = new double[100, 100];
 
+            // Only matrix
             for (int i = 0; i < n; i++)
                     for (int j = 0; j <= i; j++) 
                     {
@@ -47,8 +51,18 @@ namespace matrix
                         matrix_non_oriented[j, i] = matrix_non_oriented[i, j];
                     }
 
+            // Create matrix of weights
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                {
+                    wt[i,j] = Math.Round(Convert.ToDouble(rand.Next(100))) * matrix_non_oriented[i, j];
+                    Console.WriteLine(wt[i,j]); 
+                }
+
+            // Output
             WriteArray("Non-Oriented", matrix_non_oriented);
             WriteGraph("Non-Oriented", matrix_non_oriented);
+            WriteArray("Wt", wt);
         }
     }
 }
