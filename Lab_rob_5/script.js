@@ -209,8 +209,6 @@ function drawNoose(from_x, from_y, from_n) {
         ctx.lineTo(from_x, from_y + radius);
         ctx.stroke();
     }
-    console.log(from_n + 1, from_n + 1);
-    console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
 };
 
 // Find intersection of edge and node
@@ -317,8 +315,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n + 1, t_n + 1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, f_x + radius * 2, (f_y + t_y) / 2);
@@ -327,8 +323,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n + 1, t_n + 1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, f_x - radius * 2, (f_y + t_y) / 2);
@@ -339,8 +333,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n + 1, t_n + 1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, (f_x + t_x) / 2, f_y + radius * 2);
@@ -350,8 +342,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n + 1, t_n + 1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, (f_x + t_x) / 2, f_y - radius * 2);
@@ -364,8 +354,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n + 1, t_n + 1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
@@ -374,8 +362,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n + 1, t_n + 1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
@@ -386,8 +372,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n + 1, t_n + 1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
@@ -396,8 +380,6 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
                 x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
-                console.log(f_n + 1, t_n + 1);
-                console.log('%c Color', `background: ${ctx.strokeStyle}; color: white`);
                 ctx.stroke();
                 if (oriented)
                     drawArrow(x, y, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
