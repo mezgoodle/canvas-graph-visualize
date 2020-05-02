@@ -417,14 +417,17 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 };
 
 // Function for search skeleton
-function skeletonGraph(n, matrix_weight, graphs) {
+function skeletonGraph(n, matrix_weight, colors) {
     let skeleton_graphs = [];
     let object_weight_edge = {};
+    let used_elements = {};
+    for (let i = 0; i < n; i++)
+        used_elements[i] = colors[i];
+    console.log({ used_elements });
     for (let i = 0; i < n; i++)
         for (let j = 0; j < i; j++)
             if (matrix_weight[i][j] !== 0)
                 object_weight_edge[matrix_weight[i][j]] = [i, j];
-    console.log({ object_weight_edge });
 };
 
 // Main part
@@ -435,4 +438,4 @@ for (const el of graphs)
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
 drawCircles(n, coords);
 //Fifth lab
-skeletonGraph(n, matrix_weight, graphs);
+skeletonGraph(n, matrix_weight, colors);
