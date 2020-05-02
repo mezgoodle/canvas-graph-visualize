@@ -417,17 +417,37 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 };
 
 // Function for search skeleton
-function skeletonGraph(n, matrix_weight, colors) {
+function skeletonGraph(n, matrix_weigh, colorss) {
     let skeleton_graphs = [];
     let object_weight_edge = {};
-    let used_elements = {};
-    for (let i = 0; i < n; i++)
-        used_elements[i] = colors[i];
-    console.log({ used_elements });
+    let used = {};
+    let sum_weight = 0;
+    for (let i = 0; i < 5; i++) {
+        used[i] = colorss[i];
+    };
+    let matrix_weight = [
+        [0, 5, 15, 0, 0],
+        [5, 0, 10, 30, 0],
+        [15, 10, 0, 20, 0],
+        [0, 30, 20, 0, 40],
+        [0, 0, 0, 40, 0],
+    ];
     for (let i = 0; i < n; i++)
         for (let j = 0; j < i; j++)
             if (matrix_weight[i][j] !== 0)
-                object_weight_edge[matrix_weight[i][j]] = [i, j];
+                object_weight_edge[matrix_weight[i][j]] = [j, i];
+    console.log({ object_weight_edge });
+    for (const key in object_weight_edge)
+        if (object_weight_edge.hasOwnProperty(key))
+            if (used[object_weight_edge[key][0]] !== used[object_weight_edge[key][1]]) {
+                if (used[object_weight_edge[key][1]] !== colorss[object_weight_edge[key][1]])
+                    used[object_weight_edge[key][0]] = used[object_weight_edge[key][1]];
+                else used[object_weight_edge[key][1]] = used[object_weight_edge[key][0]];
+                skeleton_graphs.push(object_weight_edge[key]);
+                sum_weight += parseInt(key);
+            } else continue;
+    console.log({ skeleton_graphs, sum_weight });
+
 };
 
 // Main part
@@ -438,4 +458,4 @@ for (const el of graphs)
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
 drawCircles(n, coords);
 //Fifth lab
-skeletonGraph(n, matrix_weight, colors);
+skeletonGraph(5, matrix_weight, colors);
