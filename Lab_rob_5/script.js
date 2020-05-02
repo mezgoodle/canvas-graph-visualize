@@ -328,7 +328,7 @@ function checking(coords, f_x, f_y, t_x, t_y) {
 };
 
 // Draw edges
-function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
+function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
     const
         circle_x = t_x,
         circle_y = t_y;
@@ -417,21 +417,14 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords) {
 };
 
 // Function for search skeleton
-function skeletonGraph(n, matrix_weigh, colorss) {
+function skeletonGraph(n, matrix_weight, colorss) {
     let skeleton_graphs = [];
     let object_weight_edge = {};
     let used = {};
     let sum_weight = 0;
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < n; i++) {
         used[i] = colorss[i];
     };
-    let matrix_weight = [
-        [0, 5, 15, 0, 0],
-        [5, 0, 10, 30, 0],
-        [15, 10, 0, 20, 0],
-        [0, 30, 20, 0, 40],
-        [0, 0, 0, 40, 0],
-    ];
     for (let i = 0; i < n; i++)
         for (let j = 0; j < i; j++)
             if (matrix_weight[i][j] !== 0)
@@ -458,4 +451,4 @@ for (const el of graphs)
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
 drawCircles(n, coords);
 //Fifth lab
-skeletonGraph(5, matrix_weight, colors);
+skeletonGraph(n, matrix_weight, colors);
