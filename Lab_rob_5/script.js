@@ -541,6 +541,20 @@ function skeletonGraph(n, matrix_weight) {
     return skeleton_graphs;
 };
 
+// The matching matrix
+function matchMatrix(skeleton_graphs, n) {
+    let matchMatrix = new Array(n);
+    for (let i = 0; i < matchMatrix.length; i++) {
+        matchMatrix[i] = new Array(n).fill(0);
+    }
+    for (let i = 0; i < skeleton_graphs.length; i++) {
+        matchMatrix[skeleton_graphs[i][0]][skeleton_graphs[i][1]] = 1;
+        matchMatrix[skeleton_graphs[i][1]][skeleton_graphs[i][0]] = 1;
+    }
+    console.log("Matching matrix");
+    console.log(matchMatrix);
+};
+
 // Main part
 setPoints(n);
 for (const el of graphs)
@@ -571,6 +585,7 @@ doAlert();
 
 setTimeout(() => {
     let skeleton_graphs = skeletonGraph(n, matrix_weight);
+    matchMatrix(skeleton_graphs, n);
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords);
     drawEdge2(skeleton_graphs);
