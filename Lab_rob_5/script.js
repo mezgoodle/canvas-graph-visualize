@@ -524,11 +524,16 @@ function skeletonGraph(n, matrix_weight) {
             console.log("Following are the edges in the constructed MST");
             for (let i = 0; i < result.length; i++) {
                 console.log(`${result[i][0]} -- ${result[i][1]} == ${result[i][2]}`);
+                skeleton_graphs.push([result[i][0], result[i][1]]);
             }
         }
     };
+    // Init graph class
     let g = new Graph(n);
-
+    for (const weight in object_weight_edge)
+        if (object_weight_edge.hasOwnProperty(weight))
+            g.addEdge(object_weight_edge[weight][0], object_weight_edge[weight][1], weight);
+    g.KruskalMST();
     console.log({ skeleton_graphs });
     return skeleton_graphs;
 };
