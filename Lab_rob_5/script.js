@@ -16,7 +16,7 @@ ctx.lineWidth = 1,
     add_in_row = 100,
     ctx.font = "20px Georgia",
     oriented = false, //false
-    colors = ['black', 'grey', 'brown', 'red', 'coral', 'chocolate', 'goldenrod', 'olive', 'yellow', 'lawngreen', 'darkgreen', 'teal', 'dodgerblue', 'navy', 'indigo', 'purple', 'crimson'],
+    colors = ['black', 'teal', 'brown', 'red', 'coral', 'chocolate', 'goldenrod', 'olive', 'yellow', 'dodgerblue', 'darkgreen', 'grey', 'lawngreen', 'navy', 'indigo', 'purple', 'crimson'],
 
     graphs = [
         [1, 1],
@@ -27,6 +27,7 @@ ctx.lineWidth = 1,
         [6, 5],
         [7, 2],
         [7, 5],
+        [7, 10],
         [8, 1],
         [8, 2],
         [8, 3],
@@ -36,7 +37,6 @@ ctx.lineWidth = 1,
         [9, 7],
         [10, 4],
         [10, 5],
-        [10, 7],
         [10, 9],
         [10, 10],
         [11, 3],
@@ -328,11 +328,12 @@ function checking(coords, f_x, f_y, t_x, t_y) {
 };
 
 // Draw edges
-function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
+function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
     const
         circle_x = t_x,
         circle_y = t_y;
 
+    ctx.fillStyle = colors[f_n];
     ctx.beginPath();
     ctx.strokeStyle = colors[f_n];
     ctx.moveTo(f_x, f_y);
@@ -340,6 +341,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
         if (f_x == t_x) {
             if (f_n < t_n) {
                 ctx.lineTo(f_x + radius * 2, (f_y + t_y) / 2);
+                ctx.fillText(str, f_x + radius * 2, (f_y + t_y) / 2);
                 x = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x + radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
@@ -348,6 +350,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
                     drawArrow(x, y, f_x + radius * 2, (f_y + t_y) / 2);
             } else {
                 ctx.lineTo(f_x - radius * 2, (f_y + t_y) / 2);
+                ctx.fillText(str, f_x - radius * 2, (f_y + t_y) / 2);
                 x = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY(f_x - radius * 2, (f_y + t_y) / 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
@@ -358,6 +361,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
         } else if (f_y == t_y) {
             if (f_n < t_n) {
                 ctx.lineTo((f_x + t_x) / 2, f_y + radius * 2);
+                ctx.fillText(str, (f_x + t_x) * 2, f_y + 10 + radius * 2);
                 x = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y + radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
@@ -367,6 +371,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
 
             } else {
                 ctx.lineTo((f_x + t_x) / 2, f_y - radius * 2);
+                ctx.fillText(str, (f_x + t_x) / 2, f_y - 10 - radius * 2);
                 x = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2, f_y - radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
@@ -379,6 +384,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
         if (f_n < t_n) {
             if (f_y - radius < (f_y + t_y) / 2 + radius * 2 < f_y + radius) {
                 ctx.lineTo((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
+                ctx.fillText(str, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
                 x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
@@ -387,6 +393,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
                     drawArrow(x, y, (f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
             } else {
                 ctx.lineTo((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
+                ctx.fillText(str, (f_x + t_x + 10) / 2 + radius * 2, (f_y + t_y + 10) / 2 + radius * 2);
                 x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
@@ -397,6 +404,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
         } else {
             if (f_y - radius < (f_y + t_y) / 2 - radius * 2 < f_y + radius) {
                 ctx.lineTo((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
+                ctx.fillText(str, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
                 x = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
@@ -405,6 +413,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, flag = false) {
                     drawArrow(x, y, (f_x + t_x) / 2 + radius * 2, (f_y + t_y) / 2 + radius * 2);
             } else {
                 ctx.lineTo((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2);
+                ctx.fillText(str, (f_x + t_x + 10) / 2 - radius * 2, (f_y + t_y + 10) / 2 - radius * 2);
                 x = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[0];
                 y = returnXY((f_x + t_x) / 2 - radius * 2, (f_y + t_y) / 2 - radius * 2, t_x, t_y, circle_x, circle_y)[1];
                 ctx.lineTo(x, y);
@@ -448,7 +457,7 @@ setPoints(n);
 for (const el of graphs)
     if (el[0] === el[1])
         drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
-    else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
+    else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords, matrix_weight);
 drawCircles(n, coords);
 //Fifth lab
 skeletonGraph(n, matrix_weight, colors);
