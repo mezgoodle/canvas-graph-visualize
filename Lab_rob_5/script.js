@@ -452,7 +452,82 @@ function skeletonGraph(n, matrix_weight) {
             if (matrix_weight[i][j] !== 0)
                 object_weight_edge[matrix_weight[i][j]] = [i, j];
     console.log({ object_weight_edge });
+
+    class Graph {
+        constructor(vertices) {
+            this.V = vertices; // Number of vertices
+            this.graph = []; // Default dictionary to store graph
+        };
+
+        // function to add an edge to graph 
+        addEdge(u, v, w) {
+            this.graph.push([u, v, w]);
+        };
+
+        // A utility function to find set of an element i
+        find(parent, i) {
+            if (parent[i] === i) return i;
+            return this.find(parent, parent[i]);
+        };
+
+        // A function that does union of two sets of x and y 
+        // (uses union by rank)
+        union(parent, rank, x, y) {
+            let xroot = this.find(parent, x);
+            let yroot = this.find(parent, y);
+
+            // Attach smaller rank tree under root of high rank tree (union by rank) 
+            if (rank[xroot] < rank[yroot]) parent[xroot] = yroot;
+            else if (rank[xroot] > rank[yroot]) parent[yroot] = xroot;
+            else {
+                // If ranks are same, then make one as root and increment its rank by one 
+                parent[yroot] = xroot;
+                rank[xroot] += 1;
+            }
+        };
+
+        // The main function
+        KruskalMST() {
+            let result = [];
+
+            let i = 0; // A variable, used for sorted edges
+            let e = 0; // A variable, used for result[] 
+
+            // Sort all the edges in non-decreasing
+            this.graph.sort((a, b) => a - b);
+
+            let parent = [],
+                rank = [];
+
+            // Create V subsets with single elements
+            for (let i = 0; i < this.V; i++) {
+                parent.push(i);
+                rank.push(0);
+            }
+
+            while (e < this.V - 1) {
+                // Pick the smallest edge
+                let u = this.graph[i][0],
+                    v = this.graph[i][1],
+                    w = this.graph[i][2];
+                i++;
+                let x = this.find(parent, u),
+                    y = this.find(parent, v);
+
+                // If including this edge does't cause cycle include it in result and increment the index 
+                if (x !== y) {
+                    e++;
+                    result.push([u, v, w]);
+                    this.union(parent, rank, x, y);
+                }
+            }
+            console.log("Following are the edges in the constructed MST");
+            for (let i = 0; i < result.length; i++) {
+                console.log(`${result[i][0]} -- ${result[i][1]} == ${result[i][2]}`);
+            }
         }
+    };
+    let g = new Graph(n);
 
     console.log({ skeleton_graphs });
     return skeleton_graphs;
