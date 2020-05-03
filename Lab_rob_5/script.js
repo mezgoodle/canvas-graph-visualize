@@ -20,29 +20,47 @@ ctx.lineWidth = 1,
 
     graphs = [
         [1, 1],
-        [2, 2],
-        [5, 1],
-        [6, 1],
+        [1, 3],
+        [1, 11],
+        [4, 3],
+        [4, 4],
+        [4, 9],
+        [5, 2],
+        [5, 5],
+        [6, 3],
         [6, 4],
         [6, 5],
+        [7, 1],
         [7, 2],
+        [7, 3],
+        [7, 4],
         [7, 5],
-        [7, 10],
+        [7, 6],
         [8, 1],
         [8, 2],
         [8, 3],
         [8, 5],
+        [8, 6],
+        [8, 7],
         [9, 1],
-        [9, 6],
+        [9, 2],
+        [9, 3],
+        [9, 5],
         [9, 7],
+        [9, 8],
+        [10, 2],
+        [10, 3],
         [10, 4],
         [10, 5],
         [10, 9],
         [10, 10],
+        [11, 2],
         [11, 3],
         [11, 4],
         [11, 5],
-        [11, 7],
+        [11, 8],
+        [11, 9],
+        [11, 10],
     ],
 
     matrix = [
@@ -60,17 +78,17 @@ ctx.lineWidth = 1,
     ],
 
     matrix_weight = [
-        [120, 0, 0, 0, 224, 138, 0, 95, 223, 0, 0],
-        [0, 122, 0, 0, 0, 0, 167, 113, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 115, 0, 0, 176],
-        [0, 0, 0, 0, 0, 169, 0, 0, 0, 187, 147],
-        [224, 0, 0, 0, 0, 236, 68, 260, 0, 198, 211],
-        [138, 0, 0, 169, 236, 0, 0, 0, 29, 0, 0],
-        [0, 167, 0, 0, 68, 0, 0, 0, 99, 152, 180],
-        [95, 113, 115, 0, 260, 0, 0, 0, 0, 0, 0],
-        [223, 0, 0, 0, 0, 29, 99, 0, 0, 143, 0],
-        [0, 0, 0, 187, 198, 0, 152, 0, 143, 140, 0],
-        [0, 0, 176, 147, 211, 0, 180, 0, 0, 0, 0]
+        [64, 0, 136, 0, 0, 0, 214, 190, 171, 0, 172],
+        [0, 0, 0, 0, 204, 0, 208, 223, 93, 88, 222],
+        [136, 0, 0, 146, 0, 103, 242, 124, 246, 187, 151],
+        [0, 0, 146, 122, 0, 113, 224, 0, 86, 191, 66],
+        [0, 204, 0, 0, 120, 202, 191, 99, 174, 212, 167],
+        [0, 0, 103, 113, 202, 0, 128, 191, 0, 0, 0],
+        [214, 208, 242, 224, 191, 128, 0, 108, 134, 0, 0],
+        [190, 223, 124, 0, 99, 191, 108, 0, 146, 0, 106],
+        [171, 93, 246, 86, 174, 0, 134, 146, 0, 208, 170],
+        [0, 88, 187, 191, 212, 0, 0, 0, 208, 188, 41],
+        [172, 222, 151, 66, 167, 0, 0, 106, 170, 41, 0]
     ]
 
 coords = {
@@ -426,25 +444,17 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
 };
 
 // Function for search skeleton
-function skeletonGraph(n, matrix_weight, colorss) {
+function skeletonGraph(n, matrix_weight) {
     let skeleton_graphs = [];
     let object_weight_edge = {};
-    let used = new Set();
     for (let i = 0; i < n; i++)
         for (let j = 0; j < i; j++)
             if (matrix_weight[i][j] !== 0)
-                object_weight_edge[matrix_weight[i][j]] = [j, i];
+                object_weight_edge[matrix_weight[i][j]] = [i, j];
     console.log({ object_weight_edge });
-    for (const key in object_weight_edge)
-        if (used.has(object_weight_edge[key][0]) && used.has(object_weight_edge[key][1])) continue;
-        else {
-            console.log(used, object_weight_edge[key]);
-            used.add(object_weight_edge[key][0]);
-            used.add(object_weight_edge[key][1]);
-            skeleton_graphs.push(object_weight_edge[key]);
         }
 
-    console.log({ skeleton_graphs, used });
+    console.log({ skeleton_graphs });
     return skeleton_graphs;
 };
 
@@ -468,7 +478,7 @@ async function drawEdge2(skeleton_graphs) {
 };
 
 setTimeout(() => {
-    let skeleton_graphs = skeletonGraph(n, matrix_weight, colors);
+    let skeleton_graphs = skeletonGraph(n, matrix_weight);
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords);
     drawEdge2(skeleton_graphs);
