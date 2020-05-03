@@ -451,7 +451,10 @@ function skeletonGraph(n, matrix_weight) {
         for (let j = 0; j < i; j++)
             if (matrix_weight[i][j] !== 0)
                 object_weight_edge[matrix_weight[i][j]] = [i, j];
-    console.log(object_weight_edge);
+    console.log("Weights of edge:");
+    for (const weight in object_weight_edge)
+        if (object_weight_edge.hasOwnProperty(weight))
+            console.log(weight, object_weight_edge[weight][0] + 1, object_weight_edge[weight][1] + 1);
 
     class Graph {
         constructor(vertices) {
@@ -545,6 +548,13 @@ for (const el of graphs)
         drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords, matrix_weight);
 drawCircles(n, coords);
+
+// All alert for the fifth lab 
+function doAlert() {
+    let str = "After ten seconds you will see minimal skeleton of the graph\n\r Also sorry me, if you cannot see all weights. Then you can see all of them in console - F12";
+    swal(str);
+};
+
 //Fifth lab
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -557,9 +567,11 @@ async function drawEdge2(skeleton_graphs) {
     }
 };
 
-// setTimeout(() => {
-//     let skeleton_graphs = skeletonGraph(n, matrix_weight);
-//     ctx.clearRect(0, 0, canv.width, canv.height);
-//     drawCircles(n, coords);
-//     drawEdge2(skeleton_graphs);
-// }, 1000);
+doAlert();
+
+setTimeout(() => {
+    let skeleton_graphs = skeletonGraph(n, matrix_weight);
+    ctx.clearRect(0, 0, canv.width, canv.height);
+    drawCircles(n, coords);
+    drawEdge2(skeleton_graphs);
+}, 10000);
