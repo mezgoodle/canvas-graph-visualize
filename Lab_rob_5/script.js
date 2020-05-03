@@ -461,3 +461,7 @@ for (const el of graphs)
 drawCircles(n, coords);
 //Fifth lab
 skeletonGraph(n, matrix_weight, colors);
+setTimeout(() => {
+    ctx.clearRect(0, 0, canv.width, canv.height);
+    drawCircles(n, coords);
+}, 1000);
