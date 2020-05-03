@@ -22,11 +22,13 @@ ctx.lineWidth = 1,
         [1, 1],
         [1, 3],
         [1, 11],
+        [2, 11],
         [4, 3],
         [4, 4],
-        [4, 9],
+        [4, 10],
         [5, 2],
         [5, 5],
+        [5, 7],
         [6, 3],
         [6, 4],
         [6, 5],
@@ -34,8 +36,8 @@ ctx.lineWidth = 1,
         [7, 2],
         [7, 3],
         [7, 4],
-        [7, 5],
         [7, 6],
+        [7, 9],
         [8, 1],
         [8, 2],
         [8, 3],
@@ -45,21 +47,19 @@ ctx.lineWidth = 1,
         [9, 1],
         [9, 2],
         [9, 3],
+        [9, 4],
         [9, 5],
-        [9, 7],
         [9, 8],
+        [9, 11],
         [10, 2],
         [10, 3],
-        [10, 4],
         [10, 5],
         [10, 9],
         [10, 10],
-        [11, 2],
         [11, 3],
         [11, 4],
         [11, 5],
         [11, 8],
-        [11, 9],
         [11, 10],
     ],
 
@@ -451,7 +451,7 @@ function skeletonGraph(n, matrix_weight) {
         for (let j = 0; j < i; j++)
             if (matrix_weight[i][j] !== 0)
                 object_weight_edge[matrix_weight[i][j]] = [i, j];
-    console.log({ object_weight_edge });
+    console.log(object_weight_edge);
 
     class Graph {
         constructor(vertices) {
@@ -557,9 +557,9 @@ async function drawEdge2(skeleton_graphs) {
     }
 };
 
-setTimeout(() => {
-    let skeleton_graphs = skeletonGraph(n, matrix_weight);
-    ctx.clearRect(0, 0, canv.width, canv.height);
-    drawCircles(n, coords);
-    drawEdge2(skeleton_graphs);
-}, 1000);
+// setTimeout(() => {
+//     let skeleton_graphs = skeletonGraph(n, matrix_weight);
+//     ctx.clearRect(0, 0, canv.width, canv.height);
+//     drawCircles(n, coords);
+//     drawEdge2(skeleton_graphs);
+// }, 1000);
