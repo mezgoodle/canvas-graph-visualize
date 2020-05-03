@@ -429,26 +429,22 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
 function skeletonGraph(n, matrix_weight, colorss) {
     let skeleton_graphs = [];
     let object_weight_edge = {};
-    let used = {};
-    let sum_weight = 0;
-    for (let i = 0; i < n; i++) {
-        used[i] = colorss[i];
-    };
+    let used = new Set();
     for (let i = 0; i < n; i++)
         for (let j = 0; j < i; j++)
             if (matrix_weight[i][j] !== 0)
                 object_weight_edge[matrix_weight[i][j]] = [j, i];
     console.log({ object_weight_edge });
     for (const key in object_weight_edge)
-        if (object_weight_edge.hasOwnProperty(key))
-            if (used[object_weight_edge[key][0]] !== used[object_weight_edge[key][1]]) {
-                if (used[object_weight_edge[key][1]] !== colorss[object_weight_edge[key][1]])
-                    used[object_weight_edge[key][0]] = used[object_weight_edge[key][1]];
-                else used[object_weight_edge[key][1]] = used[object_weight_edge[key][0]];
-                skeleton_graphs.push(object_weight_edge[key]);
-                sum_weight += parseInt(key);
-            } else continue;
-    console.log({ skeleton_graphs, sum_weight });
+        if (used.has(object_weight_edge[key][0]) && used.has(object_weight_edge[key][1])) continue;
+        else {
+            console.log(used, object_weight_edge[key]);
+            used.add(object_weight_edge[key][0]);
+            used.add(object_weight_edge[key][1]);
+            skeleton_graphs.push(object_weight_edge[key]);
+        }
+
+    console.log({ skeleton_graphs, used });
     return skeleton_graphs;
 };
 
@@ -474,7 +470,6 @@ async function drawEdge2(skeleton_graphs) {
 setTimeout(() => {
     let skeleton_graphs = skeletonGraph(n, matrix_weight, colors);
     ctx.clearRect(0, 0, canv.width, canv.height);
-    console.log({ skeleton_graphs });
     drawCircles(n, coords);
     drawEdge2(skeleton_graphs);
 }, 1000);
