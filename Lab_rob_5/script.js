@@ -332,7 +332,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
     const
         circle_x = t_x,
         circle_y = t_y;
-
+    let str = matrix_weight[f_n][t_n];
     ctx.fillStyle = colors[f_n];
     ctx.beginPath();
     ctx.strokeStyle = colors[f_n];
@@ -449,7 +449,7 @@ function skeletonGraph(n, matrix_weight, colorss) {
                 sum_weight += parseInt(key);
             } else continue;
     console.log({ skeleton_graphs, sum_weight });
-
+    return skeleton_graphs;
 };
 
 // Main part
@@ -460,8 +460,21 @@ for (const el of graphs)
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords, matrix_weight);
 drawCircles(n, coords);
 //Fifth lab
-skeletonGraph(n, matrix_weight, colors);
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+async function drawEdge2(skeleton_graphs) {
+    for (const el of skeleton_graphs) {
+        drawEdge(coords[el[1]][0], coords[el[1]][1], coords[el[0]][0], coords[el[0]][1], el[1], el[0], coords, matrix_weight);
+        await sleep(1000);
+    }
+};
+
 setTimeout(() => {
+    let skeleton_graphs = skeletonGraph(n, matrix_weight, colors);
     ctx.clearRect(0, 0, canv.width, canv.height);
+    console.log({ skeleton_graphs });
     drawCircles(n, coords);
+    drawEdge2(skeleton_graphs);
 }, 1000);
