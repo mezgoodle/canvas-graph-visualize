@@ -21,3 +21,5 @@ There are main files, that used in every lab
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+
+> As i see, best console results are showing in [Chrome](https://www.google.com/intl/uk_ua/chrome/). So if you can, launch in that browser
