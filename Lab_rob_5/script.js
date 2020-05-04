@@ -539,7 +539,8 @@ function skeletonGraph(n, matrix_weight) {
         if (object_weight_edge.hasOwnProperty(weight))
             g.addEdge(object_weight_edge[weight][0], object_weight_edge[weight][1], weight);
     g.KruskalMST();
-    console.log({ skeleton_graphs });
+    console.log("Minimal skeleton");
+    console.log(skeleton_graphs);
     return skeleton_graphs;
 };
 
