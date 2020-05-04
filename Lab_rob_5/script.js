@@ -350,6 +350,8 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
     const
         circle_x = t_x,
         circle_y = t_y;
+    if (t_n === 10 && f_n === 3)
+        f_n = [t_n, t_n = f_n][0]; // swap
     let str = matrix_weight[f_n][t_n];
     ctx.fillStyle = colors[f_n];
     ctx.beginPath();
