@@ -18,6 +18,7 @@ There are main files, that used in every lab
 * [Third lab](https://github.com/mezgoodle/canvas-graph-visualize/tree/master/Lab_rob_3)
 * [Fourth lab](https://github.com/mezgoodle/canvas-graph-visualize/tree/master/Lab_rob_4)
 * [Fifth lab](https://github.com/mezgoodle/canvas-graph-visualize/tree/master/Lab_rob_5)
+* [Sixth lab](https://github.com/mezgoodle/canvas-graph-visualize/tree/master/Lab_rob_6)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
