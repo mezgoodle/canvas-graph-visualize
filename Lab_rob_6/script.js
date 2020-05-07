@@ -445,6 +445,68 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
     }
 };
 
+function dijkstra_worker(n, matrix_weight) {
+    const V = n;
+
+    function minDistance(dist, sptSet) {
+        let min = Infinity,
+            min_index;
+
+        for (let v = 0; v < V; v++)
+            if (sptSet[v] === false && dist[v] <= min) {
+                min = dist[v];
+                min_index = v;
+            }
+
+        return min_index;
+    };
+
+
+    function printPath(parent, j) {
+        if (parent[j] === -1) return;
+        printPath(parent, parent[j]);
+        console.log(j);
+    };
+
+    function printSolution(dist, n, parent) {
+        let src = 0;
+        console.log("Vertex \t\tDistance from Source\tPath");
+        for (let i = 1; i < V; i++) {
+            console.log(`\n${src} -> ${i} \t\t ${dist[i]}\t\t${src}`);
+            printPath(parent, i);
+        };
+    };
+
+    function dijkstra(graph, src) {
+        let dist = [];
+        let sptSet = [];
+        let parent = [];
+
+        for (let i = 0; i < V; i++) {
+            parent[0] = -1;
+            dist[i] = Infinity;
+            sptSet[i] = false;
+        }
+
+        dist[src] = 0;
+
+        for (let count = 0; count < V - 1; count++) {
+            let u = minDistance(dist, sptSet);
+            sptSet[u] = true;
+            for (let v = 0; v < V; v++)
+                if (!sptSet[v] && graph[u][v] && dist[u] + graph[u][v] < dist[v]) {
+                    parent[v] = u;
+                    dist[v] = dist[u] + graph[u][v];
+                }
+
+        }
+        printSolution(dist, V, parent);
+    }
+
+    dijkstra(matrix_weight, 0);
+    return 0;
+};
+
 // Main part
 setPoints(n);
 for (const el of graphs)
@@ -452,3 +514,5 @@ for (const el of graphs)
         drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords, matrix_weight);
 drawCircles(n, coords);
+
+dijkstra_worker(n, matrix_weight);
