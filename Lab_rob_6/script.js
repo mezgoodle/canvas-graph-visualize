@@ -213,9 +213,10 @@ function setPoints(n) {
 };
 
 // Draw nodes
-function drawCircles(n, coords) {
+function drawCircles(n, coords, black = false) {
     for (let i = 0; i < n; i++) {
-        ctx.fillStyle = colors[i];
+        if (black) ctx.fillStyle = "black";
+        else ctx.fillStyle = colors[i];
         ctx.beginPath();
         ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
         ctx.fill();
@@ -515,4 +516,9 @@ for (const el of graphs)
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords, matrix_weight);
 drawCircles(n, coords);
 
-dijkstra_worker(n, matrix_weight);
+// Lab sixth
+setTimeout(() => {
+    dijkstra_worker(n, matrix_weight);
+    ctx.clearRect(0, 0, canv.width, canv.height);
+    drawCircles(n, coords, true);
+}, 5000);
