@@ -1,4 +1,14 @@
 const
+    btn2 = document.getElementById("btn2"),
+    btn3 = document.getElementById("btn3"),
+    btn4 = document.getElementById("btn4"),
+    btn5 = document.getElementById("btn5"),
+    btn6 = document.getElementById("btn6"),
+    btn7 = document.getElementById("btn7"),
+    btn8 = document.getElementById("btn8"),
+    btn9 = document.getElementById("btn9"),
+    btn10 = document.getElementById("btn10"),
+    btn11 = document.getElementById("btn11"),
     canv = document.getElementById('canvas'),
     ctx = canv.getContext('2d'),
     n = 11;
@@ -112,6 +122,8 @@ coords = {
     used_coord = {
         // [i]: 0
     };
+
+btn2.addEventListener("click", dijkstra);
 
 // Calculating rows
 function calcRows(n) {
@@ -517,8 +529,9 @@ for (const el of graphs)
 drawCircles(n, coords);
 
 // Lab sixth
-setTimeout(() => {
+function dijkstra(id = 2) {
     dijkstra_worker(n, matrix_weight);
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords, true);
-}, 5000);
+    console.log({ id });
+};
