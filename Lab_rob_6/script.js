@@ -123,7 +123,16 @@ coords = {
         // [i]: 0
     };
 
-btn2.addEventListener("click", dijkstra);
+btn2.addEventListener("click", dijkstra2);
+btn3.addEventListener("click", dijkstra3);
+btn4.addEventListener("click", dijkstra4);
+btn5.addEventListener("click", dijkstra5);
+btn6.addEventListener("click", dijkstra6);
+btn7.addEventListener("click", dijkstra7);
+btn8.addEventListener("click", dijkstra8);
+btn9.addEventListener("click", dijkstra9);
+btn10.addEventListener("click", dijkstra10);
+btn11.addEventListener("click", dijkstra11);
 
 // Calculating rows
 function calcRows(n) {
@@ -529,9 +538,50 @@ for (const el of graphs)
 drawCircles(n, coords);
 
 // Lab sixth
-function dijkstra(id = 2) {
+
+function dijkstra_pre_worker(id) {
     dijkstra_worker(n, matrix_weight);
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords, true);
     console.log({ id });
+}
+
+function dijkstra2() {
+    dijkstra_pre_worker(2);
+};
+
+function dijkstra3() {
+    dijkstra_pre_worker(3);
+};
+
+function dijkstra4() {
+    dijkstra_pre_worker(4);
+};
+
+function dijkstra5() {
+    dijkstra_pre_worker(5);
+};
+
+function dijkstra6() {
+    dijkstra_pre_worker(6);
+};
+
+function dijkstra7() {
+    dijkstra_pre_worker(7);
+};
+
+function dijkstra8() {
+    dijkstra_pre_worker(8);
+};
+
+function dijkstra9() {
+    dijkstra_pre_worker(9);
+};
+
+function dijkstra10() {
+    dijkstra_pre_worker(10);
+};
+
+function dijkstra11() {
+    dijkstra_pre_worker(11);
 };
