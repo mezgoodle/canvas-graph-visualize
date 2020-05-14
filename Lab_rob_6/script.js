@@ -458,7 +458,7 @@ function clear() {
     drawCircles(n, coords, true);
 };
 
-async function dijkstra_worker(n, matrix_weight, coords) {
+async function dijkstra_worker(n, matrix_weight, coords, graphs) {
     clear();
     let array = new Array(n),
         finished = [];
@@ -501,14 +501,14 @@ async function dijkstra_worker(n, matrix_weight, coords) {
                 break;
             };
 
-        let num = 0,
-            flag = false,
-            nn = 0;
+        let num = 0
+        nn = 0;
         for (let i = 0; i < array.length; i++)
-            if (array[i].status === "temporary" && array[i].length_ < min) {
+            if (array[i].status === "temporary" && array[i].length_ < min && !finished.includes(num)) {
                 min = array[i].length_;
                 num = i;
             };
+        finished.push(num);
         array[num].status = "active";
         console.table(array);
         await sleep(3000);
@@ -530,5 +530,5 @@ drawCircles(n, coords);
 
 // Lab sixth
 function dijkstra() {
-    dijkstra_worker(n, matrix_weight, coords);
+    dijkstra_worker(n, matrix_weight, coords, graphs);
 };
