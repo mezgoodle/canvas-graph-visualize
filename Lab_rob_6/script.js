@@ -65,8 +65,8 @@ ctx.lineWidth = 1,
     ],
 
     matrix = [
-        [0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+        [1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0],
+        [0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
         [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1],
         [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1],
@@ -74,21 +74,21 @@ ctx.lineWidth = 1,
         [0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1],
         [1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0],
         [1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
-        [0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0],
+        [0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
         [0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0]
     ],
 
     matrix_weight = [
-        [0, 0, 136, 0, 0, 0, 214, 190, 171, 0, 172],
+        [64, 0, 136, 0, 0, 0, 214, 190, 171, 0, 172],
         [0, 0, 0, 0, 204, 0, 208, 223, 93, 88, 222],
         [136, 0, 0, 146, 0, 103, 242, 124, 246, 187, 151],
-        [0, 0, 146, 0, 0, 113, 224, 0, 86, 191, 66],
-        [0, 204, 0, 0, 0, 202, 191, 99, 174, 212, 167],
+        [0, 0, 146, 122, 0, 113, 224, 0, 86, 191, 66],
+        [0, 204, 0, 0, 120, 202, 191, 99, 174, 212, 167],
         [0, 0, 103, 113, 202, 0, 128, 191, 0, 0, 0],
         [214, 208, 242, 224, 191, 128, 0, 108, 134, 0, 0],
         [190, 223, 124, 0, 99, 191, 108, 0, 146, 0, 106],
         [171, 93, 246, 86, 174, 0, 134, 146, 0, 208, 170],
-        [0, 88, 187, 191, 212, 0, 0, 0, 208, 0, 41],
+        [0, 88, 187, 191, 212, 0, 0, 0, 208, 188, 41],
         [172, 222, 151, 66, 167, 0, 0, 106, 170, 41, 0]
     ]
 
@@ -453,27 +453,31 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-function clear() {
+async function dijkstra_worker(n, matrix_weight, coords) {
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords, true);
+<<<<<<< HEAD
 };
 
 async function dijkstra_worker(n, matrix_weight, coords, graphs) {
     clear();
+=======
+>>>>>>> parent of 3a2dee4... Update script.js
     let array = new Array(n),
         finished = [];
     for (let i = 0; i < array.length; i++) {
         array[i] = new Array(3);
         array[i].length_ = Infinity;
-        array[i].status = "temporary";
+        array[i].active = false;
         array[i].parent = undefined;
     };
     array[0].length_ = 0;
-    array[0].status = "active";
-    while (true) {
+    array[0].active = true;
+    // drawEdge(coords[0][0], coords[0][1], coords[2][0], coords[2][1], 0, 2, coords, matrix_weight);
+    while (finished.length !== n) {
         let min = Infinity;
         for (let i = 0; i < array.length; i++)
-            if (array[i].status === "active" && !finished.includes(i)) {
+            if (array[i].active && !finished.includes(i)) {
                 ctx.fillStyle = "green";
                 ctx.beginPath();
                 ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
@@ -483,14 +487,12 @@ async function dijkstra_worker(n, matrix_weight, coords, graphs) {
                 ctx.fillText(i + 1, coords[i][0], coords[i][1]);
                 for (let j = 0; j < matrix_weight.length; j++) {
                     if (matrix_weight[i][j] !== 0) {
-                        drawEdge(coords[i][0], coords[i][1], coords[j][0], coords[j][1], i, j, coords, matrix_weight);
-                        if (array[j].length_ > matrix_weight[i][j] + array[i].length_ && array[j].status === "temporary") {
+                        if (array[j].length_ > matrix_weight[i][j] + array[i].length_) {
                             array[j].parent = i;
                             array[j].length_ = matrix_weight[i][j] + array[i].length_;
                         };
                     };
                 };
-                await sleep(3000);
                 ctx.fillStyle = "black";
                 ctx.beginPath();
                 ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
@@ -498,24 +500,30 @@ async function dijkstra_worker(n, matrix_weight, coords, graphs) {
                 // Fill text
                 ctx.fillStyle = 'white';
                 ctx.fillText(i + 1, coords[i][0], coords[i][1]);
+                finished.push(i);
                 break;
             };
 
+<<<<<<< HEAD
         let num = 0
         nn = 0;
         for (let i = 0; i < array.length; i++)
             if (array[i].status === "temporary" && array[i].length_ < min && !finished.includes(num)) {
+=======
+        for (let i = 0; i < array.length; i++)
+            if (!array[i].active && array[i].length_ < min) {
+>>>>>>> parent of 3a2dee4... Update script.js
                 min = array[i].length_;
-                num = i;
+                array[i].active = true;
             };
+<<<<<<< HEAD
         finished.push(num);
         array[num].status = "active";
+=======
+>>>>>>> parent of 3a2dee4... Update script.js
         console.table(array);
         await sleep(3000);
         console.clear();
-        for (let i = 0; i < array.length; i++)
-            if (array[i].status == "active") nn++;
-        if (nn == n) break;
     };
     console.table(array);
 };
