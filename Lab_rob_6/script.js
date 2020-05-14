@@ -467,7 +467,7 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
     }
 };
 
-function dijkstra_worker(n, matrix_weight) {
+function dijkstra_worker(n, matrix_weight, id) {
     const V = n;
 
     function minDistance(dist, sptSet) {
@@ -490,13 +490,12 @@ function dijkstra_worker(n, matrix_weight) {
         console.log(j);
     };
 
-    function printSolution(dist, n, parent) {
-        let src = 0;
+    function printSolution(dist, V, parent) {
+        let src = 0,
+            i = V;
         console.log("Vertex \t\tDistance from Source\tPath");
-        for (let i = 1; i < V; i++) {
-            console.log(`\n${src} -> ${i} \t\t ${dist[i]}\t\t${src}`);
-            printPath(parent, i);
-        };
+        console.log(`\n${src} -> ${i} \t\t ${dist[i]}\t\t${src}`);
+        printPath(parent, i);
     };
 
     function dijkstra(graph, src) {
@@ -522,7 +521,7 @@ function dijkstra_worker(n, matrix_weight) {
                 }
 
         }
-        printSolution(dist, V, parent);
+        printSolution(dist, id, parent);
     }
 
     dijkstra(matrix_weight, 0);
@@ -540,7 +539,7 @@ drawCircles(n, coords);
 // Lab sixth
 
 function dijkstra_pre_worker(id) {
-    dijkstra_worker(n, matrix_weight);
+    dijkstra_worker(n, matrix_weight, id - 1);
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords, true);
     console.log({ id });
