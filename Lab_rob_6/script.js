@@ -515,6 +515,12 @@ async function dijkstra_worker(n, matrix_weight, coords) {
     console.table(array);
 };
 
+// All alert for the fifth lab 
+function doAlert() {
+    let str = "Press the button under the graph to see the work of Dijkstra algorithm. Press F12 to see the table of results. There is 10 seconds break between each active point";
+    swal(str);
+};
+
 // Main part
 setPoints(n);
 for (const el of graphs)
@@ -522,6 +528,8 @@ for (const el of graphs)
         drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
     else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords, matrix_weight);
 drawCircles(n, coords);
+
+doAlert();
 
 // Lab sixth
 function dijkstra() {
