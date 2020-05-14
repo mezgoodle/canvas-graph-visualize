@@ -65,8 +65,8 @@ ctx.lineWidth = 1,
     ],
 
     matrix = [
-        [1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0],
-        [0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
         [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1],
         [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1],
@@ -74,21 +74,21 @@ ctx.lineWidth = 1,
         [0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1],
         [1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0],
         [1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
-        [0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
+        [0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0],
         [0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0]
     ],
 
     matrix_weight = [
-        [64, 0, 136, 0, 0, 0, 214, 190, 171, 0, 172],
+        [0, 0, 136, 0, 0, 0, 214, 190, 171, 0, 172],
         [0, 0, 0, 0, 204, 0, 208, 223, 93, 88, 222],
         [136, 0, 0, 146, 0, 103, 242, 124, 246, 187, 151],
-        [0, 0, 146, 122, 0, 113, 224, 0, 86, 191, 66],
-        [0, 204, 0, 0, 120, 202, 191, 99, 174, 212, 167],
+        [0, 0, 146, 0, 0, 113, 224, 0, 86, 191, 66],
+        [0, 204, 0, 0, 0, 202, 191, 99, 174, 212, 167],
         [0, 0, 103, 113, 202, 0, 128, 191, 0, 0, 0],
         [214, 208, 242, 224, 191, 128, 0, 108, 134, 0, 0],
         [190, 223, 124, 0, 99, 191, 108, 0, 146, 0, 106],
         [171, 93, 246, 86, 174, 0, 134, 146, 0, 208, 170],
-        [0, 88, 187, 191, 212, 0, 0, 0, 208, 188, 41],
+        [0, 88, 187, 191, 212, 0, 0, 0, 208, 0, 41],
         [172, 222, 151, 66, 167, 0, 0, 106, 170, 41, 0]
     ]
 
@@ -453,24 +453,27 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-async function dijkstra_worker(n, matrix_weight, coords) {
+function clear() {
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords, true);
+};
+
+async function dijkstra_worker(n, matrix_weight, coords) {
+    clear();
     let array = new Array(n),
         finished = [];
     for (let i = 0; i < array.length; i++) {
         array[i] = new Array(3);
         array[i].length_ = Infinity;
-        array[i].active = false;
+        array[i].status = "temporary";
         array[i].parent = undefined;
     };
     array[0].length_ = 0;
-    array[0].active = true;
-    // drawEdge(coords[0][0], coords[0][1], coords[2][0], coords[2][1], 0, 2, coords, matrix_weight);
-    while (finished.length !== n) {
+    array[0].status = "active";
+    while (true) {
         let min = Infinity;
         for (let i = 0; i < array.length; i++)
-            if (array[i].active && !finished.includes(i)) {
+            if (array[i].status === "active" && !finished.includes(i)) {
                 ctx.fillStyle = "green";
                 ctx.beginPath();
                 ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
@@ -480,12 +483,14 @@ async function dijkstra_worker(n, matrix_weight, coords) {
                 ctx.fillText(i + 1, coords[i][0], coords[i][1]);
                 for (let j = 0; j < matrix_weight.length; j++) {
                     if (matrix_weight[i][j] !== 0) {
-                        if (array[j].length_ > matrix_weight[i][j] + array[i].length_) {
+                        drawEdge(coords[i][0], coords[i][1], coords[j][0], coords[j][1], i, j, coords, matrix_weight);
+                        if (array[j].length_ > matrix_weight[i][j] + array[i].length_ && array[j].status === "temporary") {
                             array[j].parent = i;
                             array[j].length_ = matrix_weight[i][j] + array[i].length_;
                         };
                     };
                 };
+                await sleep(3000);
                 ctx.fillStyle = "black";
                 ctx.beginPath();
                 ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
@@ -493,18 +498,24 @@ async function dijkstra_worker(n, matrix_weight, coords) {
                 // Fill text
                 ctx.fillStyle = 'white';
                 ctx.fillText(i + 1, coords[i][0], coords[i][1]);
-                finished.push(i);
                 break;
             };
 
+        let num = 0,
+            flag = false,
+            nn = 0;
         for (let i = 0; i < array.length; i++)
-            if (!array[i].active && array[i].length_ < min) {
+            if (array[i].status === "temporary" && array[i].length_ < min) {
                 min = array[i].length_;
-                array[i].active = true;
+                num = i;
             };
+        array[num].status = "active";
         console.table(array);
         await sleep(3000);
         console.clear();
+        for (let i = 0; i < array.length; i++)
+            if (array[i].status == "active") nn++;
+        if (nn == n) break;
     };
     console.table(array);
 };
