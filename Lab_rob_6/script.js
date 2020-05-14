@@ -449,7 +449,11 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
     }
 };
 
-function dijkstra_worker(n, matrix_weight, coords) {
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+async function dijkstra_worker(n, matrix_weight, coords) {
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords, true);
     let array = new Array(n),
@@ -497,10 +501,12 @@ function dijkstra_worker(n, matrix_weight, coords) {
             if (!array[i].active && array[i].length_ < min) {
                 min = array[i].length_;
                 array[i].active = true;
-            }
+            };
+        console.table(array);
+        await sleep(3000);
+        console.clear();
     };
     console.table(array);
-
 };
 
 // Main part
