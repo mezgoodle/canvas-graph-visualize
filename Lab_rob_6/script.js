@@ -1,14 +1,5 @@
 const
-    btn2 = document.getElementById("btn2"),
-    btn3 = document.getElementById("btn3"),
-    btn4 = document.getElementById("btn4"),
-    btn5 = document.getElementById("btn5"),
-    btn6 = document.getElementById("btn6"),
-    btn7 = document.getElementById("btn7"),
-    btn8 = document.getElementById("btn8"),
-    btn9 = document.getElementById("btn9"),
-    btn10 = document.getElementById("btn10"),
-    btn11 = document.getElementById("btn11"),
+    btn = document.getElementById("btn"),
     canv = document.getElementById('canvas'),
     ctx = canv.getContext('2d'),
     n = 11;
@@ -123,16 +114,7 @@ coords = {
         // [i]: 0
     };
 
-btn2.addEventListener("click", dijkstra2);
-btn3.addEventListener("click", dijkstra3);
-btn4.addEventListener("click", dijkstra4);
-btn5.addEventListener("click", dijkstra5);
-btn6.addEventListener("click", dijkstra6);
-btn7.addEventListener("click", dijkstra7);
-btn8.addEventListener("click", dijkstra8);
-btn9.addEventListener("click", dijkstra9);
-btn10.addEventListener("click", dijkstra10);
-btn11.addEventListener("click", dijkstra11);
+btn.addEventListener("click", dijkstra);
 
 // Calculating rows
 function calcRows(n) {
@@ -467,7 +449,20 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
     }
 };
 
-function dijkstra_worker(n, matrix_weight, id, coords) {
+function dijkstra_worker(n, matrix_weight, coords) {
+    let array = new Array(n);
+    for (let i = 0; i < array.length; i++) {
+        array[i] = new Array(3);
+        array[i].length_ = Infinity;
+        array[i].active = false;
+        array[i].parent = undefined;
+    };
+    array[0].length_ = 0;
+    array[0].active = true;
+    // while (!array[id][1]) {
+
+    // };
+    console.table(array);
 
 };
 
@@ -481,48 +476,12 @@ drawCircles(n, coords);
 
 // Lab sixth
 
-function dijkstra_pre_worker(id) {
-    dijkstra_worker(n, matrix_weight, id - 1, coords);
+function dijkstra_pre_worker() {
+    dijkstra_worker(n, matrix_weight, coords);
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords, true);
 }
 
-function dijkstra2() {
-    dijkstra_pre_worker(2);
-};
-
-function dijkstra3() {
-    dijkstra_pre_worker(3);
-};
-
-function dijkstra4() {
-    dijkstra_pre_worker(4);
-};
-
-function dijkstra5() {
-    dijkstra_pre_worker(5);
-};
-
-function dijkstra6() {
-    dijkstra_pre_worker(6);
-};
-
-function dijkstra7() {
-    dijkstra_pre_worker(7);
-};
-
-function dijkstra8() {
-    dijkstra_pre_worker(8);
-};
-
-function dijkstra9() {
-    dijkstra_pre_worker(9);
-};
-
-function dijkstra10() {
-    dijkstra_pre_worker(10);
-};
-
-function dijkstra11() {
-    dijkstra_pre_worker(11);
+function dijkstra() {
+    dijkstra_pre_worker();
 };
