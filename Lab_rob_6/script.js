@@ -461,7 +461,11 @@ function clear() {
 async function dijkstra_worker(n, matrix_weight, coords, graphs) {
     clear();
     let array = new Array(n),
-        finished = [];
+        been = [],
+        number = 0,
+        add_array = [];
+
+    // Create table
     for (let i = 0; i < array.length; i++) {
         array[i] = new Array(3);
         array[i].length_ = Infinity;
@@ -469,53 +473,28 @@ async function dijkstra_worker(n, matrix_weight, coords, graphs) {
         array[i].parent = undefined;
     };
     array[0].length_ = 0;
-    array[0].status = "active";
-    while (true) {
-        let min = Infinity;
-        for (let i = 0; i < array.length; i++)
-            if (array[i].status === "active" && !finished.includes(i)) {
-                ctx.fillStyle = "green";
-                ctx.beginPath();
-                ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
-                ctx.fill();
-                // Fill text
-                ctx.fillStyle = 'white';
-                ctx.fillText(i + 1, coords[i][0], coords[i][1]);
-                for (let j = 0; j < matrix_weight.length; j++) {
-                    if (matrix_weight[i][j] !== 0) {
-                        drawEdge(coords[i][0], coords[i][1], coords[j][0], coords[j][1], i, j, coords, matrix_weight);
-                        if (array[j].length_ > matrix_weight[i][j] + array[i].length_ && array[j].status === "temporary") {
-                            array[j].parent = i;
-                            array[j].length_ = matrix_weight[i][j] + array[i].length_;
-                        };
-                    };
+    // Search all edges
+    while (been.length < n - 1) {
+        array[number].status = "active";
+        for (let i = 0; i < graphs.length; i++)
+            if (graphs[i][0] - 1 === number)
+                if (matrix_weight[number][graphs[i][1] - 1] + array[graphs[i][1] - 1].length_ > matrix_weight[number][graphs[i][1] - 1]) {
+                    array[graphs[i][1] - 1].parent = number;
+                    array[graphs[i][1] - 1].length_ = matrix_weight[number][graphs[i][1] - 1];
                 };
-                await sleep(3000);
-                ctx.fillStyle = "black";
-                ctx.beginPath();
-                ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
-                ctx.fill();
-                // Fill text
-                ctx.fillStyle = 'white';
-                ctx.fillText(i + 1, coords[i][0], coords[i][1]);
-                break;
-            };
-
-        let num = 0
-        nn = 0;
-        for (let i = 0; i < array.length; i++)
-            if (array[i].status === "temporary" && array[i].length_ < min && !finished.includes(num)) {
-                min = array[i].length_;
-                num = i;
-            };
-        finished.push(num);
-        array[num].status = "active";
         console.table(array);
-        await sleep(3000);
+        await sleep(10000);
         console.clear();
-        for (let i = 0; i < array.length; i++)
-            if (array[i].status == "active") nn++;
-        if (nn == n) break;
+        add_array = [];
+        // Search minimal length
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].status === "temporary")
+                add_array.push(array[i].length_);
+            let min = Math.min.apply(null, add_array);
+            if (min === array[i].length_)
+                number = i;
+        };
+        been.push(number);
     };
     console.table(array);
 };
