@@ -467,65 +467,8 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
     }
 };
 
-function dijkstra_worker(n, matrix_weight, id) {
-    const V = n;
+function dijkstra_worker(n, matrix_weight, id, coords) {
 
-    function minDistance(dist, sptSet) {
-        let min = Infinity,
-            min_index;
-
-        for (let v = 0; v < V; v++)
-            if (sptSet[v] === false && dist[v] <= min) {
-                min = dist[v];
-                min_index = v;
-            }
-
-        return min_index;
-    };
-
-
-    function printPath(parent, j) {
-        if (parent[j] === -1) return;
-        printPath(parent, parent[j]);
-        console.log(j);
-    };
-
-    function printSolution(dist, V, parent) {
-        let src = 0,
-            i = V;
-        console.log("Vertex \t\tDistance from Source\tPath");
-        console.log(`\n${src} -> ${i} \t\t ${dist[i]}\t\t${src}`);
-        printPath(parent, i);
-    };
-
-    function dijkstra(graph, src) {
-        let dist = [];
-        let sptSet = [];
-        let parent = [];
-
-        for (let i = 0; i < V; i++) {
-            parent[0] = -1;
-            dist[i] = Infinity;
-            sptSet[i] = false;
-        }
-
-        dist[src] = 0;
-
-        for (let count = 0; count < V - 1; count++) {
-            let u = minDistance(dist, sptSet);
-            sptSet[u] = true;
-            for (let v = 0; v < V; v++)
-                if (!sptSet[v] && graph[u][v] && dist[u] + graph[u][v] < dist[v]) {
-                    parent[v] = u;
-                    dist[v] = dist[u] + graph[u][v];
-                }
-
-        }
-        printSolution(dist, id, parent);
-    }
-
-    dijkstra(matrix_weight, 0);
-    return 0;
 };
 
 // Main part
@@ -539,10 +482,9 @@ drawCircles(n, coords);
 // Lab sixth
 
 function dijkstra_pre_worker(id) {
-    dijkstra_worker(n, matrix_weight, id - 1);
+    dijkstra_worker(n, matrix_weight, id - 1, coords);
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords, true);
-    console.log({ id });
 }
 
 function dijkstra2() {
