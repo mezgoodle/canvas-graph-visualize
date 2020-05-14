@@ -354,7 +354,9 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
     const
         circle_x = t_x,
         circle_y = t_y;
-    if (t_n === 10 && f_n === 3)
+    if (t_n === 8 && f_n === 0)
+        f_n = [t_n, t_n = f_n][0]; // swap
+    if (t_n === 3 && f_n === 2)
         f_n = [t_n, t_n = f_n][0]; // swap
     let str = matrix_weight[f_n][t_n];
     ctx.fillStyle = colors[f_n];
@@ -458,6 +460,16 @@ function clear() {
     drawCircles(n, coords, true);
 };
 
+function drawSingleCircle(number, coords, text) {
+    ctx.fillStyle = text;
+    ctx.beginPath();
+    ctx.arc(coords[number][0], coords[number][1], radius, angle_start, angle_end);
+    ctx.fill();
+    // Fill text
+    ctx.fillStyle = 'white';
+    ctx.fillText(number + 1, coords[number][0], coords[number][1]);
+}
+
 async function dijkstra_worker(n, matrix_weight, coords) {
     clear();
     let array = new Array(n),
@@ -473,16 +485,20 @@ async function dijkstra_worker(n, matrix_weight, coords) {
         array[i].parent = undefined;
     };
     array[0].length_ = 0;
-    // Search all edges
+    // Main function
     while (been.length < n - 1) {
+        drawSingleCircle(number, coords, "green");
+        // Search all edges
         for (let i = 0; i < matrix_weight.length; i++)
             if (matrix_weight[number][i] !== 0)
                 if (array[i].length_ > array[number].length_ + matrix_weight[number][i]) {
                     array[i].length_ = array[number].length_ + matrix_weight[number][i];
                     array[i].parent = number;
+                    drawEdge(coords[number][0], coords[number][1], coords[i][0], coords[i][1], number, i, coords, matrix_weight);
                 };
         console.table(array);
         array[number].status = "active";
+        drawSingleCircle(number, coords, "black");
         // await sleep(10000);
         console.clear();
         add_array = [];
