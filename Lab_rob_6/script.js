@@ -450,7 +450,10 @@ function drawEdge(f_x, f_y, t_x, t_y, f_n, t_n, coords, matrix_weight = []) {
 };
 
 function dijkstra_worker(n, matrix_weight, coords) {
-    let array = new Array(n);
+    ctx.clearRect(0, 0, canv.width, canv.height);
+    drawCircles(n, coords, true);
+    let array = new Array(n),
+        finished = [];
     for (let i = 0; i < array.length; i++) {
         array[i] = new Array(3);
         array[i].length_ = Infinity;
@@ -459,9 +462,43 @@ function dijkstra_worker(n, matrix_weight, coords) {
     };
     array[0].length_ = 0;
     array[0].active = true;
-    // while (!array[id][1]) {
+    // drawEdge(coords[0][0], coords[0][1], coords[2][0], coords[2][1], 0, 2, coords, matrix_weight);
+    while (finished.length !== n) {
+        let min = Infinity;
+        for (let i = 0; i < array.length; i++)
+            if (array[i].active && !finished.includes(i)) {
+                ctx.fillStyle = "green";
+                ctx.beginPath();
+                ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
+                ctx.fill();
+                // Fill text
+                ctx.fillStyle = 'white';
+                ctx.fillText(i + 1, coords[i][0], coords[i][1]);
+                for (let j = 0; j < matrix_weight.length; j++) {
+                    if (matrix_weight[i][j] !== 0) {
+                        if (array[j].length_ > matrix_weight[i][j] + array[i].length_) {
+                            array[j].parent = i;
+                            array[j].length_ = matrix_weight[i][j] + array[i].length_;
+                        };
+                    };
+                };
+                ctx.fillStyle = "black";
+                ctx.beginPath();
+                ctx.arc(coords[i][0], coords[i][1], radius, angle_start, angle_end);
+                ctx.fill();
+                // Fill text
+                ctx.fillStyle = 'white';
+                ctx.fillText(i + 1, coords[i][0], coords[i][1]);
+                finished.push(i);
+                break;
+            };
 
-    // };
+        for (let i = 0; i < array.length; i++)
+            if (!array[i].active && array[i].length_ < min) {
+                min = array[i].length_;
+                array[i].active = true;
+            }
+    };
     console.table(array);
 
 };
@@ -475,13 +512,6 @@ for (const el of graphs)
 drawCircles(n, coords);
 
 // Lab sixth
-
-function dijkstra_pre_worker() {
-    dijkstra_worker(n, matrix_weight, coords);
-    ctx.clearRect(0, 0, canv.width, canv.height);
-    drawCircles(n, coords, true);
-}
-
 function dijkstra() {
-    dijkstra_pre_worker();
+    dijkstra_worker(n, matrix_weight, coords);
 };
