@@ -79,16 +79,16 @@ ctx.lineWidth = 1,
     ],
 
     matrix_weight = [
-        [0, 0, 136, 0, 0, 0, 214, 190, 171, 0, 172],
+        [64, 0, 136, 0, 0, 0, 214, 190, 171, 0, 172],
         [0, 0, 0, 0, 204, 0, 208, 223, 93, 88, 222],
         [136, 0, 0, 146, 0, 103, 242, 124, 246, 187, 151],
-        [0, 0, 146, 0, 0, 113, 224, 0, 86, 191, 66],
-        [0, 204, 0, 0, 0, 202, 191, 99, 174, 212, 167],
+        [0, 0, 146, 122, 0, 113, 224, 0, 86, 191, 66],
+        [0, 204, 0, 0, 120, 202, 191, 99, 174, 212, 167],
         [0, 0, 103, 113, 202, 0, 128, 191, 0, 0, 0],
         [214, 208, 242, 224, 191, 128, 0, 108, 134, 0, 0],
         [190, 223, 124, 0, 99, 191, 108, 0, 146, 0, 106],
         [171, 93, 246, 86, 174, 0, 134, 146, 0, 208, 170],
-        [0, 88, 187, 191, 212, 0, 0, 0, 208, 0, 41],
+        [0, 88, 187, 191, 212, 0, 0, 0, 208, 188, 41],
         [172, 222, 151, 66, 167, 0, 0, 106, 170, 41, 0]
     ]
 
@@ -458,7 +458,7 @@ function clear() {
     drawCircles(n, coords, true);
 };
 
-async function dijkstra_worker(n, matrix_weight, coords, graphs) {
+async function dijkstra_worker(n, matrix_weight, coords) {
     clear();
     let array = new Array(n),
         been = [],
@@ -475,15 +475,15 @@ async function dijkstra_worker(n, matrix_weight, coords, graphs) {
     array[0].length_ = 0;
     // Search all edges
     while (been.length < n - 1) {
-        array[number].status = "active";
-        for (let i = 0; i < graphs.length; i++)
-            if (graphs[i][0] - 1 === number)
-                if (matrix_weight[number][graphs[i][1] - 1] + array[graphs[i][1] - 1].length_ > matrix_weight[number][graphs[i][1] - 1]) {
-                    array[graphs[i][1] - 1].parent = number;
-                    array[graphs[i][1] - 1].length_ = matrix_weight[number][graphs[i][1] - 1];
+        for (let i = 0; i < matrix_weight.length; i++)
+            if (matrix_weight[number][i] !== 0)
+                if (array[i].length_ > array[number].length_ + matrix_weight[number][i]) {
+                    array[i].length_ = array[number].length_ + matrix_weight[number][i];
+                    array[i].parent = number;
                 };
         console.table(array);
-        await sleep(10000);
+        array[number].status = "active";
+        // await sleep(10000);
         console.clear();
         add_array = [];
         // Search minimal length
