@@ -496,10 +496,10 @@ async function dijkstra_worker(n, matrix_weight, coords) {
                     array[i].parent = number;
                     drawEdge(coords[number][0], coords[number][1], coords[i][0], coords[i][1], number, i, coords, matrix_weight);
                 };
-        console.table(array);
         array[number].status = "active";
+        console.table(array);
+        await sleep(10000);
         drawSingleCircle(number, coords, "black");
-        // await sleep(10000);
         console.clear();
         add_array = [];
         // Search minimal length
