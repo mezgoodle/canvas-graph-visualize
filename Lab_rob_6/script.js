@@ -512,6 +512,9 @@ async function dijkstra_worker(n, matrix_weight, coords) {
         };
         been.push(number);
     };
+    console.log("Weight matrix");
+    console.log(matrix_weight);
+    console.log("Final table");
     console.table(array);
 };
 
