@@ -472,6 +472,10 @@ function drawSingleCircle(number, coords, text) {
 
 async function dijkstra_worker(n, matrix_weight, coords) {
     clear();
+
+    function final(array)
+    for (let i = 0; i < array.length; i++)
+        array[i].status = "active";
     let array = new Array(n),
         been = [],
         number = 0,
@@ -515,7 +519,7 @@ async function dijkstra_worker(n, matrix_weight, coords) {
     console.log("Weight matrix");
     console.log(matrix_weight);
     console.log("Final table");
-    console.table(array);
+    console.table(final(array));
 };
 
 // All alert for the sixth lab 
