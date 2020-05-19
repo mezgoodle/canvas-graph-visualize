@@ -476,7 +476,6 @@ async function dijkstra_worker(n, matrix_weight, coords) {
     function final(array) {
         for (let i = 0; i < array.length; i++) {
             array[i].status = "active";
-            console.log(array[i]);
         }
         return array;
     }
