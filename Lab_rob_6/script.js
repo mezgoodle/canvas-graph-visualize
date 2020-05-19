@@ -473,9 +473,11 @@ function drawSingleCircle(number, coords, text) {
 async function dijkstra_worker(n, matrix_weight, coords) {
     clear();
 
-    function final(array)
-    for (let i = 0; i < array.length; i++)
-        array[i].status = "active";
+    function final(array) {
+        for (let i = 0; i < array.length; i++)
+            array[i].status = "active";
+        return array;
+    }
     let array = new Array(n),
         been = [],
         number = 0,
