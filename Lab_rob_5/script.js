@@ -1,4 +1,5 @@
 const
+    btn = document.getElementById("btn"),
     canv = document.getElementById('canvas'),
     ctx = canv.getContext('2d'),
     n = 11;
@@ -112,6 +113,8 @@ coords = {
     used_coord = {
         // [i]: 0
     };
+
+btn.addEventListener("click", fn);
 
 // Calculating rows
 function calcRows(n) {
@@ -586,10 +589,10 @@ async function drawEdge2(skeleton_graphs) {
 
 doAlert();
 
-setTimeout(() => {
+function fn() {
     let skeleton_graphs = skeletonGraph(n, matrix_weight);
     matchMatrix(skeleton_graphs, n);
     ctx.clearRect(0, 0, canv.width, canv.height);
     drawCircles(n, coords);
     drawEdge2(skeleton_graphs);
-}, 10000);
+};
