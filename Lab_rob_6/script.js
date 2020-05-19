@@ -498,7 +498,7 @@ async function dijkstra_worker(n, matrix_weight, coords) {
                 };
         array[number].status = "active";
         console.table(array);
-        await sleep(10000);
+        await sleep(4000);
         drawSingleCircle(number, coords, "black");
         console.clear();
         add_array = [];
@@ -518,9 +518,9 @@ async function dijkstra_worker(n, matrix_weight, coords) {
     console.table(array);
 };
 
-// All alert for the fifth lab 
+// All alert for the sixth lab 
 function doAlert() {
-    let str = "Press the button under the graph to see the work of Dijkstra algorithm. Press F12 to see the table of results. There is 10 seconds break between each active point";
+    let str = "Press the button under the graph to see the work of Dijkstra algorithm. Press F12 to see the table of results. There is 3 seconds break between each active point";
     swal(str);
 };
 
