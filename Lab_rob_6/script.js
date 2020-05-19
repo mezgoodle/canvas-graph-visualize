@@ -520,7 +520,7 @@ async function dijkstra_worker(n, matrix_weight, coords) {
 
 // All alert for the sixth lab 
 function doAlert() {
-    let str = "Press the button under the graph to see the work of Dijkstra algorithm. Press F12 to see the table of results. There is 3 seconds break between each active point";
+    let str = "Press the button under the graph to see the work of Dijkstra algorithm. Press F12 to see the table of results. There is 4 seconds break between each active point";
     swal(str);
 };
 
