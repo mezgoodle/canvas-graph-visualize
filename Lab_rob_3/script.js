@@ -154,6 +154,8 @@ function CG() {
     } else {
         console.log("Strong components");
         console.log(components);
+        drawEdge(coords[5][0], coords[5][1], coords[4][0], coords[4][1], 5, 4, coords);
+        drawEdge(coords[4][0], coords[4][1], coords[0][0], coords[0][1], 4, 0, coords);
         drawSingleCircle(4, coords);
         drawSingleCircle(5, coords);
         drawSingleCircle(0, coords);
