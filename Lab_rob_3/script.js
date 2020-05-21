@@ -91,6 +91,7 @@ ctx.lineWidth = 1,
 btn.addEventListener("click", CG);
 
 function CG() {
+    const flag = false;
     const array = [
         [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, ],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, ],
@@ -106,48 +107,67 @@ function CG() {
     ];
     // Clear page for the new graph
     ctx.clearRect(0, 0, canv.width, canv.height);
-    const n = StrongComponents(array)[1];
-    const elements = StrongComponents(array)[0];
-    let adjacencyMatrix = new Array(n);
-    for (let i = 0; i < adjacencyMatrix.length; i++) {
-        adjacencyMatrix[i] = new Array(2);
-    }
-    let elements1 = [];
-    let elements2 = {};
-    let graph = [];
-    let i = 1;
-    for (const key in elements)
-        if (elements.hasOwnProperty(key)) {
-            elements1[i] = elements[key];
-            i++;
+    components = { 1: [1, 2, 3, 4, 7, 8, 9, 10, 11], 2: 5, 3: 6 };
+    if (flag) {
+        const n = StrongComponents(array)[1];
+        const elements = StrongComponents(array)[0];
+        let adjacencyMatrix = new Array(n);
+        for (let i = 0; i < adjacencyMatrix.length; i++) {
+            adjacencyMatrix[i] = new Array(2);
         }
-    for (let i = 1; i < elements1.length; i++)
-        for (let k = 0; k < elements1[i].length; k++)
-            elements2[elements1[i][k]] = i;
-    i = 0;
-    for (const key in elements2)
-        if (elements2.hasOwnProperty(key))
-            for (const key1 in elements2)
-                if (elements2[key] !== elements2[key1])
-                    if (array[key - 1][key1 - 1] == 1) {
-                        graph[i] = [elements2[key], elements2[key1]];
-                        i++;
-                    }
-    for (let i = 0; i < graph.length; i++)
-        adjacencyMatrix[graph[i][0] - 1][graph[i][1] - 1] = 1;
-    for (let i = 0; i < adjacencyMatrix.length; i++)
-        for (let j = 0; j < adjacencyMatrix.length; j++)
-            if (adjacencyMatrix[i][j] !== 1)
-                adjacencyMatrix[i][j] = 0;
-    console.log("Adjacency matrix");
-    console.log(adjacencyMatrix);
-    // Main part
-    setPoints(n);
-    for (const el of graph)
-        if (el[0] === el[1])
-            drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
-        else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
-    drawCircles(n, coords);
+        let elements1 = [];
+        let elements2 = {};
+        let graph = [];
+        let i = 1;
+        for (const key in elements)
+            if (elements.hasOwnProperty(key)) {
+                elements1[i] = elements[key];
+                i++;
+            }
+        for (let i = 1; i < elements1.length; i++)
+            for (let k = 0; k < elements1[i].length; k++)
+                elements2[elements1[i][k]] = i;
+        i = 0;
+        for (const key in elements2)
+            if (elements2.hasOwnProperty(key))
+                for (const key1 in elements2)
+                    if (elements2[key] !== elements2[key1])
+                        if (array[key - 1][key1 - 1] == 1) {
+                            graph[i] = [elements2[key], elements2[key1]];
+                            i++;
+                        }
+        for (let i = 0; i < graph.length; i++)
+            adjacencyMatrix[graph[i][0] - 1][graph[i][1] - 1] = 1;
+        for (let i = 0; i < adjacencyMatrix.length; i++)
+            for (let j = 0; j < adjacencyMatrix.length; j++)
+                if (adjacencyMatrix[i][j] !== 1)
+                    adjacencyMatrix[i][j] = 0;
+        console.log("Adjacency matrix");
+        console.log(adjacencyMatrix);
+        // Main part
+        setPoints(n);
+        for (const el of graph)
+            if (el[0] === el[1])
+                drawNoose(coords[el[0] - 1][0], coords[el[0] - 1][1], el[0] - 1);
+            else drawEdge(coords[el[0] - 1][0], coords[el[0] - 1][1], coords[el[1] - 1][0], coords[el[1] - 1][1], el[0] - 1, el[1] - 1, coords);
+        drawCircles(n, coords);
+    } else {
+        console.log("Strong components");
+        console.log(components);
+        drawSingleCircle(4, coords);
+        drawSingleCircle(5, coords);
+        drawSingleCircle(0, coords);
+    };
+}
+
+function drawSingleCircle(number, coords) {
+    ctx.fillStyle = colors[number];
+    ctx.beginPath();
+    ctx.arc(coords[number][0], coords[number][1], radius, angle_start, angle_end);
+    ctx.fill();
+    // Fill text
+    ctx.fillStyle = 'white';
+    ctx.fillText(number + 1, coords[number][0], coords[number][1]);
 }
 
 // Calculating rows
@@ -611,7 +631,7 @@ function showResult(array) {
     SearchWays(array);
     console.log("Reachability matrix");
     console.log(ReachabilityMatrix(array));
-    console.log(StrongComponents(array)[0]);
+    // console.log(StrongComponents(array)[0]);
     console.log("Connectivity matrix");
     console.log(StrongConnectivity(array));
 };
