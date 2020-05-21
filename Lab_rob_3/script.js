@@ -107,7 +107,12 @@ function CG() {
     ];
     // Clear page for the new graph
     ctx.clearRect(0, 0, canv.width, canv.height);
-    components = { 1: [1, 2, 3, 4, 7, 8, 9, 10, 11], 2: 5, 3: 6 };
+    const components = { 1: [1, 2, 3, 4, 7, 8, 9, 10, 11], 2: 5, 3: 6 };
+    const matrix = [
+        [0, 0, 0],
+        [1, 0, 0],
+        [0, 1, 0]
+    ];
     if (flag) {
         const n = StrongComponents(array)[1];
         const elements = StrongComponents(array)[0];
@@ -154,6 +159,8 @@ function CG() {
     } else {
         console.log("Strong components");
         console.log(components);
+        console.log("Adjacency matrix");
+        console.log(matrix);
         drawEdge(coords[5][0], coords[5][1], coords[4][0], coords[4][1], 5, 4, coords);
         drawEdge(coords[4][0], coords[4][1], coords[0][0], coords[0][1], 4, 0, coords);
         drawSingleCircle(4, coords);
